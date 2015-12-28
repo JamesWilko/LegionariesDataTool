@@ -20,6 +20,8 @@ namespace LegionDefenceTool.Data
 		public string Heading;
 		public DataType StoredDataType;
 
+		const string USE_PREV_VALUE_STR = "-";
+
 		public SpreadsheetColumn(string Heading, DataType ColumnType)
 		{
 			this.Heading = Heading;
@@ -47,11 +49,16 @@ namespace LegionDefenceTool.Data
 			List<int> IntList = new List<int>();
 			for(int i = 0; i < Data.Count; ++i)
 			{
+				if (i > 0 && Data[i] == USE_PREV_VALUE_STR)
+				{
+					IntList.Add(IntList[i - 1]);
+				}
+				else
 				{
 					int Value;
 					int.TryParse(Data[i], out Value);
 					IntList.Add(Value);
-                }
+				}
 			}
 			return IntList;
         }
@@ -61,6 +68,11 @@ namespace LegionDefenceTool.Data
 			List<decimal> DecList = new List<decimal>();
 			for (int i = 0; i < Data.Count; ++i)
 			{
+				if (i > 0 && Data[i] == USE_PREV_VALUE_STR)
+				{
+					DecList.Add(DecList[i - 1]);
+				}
+				else
 				{
 					decimal Value;
 					decimal.TryParse(Data[i], out Value);
