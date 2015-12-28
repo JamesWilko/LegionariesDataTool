@@ -47,9 +47,9 @@ namespace LegionDefenceTool.Data
 			List<int> IntList = new List<int>();
 			for(int i = 0; i < Data.Count; ++i)
 			{
-				int Value;
-				if(int.TryParse(Data[i], out Value))
 				{
+					int Value;
+					int.TryParse(Data[i], out Value);
 					IntList.Add(Value);
                 }
 			}
@@ -61,9 +61,9 @@ namespace LegionDefenceTool.Data
 			List<decimal> DecList = new List<decimal>();
 			for (int i = 0; i < Data.Count; ++i)
 			{
-				decimal Value;
-				if (decimal.TryParse(Data[i], out Value))
 				{
+					decimal Value;
+					decimal.TryParse(Data[i], out Value);
 					DecList.Add(Value);
 				}
 			}
