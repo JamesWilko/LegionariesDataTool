@@ -52,6 +52,24 @@
 			this.tabUnits = new System.Windows.Forms.TabPage();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.gitHubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.legionDefenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.lDToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exportLocalizationFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exportUnitsFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exportHeroesFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exportSkillsFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exportWavesFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.exportAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.jamesWilkinsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tabControl1.SuspendLayout();
 			this.tabLocalization.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -146,33 +164,33 @@
             this.contextLocalizationHighlight,
             this.contextLocalizationRemove});
 			this.contextLocalizationTree.Name = "contextLocalizationTree";
-			this.contextLocalizationTree.Size = new System.Drawing.Size(153, 114);
+			this.contextLocalizationTree.Size = new System.Drawing.Size(125, 92);
 			// 
 			// contextLocalizationOpen
 			// 
 			this.contextLocalizationOpen.Name = "contextLocalizationOpen";
-			this.contextLocalizationOpen.Size = new System.Drawing.Size(152, 22);
+			this.contextLocalizationOpen.Size = new System.Drawing.Size(124, 22);
 			this.contextLocalizationOpen.Text = "Open";
 			this.contextLocalizationOpen.Click += new System.EventHandler(this.contextLocalizationOpen_Click);
 			// 
 			// contextLocalizationUpdate
 			// 
 			this.contextLocalizationUpdate.Name = "contextLocalizationUpdate";
-			this.contextLocalizationUpdate.Size = new System.Drawing.Size(152, 22);
+			this.contextLocalizationUpdate.Size = new System.Drawing.Size(124, 22);
 			this.contextLocalizationUpdate.Text = "Update";
 			this.contextLocalizationUpdate.Click += new System.EventHandler(this.contextLocalizationUpdate_Click);
 			// 
 			// contextLocalizationHighlight
 			// 
 			this.contextLocalizationHighlight.Name = "contextLocalizationHighlight";
-			this.contextLocalizationHighlight.Size = new System.Drawing.Size(152, 22);
+			this.contextLocalizationHighlight.Size = new System.Drawing.Size(124, 22);
 			this.contextLocalizationHighlight.Text = "Highlight";
 			this.contextLocalizationHighlight.Click += new System.EventHandler(this.contextLocalizationHighlight_Click);
 			// 
 			// contextLocalizationRemove
 			// 
 			this.contextLocalizationRemove.Name = "contextLocalizationRemove";
-			this.contextLocalizationRemove.Size = new System.Drawing.Size(152, 22);
+			this.contextLocalizationRemove.Size = new System.Drawing.Size(124, 22);
 			this.contextLocalizationRemove.Text = "Remove";
 			this.contextLocalizationRemove.Click += new System.EventHandler(this.contextLocalizationRemove_Click);
 			// 
@@ -194,6 +212,8 @@
 			// 
 			// buttonUpdateSpreadsheets
 			// 
+			this.buttonUpdateSpreadsheets.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonUpdateSpreadsheets.Location = new System.Drawing.Point(6, 84);
 			this.buttonUpdateSpreadsheets.Name = "buttonUpdateSpreadsheets";
 			this.buttonUpdateSpreadsheets.Size = new System.Drawing.Size(275, 23);
@@ -292,7 +312,9 @@
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.exportToolStripMenuItem,
+            this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(908, 24);
@@ -301,9 +323,141 @@
 			// 
 			// fileToolStripMenuItem
 			// 
+			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.closeToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
+			// 
+			// loadToolStripMenuItem
+			// 
+			this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+			this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.loadToolStripMenuItem.Text = "Load";
+			this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+			// 
+			// saveToolStripMenuItem
+			// 
+			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveToolStripMenuItem.Text = "Save";
+			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+			// 
+			// closeToolStripMenuItem
+			// 
+			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.closeToolStripMenuItem.Text = "Close";
+			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+			// 
+			// exportToolStripMenuItem
+			// 
+			this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportAllToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.exportLocalizationFileToolStripMenuItem,
+            this.exportUnitsFileToolStripMenuItem,
+            this.exportHeroesFileToolStripMenuItem,
+            this.exportSkillsFileToolStripMenuItem,
+            this.exportWavesFileToolStripMenuItem});
+			this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+			this.exportToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+			this.exportToolStripMenuItem.Text = "Export";
+			// 
+			// helpToolStripMenuItem
+			// 
+			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem,
+            this.gitHubToolStripMenuItem});
+			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem.Text = "Help";
+			// 
+			// aboutToolStripMenuItem
+			// 
+			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.aboutToolStripMenuItem.Text = "About";
+			// 
+			// gitHubToolStripMenuItem
+			// 
+			this.gitHubToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.jamesWilkinsonToolStripMenuItem,
+            this.legionDefenceToolStripMenuItem,
+            this.lDToolToolStripMenuItem});
+			this.gitHubToolStripMenuItem.Name = "gitHubToolStripMenuItem";
+			this.gitHubToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.gitHubToolStripMenuItem.Text = "GitHub";
+			// 
+			// legionDefenceToolStripMenuItem
+			// 
+			this.legionDefenceToolStripMenuItem.Name = "legionDefenceToolStripMenuItem";
+			this.legionDefenceToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+			this.legionDefenceToolStripMenuItem.Text = "Legion Defence";
+			this.legionDefenceToolStripMenuItem.Click += new System.EventHandler(this.legionDefenceToolStripMenuItem_Click);
+			// 
+			// lDToolToolStripMenuItem
+			// 
+			this.lDToolToolStripMenuItem.Name = "lDToolToolStripMenuItem";
+			this.lDToolToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+			this.lDToolToolStripMenuItem.Text = "Legion Defence Tool";
+			this.lDToolToolStripMenuItem.Click += new System.EventHandler(this.lDToolToolStripMenuItem_Click);
+			// 
+			// exportLocalizationFileToolStripMenuItem
+			// 
+			this.exportLocalizationFileToolStripMenuItem.Name = "exportLocalizationFileToolStripMenuItem";
+			this.exportLocalizationFileToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.exportLocalizationFileToolStripMenuItem.Text = "Export Localization File";
+			// 
+			// exportUnitsFileToolStripMenuItem
+			// 
+			this.exportUnitsFileToolStripMenuItem.Name = "exportUnitsFileToolStripMenuItem";
+			this.exportUnitsFileToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.exportUnitsFileToolStripMenuItem.Text = "Export Units File";
+			// 
+			// exportHeroesFileToolStripMenuItem
+			// 
+			this.exportHeroesFileToolStripMenuItem.Name = "exportHeroesFileToolStripMenuItem";
+			this.exportHeroesFileToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.exportHeroesFileToolStripMenuItem.Text = "Export Heroes File";
+			// 
+			// exportSkillsFileToolStripMenuItem
+			// 
+			this.exportSkillsFileToolStripMenuItem.Name = "exportSkillsFileToolStripMenuItem";
+			this.exportSkillsFileToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.exportSkillsFileToolStripMenuItem.Text = "Export Skills File";
+			// 
+			// exportWavesFileToolStripMenuItem
+			// 
+			this.exportWavesFileToolStripMenuItem.Name = "exportWavesFileToolStripMenuItem";
+			this.exportWavesFileToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.exportWavesFileToolStripMenuItem.Text = "Export Waves File";
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
+			// 
+			// exportAllToolStripMenuItem
+			// 
+			this.exportAllToolStripMenuItem.Name = "exportAllToolStripMenuItem";
+			this.exportAllToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.exportAllToolStripMenuItem.Text = "Export All";
+			// 
+			// jamesWilkinsonToolStripMenuItem
+			// 
+			this.jamesWilkinsonToolStripMenuItem.Name = "jamesWilkinsonToolStripMenuItem";
+			this.jamesWilkinsonToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+			this.jamesWilkinsonToolStripMenuItem.Text = "James Wilkinson";
+			this.jamesWilkinsonToolStripMenuItem.Click += new System.EventHandler(this.jamesWilkinsonToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
 			// 
 			// Main
 			// 
@@ -361,6 +515,24 @@
 		private System.Windows.Forms.DataGridView dataGridLocalization;
 		private System.Windows.Forms.DataGridViewTextBoxColumn columnKey;
 		private System.Windows.Forms.DataGridViewTextBoxColumn columnText;
+		private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem exportAllToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem exportLocalizationFileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem exportUnitsFileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem exportHeroesFileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem exportSkillsFileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem exportWavesFileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem gitHubToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem legionDefenceToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem lDToolToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem jamesWilkinsonToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 	}
 }
 

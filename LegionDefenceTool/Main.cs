@@ -16,17 +16,21 @@ namespace LegionDefenceTool
 	{
 		LegionDatabase Database;
 
-		Dictionary<LocalizationDataSpreadsheet, TreeNode> LocalizationNodes;
-		LocalizationDataSpreadsheet HighlightedSpreadsheet;
+		Dictionary<LocalizationDataTable, TreeNode> LocalizationNodes;
+		LocalizationDataTable HighlightedSpreadsheet;
 
 		public Main()
 		{
 			InitializeComponent();
 			Database = new LegionDatabase();
-			LocalizationNodes = new Dictionary<LocalizationDataSpreadsheet, TreeNode>();
+			Database = Database.Load() ?? Database;
+
+			LocalizationNodes = new Dictionary<LocalizationDataTable, TreeNode>();
 
 			treeLocalizationSheets.MouseDown += TreeLocalizationSheets_MouseDown;
-		}
+
+			Rebuild();
+        }
 
 		#region Rebuild Interface
 
@@ -41,7 +45,7 @@ namespace LegionDefenceTool
 			LocalizationNodes.Clear();
 
 			// Build Tree
-			foreach (LocalizationDataSpreadsheet Sheet in Database.LocalizationSpreadsheets)
+			foreach (LocalizationDataTable Sheet in Database.LocalizationSpreadsheets)
 			{
 				string NodeName = Sheet.GetSpreadsheetTitle();
 				TreeNode Node = treeLocalizationSheets.Nodes.Add(NodeName);
@@ -50,28 +54,31 @@ namespace LegionDefenceTool
 
 			// Build Table
 			dataGridLocalization.Rows.Clear();
-            foreach (LocalizationDataSpreadsheet Sheet in Database.LocalizationSpreadsheets)
+            foreach (LocalizationDataTable Sheet in Database.LocalizationSpreadsheets)
 			{
-				bool bHighlightSheet = HighlightedSpreadsheet != null && HighlightedSpreadsheet == Sheet;
-				foreach (var LocPair in Sheet.LocalizationKeys)
+				if (Sheet.Keys != null)
 				{
-					bool bHighlightError = string.IsNullOrWhiteSpace(LocPair.Value);
-                    int RowIndex = dataGridLocalization.Rows.Add(LocPair.Key, LocPair.Value);
-					DataGridViewCellStyle Style = new DataGridViewCellStyle();
-					if(bHighlightSheet && !bHighlightError)
+					bool bHighlightSheet = HighlightedSpreadsheet != null && HighlightedSpreadsheet == Sheet;
+					for (int i = 0; i < Sheet.Keys.Count; ++i)
 					{
-						Style.BackColor = Color.PaleGoldenrod;
+						bool bHighlightError = string.IsNullOrWhiteSpace(Sheet.English[i]);
+						int RowIndex = dataGridLocalization.Rows.Add(Sheet.Keys[i], Sheet.English[i]);
+						DataGridViewCellStyle Style = new DataGridViewCellStyle();
+						if (bHighlightSheet && !bHighlightError)
+						{
+							Style.BackColor = Color.PaleGoldenrod;
+						}
+						else if (bHighlightError && !bHighlightSheet)
+						{
+							Style.BackColor = Color.IndianRed;
+						}
+						else if (bHighlightError && bHighlightSheet)
+						{
+							Style.BackColor = Color.DarkRed;
+						}
+						dataGridLocalization.Rows[RowIndex].DefaultCellStyle = Style;
 					}
-					else if(bHighlightError && !bHighlightSheet)
-					{
-						Style.BackColor = Color.IndianRed;
-					}
-					else if (bHighlightError && bHighlightSheet)
-					{
-						Style.BackColor = Color.DarkRed;
-					}
-                    dataGridLocalization.Rows[RowIndex].DefaultCellStyle = Style;
-                }
+				}
 			}
         }
 
@@ -79,7 +86,7 @@ namespace LegionDefenceTool
 
 		#region Utils
 
-		LocalizationDataSpreadsheet GetSpreadsheetForLocalizationNode()
+		LocalizationDataTable GetSpreadsheetForLocalizationNode()
 		{
 			if (treeLocalizationSheets.SelectedNode != null)
 			{
@@ -113,7 +120,7 @@ namespace LegionDefenceTool
 			{
 				string SpreadsheetId = textBoxSpreadsheetId.Text;
 				string TabId = string.IsNullOrWhiteSpace(textBoxTabId.Text) ? "0" : textBoxTabId.Text;
-				var sheet = Database.AddNewLocalizationSheet(SpreadsheetId, TabId);
+				var sheet = Database?.AddNewLocalizationSheet(SpreadsheetId, TabId);
 
 				textBoxSpreadsheetId.Text = string.Empty;
 				textBoxTabId.Text = string.Empty;
@@ -125,7 +132,7 @@ namespace LegionDefenceTool
 		{
 			foreach (var Spreadsheet in Database.LocalizationSpreadsheets)
 			{
-				Spreadsheet.Download();
+				Spreadsheet?.Download();
 			}
 			Rebuild();
 		}
@@ -143,7 +150,7 @@ namespace LegionDefenceTool
 
 		private void contextLocalizationHighlight_Click(object sender, EventArgs e)
 		{
-			LocalizationDataSpreadsheet Sheet = GetSpreadsheetForLocalizationNode();
+			LocalizationDataTable Sheet = GetSpreadsheetForLocalizationNode();
 			if(Sheet != HighlightedSpreadsheet)
 			{
 				HighlightedSpreadsheet = Sheet;
@@ -157,13 +164,48 @@ namespace LegionDefenceTool
 
 		private void contextLocalizationRemove_Click(object sender, EventArgs e)
 		{
-			DataSpreadsheet Sheet = GetSpreadsheetForLocalizationNode();
+			Data.DataTable Sheet = GetSpreadsheetForLocalizationNode();
 			if(Sheet != null)
 			{
-				Database.RemoveLocalizationSheet(Sheet);
+				Database?.RemoveLocalizationSheet(Sheet);
 				Rebuild();
 			}
         }
+
+		#endregion
+
+		#region Menu Items
+
+		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Database = Database.Load() ?? Database;
+        }
+
+		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Database?.Save();
+		}
+
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Database?.Save();
+			Application.Exit();
+		}
+
+		private void jamesWilkinsonToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start(Constants.JAMES_WILKO_GITHUB);
+        }
+
+		private void legionDefenceToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start(Constants.LEGION_DEFENCE_GITHUB);
+        }
+
+		private void lDToolToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
 
 		#endregion
 
