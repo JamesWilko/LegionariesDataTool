@@ -17,7 +17,10 @@ namespace LegionDefenceTool
 		LegionDatabase Database;
 
 		Dictionary<LocalizationDataTable, TreeNode> LocalizationNodes;
-		LocalizationDataTable HighlightedSpreadsheet;
+		LocalizationDataTable HighlightedLocalizationSpreadsheet;
+
+		Dictionary<UnitDataTable, TreeNode> UnitSourceNodes;
+		Dictionary<LegionUnit, TreeNode> UnitNodes;
 
 		public Main()
 		{
@@ -26,6 +29,8 @@ namespace LegionDefenceTool
 			Database = Database.Load() ?? Database;
 
 			LocalizationNodes = new Dictionary<LocalizationDataTable, TreeNode>();
+			UnitSourceNodes = new Dictionary<UnitDataTable, TreeNode>();
+			UnitNodes = new Dictionary<LegionUnit, TreeNode>();
 
 			treeLocalizationSheets.MouseDown += TreeLocalizationSheets_MouseDown;
 
@@ -37,6 +42,7 @@ namespace LegionDefenceTool
 		public void Rebuild()
 		{
 			RebuildLocalizationUI();
+			RebuildUnitsUI();
         }
 
 		public void RebuildLocalizationUI()
@@ -45,7 +51,7 @@ namespace LegionDefenceTool
 			LocalizationNodes.Clear();
 
 			// Build Tree
-			foreach (LocalizationDataTable Sheet in Database.LocalizationSpreadsheets)
+			foreach (LocalizationDataTable Sheet in Database.LocalizationDataTables)
 			{
 				string NodeName = Sheet.GetSpreadsheetTitle();
 				TreeNode Node = treeLocalizationSheets.Nodes.Add(NodeName);
@@ -54,11 +60,11 @@ namespace LegionDefenceTool
 
 			// Build Table
 			dataGridLocalization.Rows.Clear();
-            foreach (LocalizationDataTable Sheet in Database.LocalizationSpreadsheets)
+            foreach (LocalizationDataTable Sheet in Database.LocalizationDataTables)
 			{
 				if (Sheet.Keys != null)
 				{
-					bool bHighlightSheet = HighlightedSpreadsheet != null && HighlightedSpreadsheet == Sheet;
+					bool bHighlightSheet = HighlightedLocalizationSpreadsheet != null && HighlightedLocalizationSpreadsheet == Sheet;
 					for (int i = 0; i < Sheet.Keys.Count; ++i)
 					{
 						bool bHighlightError = string.IsNullOrWhiteSpace(Sheet.English[i]);
@@ -82,6 +88,31 @@ namespace LegionDefenceTool
 			}
         }
 
+		public void RebuildUnitsUI()
+		{
+			// Build sources tree
+			treeUnitDataSources.Nodes.Clear();
+			UnitSourceNodes.Clear();
+			foreach (UnitDataTable Sheet in Database.UnitDataTables)
+			{
+				string NodeName = Sheet.GetSpreadsheetTitle();
+				TreeNode Node = treeUnitDataSources.Nodes.Add(NodeName);
+				UnitSourceNodes.Add(Sheet, Node);
+			}
+
+			// Build units tree
+			treeUnits.Nodes.Clear();
+			UnitNodes.Clear();
+			foreach (UnitDataTable Sheet in Database.UnitDataTables)
+			{
+				List<LegionUnit> Units = Sheet.GetUnits();
+				foreach(LegionUnit Unit in Units)
+				{
+					treeUnits.Nodes.Add($"{Unit.UnitName} [{Unit.UpgradesFrom}]");
+                }
+			}
+		}
+
 		#endregion
 
 		#region Utils
@@ -104,6 +135,41 @@ namespace LegionDefenceTool
 
 		#endregion
 
+		#region Menu Items
+
+		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Database = Database.Load() ?? Database;
+		}
+
+		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Database?.Save();
+		}
+
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Database?.Save();
+			Application.Exit();
+		}
+
+		private void jamesWilkinsonToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start(Constants.JAMES_WILKO_GITHUB);
+		}
+
+		private void legionDefenceToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start(Constants.LEGION_DEFENCE_GITHUB);
+		}
+
+		private void lDToolToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		#endregion
+
 		#region Localization Tab Events
 
 		private void TreeLocalizationSheets_MouseDown(object sender, MouseEventArgs e)
@@ -120,7 +186,7 @@ namespace LegionDefenceTool
 			{
 				string SpreadsheetId = textBoxSpreadsheetId.Text;
 				string TabId = string.IsNullOrWhiteSpace(textBoxTabId.Text) ? "0" : textBoxTabId.Text;
-				var sheet = Database?.AddNewLocalizationSheet(SpreadsheetId, TabId);
+				Database?.AddNewLocalizationSheet(SpreadsheetId, TabId);
 
 				textBoxSpreadsheetId.Text = string.Empty;
 				textBoxTabId.Text = string.Empty;
@@ -130,7 +196,7 @@ namespace LegionDefenceTool
 
 		private void buttonUpdateSpreadsheets_Click(object sender, EventArgs e)
 		{
-			foreach (var Spreadsheet in Database.LocalizationSpreadsheets)
+			foreach (var Spreadsheet in Database.LocalizationDataTables)
 			{
 				Spreadsheet?.Download();
 			}
@@ -151,13 +217,13 @@ namespace LegionDefenceTool
 		private void contextLocalizationHighlight_Click(object sender, EventArgs e)
 		{
 			LocalizationDataTable Sheet = GetSpreadsheetForLocalizationNode();
-			if(Sheet != HighlightedSpreadsheet)
+			if(Sheet != HighlightedLocalizationSpreadsheet)
 			{
-				HighlightedSpreadsheet = Sheet;
+				HighlightedLocalizationSpreadsheet = Sheet;
 			}
 			else
 			{
-				HighlightedSpreadsheet = null;
+				HighlightedLocalizationSpreadsheet = null;
             }
 			Rebuild();
 		}
@@ -174,37 +240,29 @@ namespace LegionDefenceTool
 
 		#endregion
 
-		#region Menu Items
+		#region Unit Tab Events
 
-		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+		private void buttonAddUnitSpreadsheet_Click(object sender, EventArgs e)
 		{
-			Database = Database.Load() ?? Database;
-        }
+			if (!string.IsNullOrWhiteSpace(textUnitSpreadsheetId.Text))
+			{
+				string SpreadsheetId = textUnitSpreadsheetId.Text;
+				string TabId = string.IsNullOrWhiteSpace(textUnitTabId.Text) ? "0" : textUnitTabId.Text;
+				Database?.AddNewUnitSheet(SpreadsheetId, TabId);
 
-		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Database?.Save();
+				textUnitSpreadsheetId.Text = string.Empty;
+				textUnitTabId.Text = string.Empty;
+				Rebuild();
+			}
 		}
 
-		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+		private void buttonUpdateUnits_Click(object sender, EventArgs e)
 		{
-			Database?.Save();
-			Application.Exit();
-		}
-
-		private void jamesWilkinsonToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			System.Diagnostics.Process.Start(Constants.JAMES_WILKO_GITHUB);
-        }
-
-		private void legionDefenceToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			System.Diagnostics.Process.Start(Constants.LEGION_DEFENCE_GITHUB);
-        }
-
-		private void lDToolToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-
+			foreach (var Spreadsheet in Database.UnitDataTables)
+			{
+				Spreadsheet?.Download();
+			}
+			Rebuild();
 		}
 
 		#endregion

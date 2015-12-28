@@ -1,0 +1,125 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LegionDefenceTool.Data
+{
+	public class UnitDataTable : DataTable
+	{
+		public UnitDataTable(string SpreadsheetId, string TabId)
+			: base(SpreadsheetId, TabId)
+		{
+		}
+
+		[SpreadsheetColumn("UnitName", DataType.String)]
+		List<string> UnitName;
+
+		[SpreadsheetColumn("UpgradesFrom", DataType.String)]
+		List<string> UpgradesFrom;
+
+		[SpreadsheetColumn("GoldCost", DataType.Integer)]
+		List<int> GoldCost;
+
+		[SpreadsheetColumn("FoodCost", DataType.Integer)]
+		List<int> FoodCost;
+
+		[SpreadsheetColumn("MoveSpeed", DataType.Integer)]
+		List<int> MoveSpeed;
+
+		[SpreadsheetColumn("TurnSpeed", DataType.Decimal)]
+		List<decimal> TurnSpeed;
+
+		[SpreadsheetColumn("Health", DataType.Integer)]
+		List<int> Health;
+
+		[SpreadsheetColumn("HealthRegen", DataType.Decimal)]
+		List<decimal> HealthRegen;
+
+		[SpreadsheetColumn("Mana", DataType.Integer)]
+		List<int> Mana;
+
+		[SpreadsheetColumn("ManaRegen", DataType.Decimal)]
+		List<decimal> ManaRegen;
+
+		[SpreadsheetColumn("DamageMin", DataType.Integer)]
+		List<int> DamageMin;
+
+		[SpreadsheetColumn("DamageMax", DataType.Integer)]
+		List<int> DamageMax;
+
+		[SpreadsheetColumn("AttackRate", DataType.Decimal)]
+		List<decimal> AttackRate;
+
+		[SpreadsheetColumn("AttackType", DataType.String)]
+		List<string> AttackType;
+
+		[SpreadsheetColumn("AttackRange", DataType.Integer)]
+		List<int> AttackRange;
+
+		[SpreadsheetColumn("Armour", DataType.Integer)]
+		List<int> Armour;
+
+		[SpreadsheetColumn("MagicResist", DataType.Integer)]
+		List<int> MagicResist;
+
+		[SpreadsheetColumn("Ability", DataType.String)]
+		List<string> AbilityKey;
+
+		[SpreadsheetColumn("Bounty", DataType.Integer)]
+		List<int> Bounty;
+
+		public List<LegionUnit> GetUnits()
+		{
+			List<LegionUnit> Units = new List<LegionUnit>();
+
+			if (UnitName != null)
+			{
+				for (int i = 0; i < UnitName.Count; ++i)
+				{
+					// Create unit
+					LegionUnit Unit = new LegionUnit();
+					
+					// Check if unit is an upgrade from a previous one
+					if(!string.IsNullOrWhiteSpace(UpgradesFrom[i]))
+					{
+						foreach(LegionUnit PrevUnit in Units)
+						{
+							if(PrevUnit.UnitName == UpgradesFrom[i])
+							{
+								Unit = PrevUnit.Clone();
+                            }
+						}
+					}
+
+					// Set unit details
+					Unit.UnitName = UnitName[i];
+					Unit.UpgradesFrom = UpgradesFrom[i];
+					Unit.GoldCost = GoldCost[i];
+					Unit.FoodCost = FoodCost[i];
+					Unit.MoveSpeed = MoveSpeed[i];
+					Unit.TurnSpeed = TurnSpeed[i];
+					Unit.Health = Health[i];
+					Unit.HealthRegen = HealthRegen[i];
+					Unit.Mana = Mana[i];
+					Unit.ManaRegen = ManaRegen[i];
+					Unit.DamageMin = DamageMin[i];
+					Unit.DamageMax = DamageMax[i];
+					Unit.AttackRate = AttackRate[i];
+					Unit.AttackType = AttackType[i];
+					Unit.AttackRange = AttackRange[i];
+					Unit.Armour = Armour[i];
+					Unit.MagicResist = MagicResist[i];
+					Unit.AbilityKey = AbilityKey[i];
+					Unit.Bounty = Bounty[i];
+
+					// Add unit to list
+					Units.Add(Unit);
+                }
+			}
+
+			return Units;
+        }
+	}
+}

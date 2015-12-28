@@ -10,13 +10,15 @@ namespace LegionDefenceTool.Data
 {
 	class LegionDatabase
 	{
-		public List<LocalizationDataTable> LocalizationSpreadsheets;
+		public List<LocalizationDataTable> LocalizationDataTables;
+		public List<UnitDataTable> UnitDataTables;
 
 		const string SAVE_PATH = "LegionDefenseSaveData.txt";
 
 		public LegionDatabase()
 		{
-			LocalizationSpreadsheets = new List<LocalizationDataTable>();
+			LocalizationDataTables = new List<LocalizationDataTable>();
+			UnitDataTables = new List<UnitDataTable>();
         }
 
 		#region File Operations
@@ -49,15 +51,31 @@ namespace LegionDefenceTool.Data
 
 		public LocalizationDataTable AddNewLocalizationSheet(string Spreadsheet, string Tab)
 		{
-			LocalizationDataTable sheet = new LocalizationDataTable(Spreadsheet, Tab);
-            LocalizationSpreadsheets.Add(sheet);
-			return sheet;
+			LocalizationDataTable Sheet = new LocalizationDataTable(Spreadsheet, Tab);
+            LocalizationDataTables.Add(Sheet);
+			return Sheet;
         }
 
-		public void RemoveLocalizationSheet(DataTable sheet)
+		public void RemoveLocalizationSheet(DataTable Sheet)
 		{
-			LocalizationSpreadsheets.RemoveAll(x => x.Equals(sheet));
+			LocalizationDataTables.RemoveAll(x => x.Equals(Sheet));
         }
+
+		#endregion
+
+		#region Units
+
+		public UnitDataTable AddNewUnitSheet(string Spreadsheet, string Tab)
+		{
+			UnitDataTable Sheet = new UnitDataTable(Spreadsheet, Tab);
+			UnitDataTables.Add(Sheet);
+			return Sheet;
+		}
+
+		public void RemoveUnitSheet(DataTable Sheet)
+		{
+			UnitDataTables.RemoveAll(x => x.Equals(Sheet));
+		}
 
 		#endregion
 
