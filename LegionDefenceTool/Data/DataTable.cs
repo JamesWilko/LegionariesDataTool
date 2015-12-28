@@ -68,7 +68,7 @@ namespace LegionDefenceTool.Data
 							Headings = new string[Line.Length];
 							for (int i = 0; i < Headings.Length; ++i)
 							{
-								string Key = Line[i];
+								string Key = Line[i].Trim();
                                 Headings[i] = Key;
 								if (!SpreadsheetData.ContainsKey(Key))
 								{
@@ -86,7 +86,8 @@ namespace LegionDefenceTool.Data
 							for (int i = 0; i < Headings.Length; ++i)
 							{
 								string Key = Headings[i];
-								SpreadsheetData[Key].Add(Line[i]);
+								string Value = i < Line.Length ? Line[i].Trim() : string.Empty;
+                                SpreadsheetData[Key].Add(Value);
 							}
 						}
 					}
