@@ -42,7 +42,8 @@ namespace LegionDefenceTool.Data
 			{
 				TextReader Reader = new StreamReader(SAVE_PATH, Encoding.UTF8);
 				string JsonData = Reader.ReadToEnd();
-				return JsonConvert.DeserializeObject<LegionDatabase>(JsonData);
+				Reader.Close();
+                return JsonConvert.DeserializeObject<LegionDatabase>(JsonData);
 			}
 			return null;
 		}
