@@ -15,7 +15,7 @@ namespace LegionDefenceTool.Data
 	}
 
 	[AttributeUsage(AttributeTargets.Field)]
-	class SpreadsheetColumn : Attribute
+	public class SpreadsheetColumn : Attribute
 	{
 		public string Heading;
 		public DataType StoredDataType;
@@ -47,17 +47,20 @@ namespace LegionDefenceTool.Data
 		public List<int> ConvertToIntList(List<string> Data)
 		{
 			List<int> IntList = new List<int>();
-			for(int i = 0; i < Data.Count; ++i)
+			if (Data != null)
 			{
-				if (i > 0 && Data[i] == USE_PREV_VALUE_STR)
+				for (int i = 0; i < Data.Count; ++i)
 				{
-					IntList.Add(IntList[i - 1]);
-				}
-				else
-				{
-					int Value;
-					int.TryParse(Data[i], out Value);
-					IntList.Add(Value);
+					if (i > 0 && Data[i] == USE_PREV_VALUE_STR)
+					{
+						IntList.Add(IntList[i - 1]);
+					}
+					else
+					{
+						int Value;
+						int.TryParse(Data[i], out Value);
+						IntList.Add(Value);
+					}
 				}
 			}
 			return IntList;
@@ -66,17 +69,20 @@ namespace LegionDefenceTool.Data
 		public List<decimal> ConvertToDecList(List<string> Data)
 		{
 			List<decimal> DecList = new List<decimal>();
-			for (int i = 0; i < Data.Count; ++i)
+			if (Data != null)
 			{
-				if (i > 0 && Data[i] == USE_PREV_VALUE_STR)
+				for (int i = 0; i < Data.Count; ++i)
 				{
-					DecList.Add(DecList[i - 1]);
-				}
-				else
-				{
-					decimal Value;
-					decimal.TryParse(Data[i], out Value);
-					DecList.Add(Value);
+					if (i > 0 && Data[i] == USE_PREV_VALUE_STR)
+					{
+						DecList.Add(DecList[i - 1]);
+					}
+					else
+					{
+						decimal Value;
+						decimal.TryParse(Data[i], out Value);
+						DecList.Add(Value);
+					}
 				}
 			}
 			return DecList;
