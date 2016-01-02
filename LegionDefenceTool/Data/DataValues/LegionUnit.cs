@@ -67,6 +67,11 @@ namespace LegionDefenceTool.Data
 			return (LegionUnit) this.MemberwiseClone();
 		}
 
+		public override string ToString()
+		{
+			return $"{UnitName}";
+		}
+
 		#region DataNode
 
 		public override string GetDisplayID()
