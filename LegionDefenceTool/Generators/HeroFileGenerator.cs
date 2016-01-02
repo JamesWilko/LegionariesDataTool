@@ -13,12 +13,22 @@ namespace LegionDefenceTool.Generators
 	{
 		const string HERO_LIST_TEMPLATE_FILE = "templates/herolist_template.txt";
 		const string HERO_TEMPLATE_FILE = "templates/heroes/npc_hero_template.txt";
+		const string CUSTOM_HEROES_TEMPLATE_FILE = "templates/npc_heroes_custom_template.txt";
 		const string TEMPLATE_VARIABLE = "{{Hero.{0}}}";
+
+		const string HERO_LIST_OUTPUT_FILE = "output/herolist.txt";
+        const string CUSTOM_HEROES_OUTPUT_FILE = "output/npc_heroes_custom.txt";
 
 		string HeroListTemplateFile;
 		string HeroTemplateFile;
 
 		public void Generate(LegionDatabase Database)
+		{
+			GenerateHeroList(Database);
+			GenerateHeroesFile(Database);
+        }
+
+		protected void GenerateHeroList(LegionDatabase Database)
 		{
 			TextReader Reader;
 			TextWriter Writer;
@@ -33,19 +43,24 @@ namespace LegionDefenceTool.Generators
 
 			// Build hero list
 			string HeroList = HeroListTemplateFile;
-            StringBuilder HeroListBuilder = new StringBuilder();
+			StringBuilder HeroListBuilder = new StringBuilder();
 			foreach (LegionHero Hero in Database.LegionHeroes)
 			{
-				string HeroListItem = string.Format(Constants.HERO_LIST_HERO_KV, Hero.DotaHeroOverride, Constants.MAX_SINGLE_HERO);
+				string HeroListItem = string.Format(Constants.HERO_LIST_HERO_KV, Hero.ID, Constants.MAX_SINGLE_HERO);
 				HeroListBuilder.AppendLine(HeroListItem);
-            }
+			}
 			HeroList = HeroList.Replace("{Heroes}", HeroListBuilder.ToString());
 
 			// Save hero list to file
-			string HeroListPathOut = string.Format("output/herolist.txt");
-			Writer = new StreamWriter(HeroListPathOut, false, Encoding.UTF8);
+			Writer = new StreamWriter(HERO_LIST_OUTPUT_FILE, false, Encoding.UTF8);
 			Writer.Write(HeroList);
 			Writer.Close();
+		}
+
+		protected void GenerateHeroesFile(LegionDatabase Database)
+		{
+			TextReader Reader;
+			TextWriter Writer;
 
 			// Load template file for hero data
 			if (File.Exists(HERO_TEMPLATE_FILE))
@@ -54,6 +69,9 @@ namespace LegionDefenceTool.Generators
 				HeroTemplateFile = Reader.ReadToEnd();
 				Reader.Close();
 			}
+
+			// Hero data
+			List<string> GeneratedHeroData = new List<string>();
 
 			// Run through all heroes
 			foreach (LegionHero Hero in Database.LegionHeroes)
@@ -110,12 +128,30 @@ namespace LegionDefenceTool.Generators
 					}
 				}
 
-				// Write out
-				string PathOut = string.Format("output/npc_hero_{0}.txt", Hero.HeroName);
-                Writer = new StreamWriter(PathOut, false, Encoding.UTF8);
-				Writer.Write(Template);
-				Writer.Close();
+				// Save data to be written
+				GeneratedHeroData.Add(Template);
+            }
+
+			// Read template file
+			Reader = new StreamReader(CUSTOM_HEROES_TEMPLATE_FILE, Encoding.UTF8);
+			string TemplateFileData = Reader.ReadToEnd();
+			Reader.Close();
+
+			// Build file data
+			StringBuilder Builder = new StringBuilder();
+			foreach (var GeneratedHero in GeneratedHeroData)
+			{
+				Builder.AppendLine(GeneratedHero);
 			}
+
+			// Replace
+			TemplateFileData = TemplateFileData.Replace("{Heroes}", Builder.ToString());
+
+			// Write file
+			Writer = new StreamWriter(CUSTOM_HEROES_OUTPUT_FILE, false, Encoding.UTF8);
+			Writer.Write(TemplateFileData);
+			Writer.Close();
 		}
+
 	}
 }
