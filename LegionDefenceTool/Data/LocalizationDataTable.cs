@@ -8,6 +8,11 @@ namespace LegionDefenceTool.Data
 {
 	public class LocalizationDataTable : DataTable
 	{
+		public static string[] LANGUAGES = new string[]
+		{
+			"English"
+		};
+
 		[SpreadsheetColumn("Key", DataType.String)]
 		public List<string> Keys;
 
