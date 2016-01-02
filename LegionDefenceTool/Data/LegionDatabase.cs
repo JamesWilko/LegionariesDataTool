@@ -8,10 +8,11 @@ using System.IO;
 
 namespace LegionDefenceTool.Data
 {
-	class LegionDatabase
+	public class LegionDatabase
 	{
 		public List<LocalizationDataTable> LocalizationDataTables;
 		public List<UnitDataTable> UnitDataTables;
+		public List<LegionUnit> LegionUnits;
 
 		const string SAVE_PATH = "LegionDefenseSaveData.txt";
 
@@ -19,6 +20,7 @@ namespace LegionDefenceTool.Data
 		{
 			LocalizationDataTables = new List<LocalizationDataTable>();
 			UnitDataTables = new List<UnitDataTable>();
+			LegionUnits = new List<LegionUnit>();
         }
 
 		#region File Operations
@@ -76,6 +78,62 @@ namespace LegionDefenceTool.Data
 		{
 			UnitDataTables.RemoveAll(x => x.Equals(Sheet));
 		}
+
+		public void AddNewUnit(LegionUnit Unit)
+		{
+			LegionUnits.Add(Unit);
+        }
+
+		public LegionUnit GetUnit(string UnitName)
+		{
+			foreach (LegionUnit Unit in LegionUnits)
+			{
+				if(Unit.UnitName == UnitName)
+				{
+					return Unit;
+				}
+			}
+			return null;
+		}
+
+		public void ClearUnits()
+		{
+			LegionUnits.Clear();
+        }
+
+		public void RebuildUnitCache()
+		{
+			List<LegionUnit> NewUnitList = new List<LegionUnit>();
+
+			// Add all units from all sheets to the cache
+			foreach (UnitDataTable Sheet in this.UnitDataTables)
+			{
+				List<LegionUnit> Units = Sheet.GetUnits(this);
+				foreach (LegionUnit Unit in Units)
+				{
+					NewUnitList.Add(Unit);
+				}
+			}
+
+			// Clear list and override
+			LegionUnits = NewUnitList;
+
+			// Process list to create references for unit upgrades
+			foreach (LegionUnit Unit in LegionUnits)
+			{
+				if (!string.IsNullOrWhiteSpace(Unit.UpgradesFrom))
+				{
+					foreach (LegionUnit OtherUnit in LegionUnits)
+					{
+						if(OtherUnit.UnitName == Unit.UpgradesFrom)
+						{
+							Unit.ParentUnit = OtherUnit;
+                            break;
+						}
+					}
+				}
+			}
+        }
 
 		#endregion
 
