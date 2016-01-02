@@ -80,7 +80,7 @@ namespace LegionDefenceTool.Data
 		List<string> UnitModel;
 
 		[SpreadsheetColumn("ModelScale", DataType.Decimal)]
-		List<int> ModelScale;
+		List<decimal> ModelScale;
 
 		public List<LegionUnit> GetUnits(LegionDatabase Database)
 		{
