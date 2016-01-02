@@ -50,6 +50,23 @@
 			this.columnKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.columnText = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tabUnits = new System.Windows.Forms.TabPage();
+			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+			this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+			this.treeUnits = new System.Windows.Forms.TreeView();
+			this.contextUnits = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+			this.treeUnitDataSources = new System.Windows.Forms.TreeView();
+			this.contextUnitSources = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.buttonRebuildUnitTrees = new System.Windows.Forms.Button();
+			this.buttonUpdateUnits = new System.Windows.Forms.Button();
+			this.buttonAddUnitSpreadsheet = new System.Windows.Forms.Button();
+			this.label4 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.textUnitTabId = new System.Windows.Forms.TextBox();
+			this.textUnitSpreadsheetId = new System.Windows.Forms.TextBox();
+			this.dataGridUnitInfo = new System.Windows.Forms.DataGridView();
+			this.columnUnitKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.columnUnitValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,19 +87,6 @@
 			this.jamesWilkinsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.legionDefenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lDToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-			this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-			this.treeUnits = new System.Windows.Forms.TreeView();
-			this.splitContainer5 = new System.Windows.Forms.SplitContainer();
-			this.textUnitSpreadsheetId = new System.Windows.Forms.TextBox();
-			this.textUnitTabId = new System.Windows.Forms.TextBox();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.buttonAddUnitSpreadsheet = new System.Windows.Forms.Button();
-			this.buttonUpdateUnits = new System.Windows.Forms.Button();
-			this.treeUnitDataSources = new System.Windows.Forms.TreeView();
-			this.contextUnitSources = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.contextUnits = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.tabControl1.SuspendLayout();
 			this.tabLocalization.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -97,9 +101,9 @@
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridLocalization)).BeginInit();
 			this.tabUnits.SuspendLayout();
-			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
 			this.splitContainer3.Panel1.SuspendLayout();
+			this.splitContainer3.Panel2.SuspendLayout();
 			this.splitContainer3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
 			this.splitContainer4.Panel1.SuspendLayout();
@@ -109,6 +113,8 @@
 			this.splitContainer5.Panel1.SuspendLayout();
 			this.splitContainer5.Panel2.SuspendLayout();
 			this.splitContainer5.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridUnitInfo)).BeginInit();
+			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -333,6 +339,191 @@
 			this.tabUnits.Text = "Units";
 			this.tabUnits.UseVisualStyleBackColor = true;
 			// 
+			// splitContainer3
+			// 
+			this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer3.Location = new System.Drawing.Point(3, 3);
+			this.splitContainer3.Name = "splitContainer3";
+			// 
+			// splitContainer3.Panel1
+			// 
+			this.splitContainer3.Panel1.Controls.Add(this.splitContainer4);
+			// 
+			// splitContainer3.Panel2
+			// 
+			this.splitContainer3.Panel2.Controls.Add(this.dataGridUnitInfo);
+			this.splitContainer3.Size = new System.Drawing.Size(1057, 634);
+			this.splitContainer3.SplitterDistance = 352;
+			this.splitContainer3.TabIndex = 0;
+			// 
+			// splitContainer4
+			// 
+			this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer4.Name = "splitContainer4";
+			this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainer4.Panel1
+			// 
+			this.splitContainer4.Panel1.Controls.Add(this.treeUnits);
+			// 
+			// splitContainer4.Panel2
+			// 
+			this.splitContainer4.Panel2.Controls.Add(this.splitContainer5);
+			this.splitContainer4.Size = new System.Drawing.Size(352, 634);
+			this.splitContainer4.SplitterDistance = 327;
+			this.splitContainer4.TabIndex = 0;
+			// 
+			// treeUnits
+			// 
+			this.treeUnits.ContextMenuStrip = this.contextUnits;
+			this.treeUnits.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.treeUnits.Location = new System.Drawing.Point(0, 0);
+			this.treeUnits.Name = "treeUnits";
+			this.treeUnits.Size = new System.Drawing.Size(352, 327);
+			this.treeUnits.TabIndex = 0;
+			// 
+			// contextUnits
+			// 
+			this.contextUnits.Name = "contextUnits";
+			this.contextUnits.Size = new System.Drawing.Size(61, 4);
+			// 
+			// splitContainer5
+			// 
+			this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer5.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer5.Name = "splitContainer5";
+			this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainer5.Panel1
+			// 
+			this.splitContainer5.Panel1.Controls.Add(this.treeUnitDataSources);
+			// 
+			// splitContainer5.Panel2
+			// 
+			this.splitContainer5.Panel2.Controls.Add(this.buttonRebuildUnitTrees);
+			this.splitContainer5.Panel2.Controls.Add(this.buttonUpdateUnits);
+			this.splitContainer5.Panel2.Controls.Add(this.buttonAddUnitSpreadsheet);
+			this.splitContainer5.Panel2.Controls.Add(this.label4);
+			this.splitContainer5.Panel2.Controls.Add(this.label3);
+			this.splitContainer5.Panel2.Controls.Add(this.textUnitTabId);
+			this.splitContainer5.Panel2.Controls.Add(this.textUnitSpreadsheetId);
+			this.splitContainer5.Size = new System.Drawing.Size(352, 303);
+			this.splitContainer5.SplitterDistance = 159;
+			this.splitContainer5.TabIndex = 0;
+			// 
+			// treeUnitDataSources
+			// 
+			this.treeUnitDataSources.ContextMenuStrip = this.contextUnitSources;
+			this.treeUnitDataSources.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.treeUnitDataSources.Location = new System.Drawing.Point(0, 0);
+			this.treeUnitDataSources.Name = "treeUnitDataSources";
+			this.treeUnitDataSources.Size = new System.Drawing.Size(352, 159);
+			this.treeUnitDataSources.TabIndex = 0;
+			// 
+			// contextUnitSources
+			// 
+			this.contextUnitSources.Name = "contextUnitSources";
+			this.contextUnitSources.Size = new System.Drawing.Size(61, 4);
+			// 
+			// buttonRebuildUnitTrees
+			// 
+			this.buttonRebuildUnitTrees.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonRebuildUnitTrees.Location = new System.Drawing.Point(6, 113);
+			this.buttonRebuildUnitTrees.Name = "buttonRebuildUnitTrees";
+			this.buttonRebuildUnitTrees.Size = new System.Drawing.Size(343, 23);
+			this.buttonRebuildUnitTrees.TabIndex = 6;
+			this.buttonRebuildUnitTrees.Text = "Rebuild";
+			this.buttonRebuildUnitTrees.UseVisualStyleBackColor = true;
+			this.buttonRebuildUnitTrees.Click += new System.EventHandler(this.buttonRebuildUnitTrees_Click);
+			// 
+			// buttonUpdateUnits
+			// 
+			this.buttonUpdateUnits.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonUpdateUnits.Location = new System.Drawing.Point(6, 84);
+			this.buttonUpdateUnits.Name = "buttonUpdateUnits";
+			this.buttonUpdateUnits.Size = new System.Drawing.Size(343, 23);
+			this.buttonUpdateUnits.TabIndex = 5;
+			this.buttonUpdateUnits.Text = "Update Spreadsheets";
+			this.buttonUpdateUnits.UseVisualStyleBackColor = true;
+			this.buttonUpdateUnits.Click += new System.EventHandler(this.buttonUpdateUnits_Click);
+			// 
+			// buttonAddUnitSpreadsheet
+			// 
+			this.buttonAddUnitSpreadsheet.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonAddUnitSpreadsheet.Location = new System.Drawing.Point(6, 55);
+			this.buttonAddUnitSpreadsheet.Name = "buttonAddUnitSpreadsheet";
+			this.buttonAddUnitSpreadsheet.Size = new System.Drawing.Size(343, 23);
+			this.buttonAddUnitSpreadsheet.TabIndex = 4;
+			this.buttonAddUnitSpreadsheet.Text = "Add New Spreadsheet";
+			this.buttonAddUnitSpreadsheet.UseVisualStyleBackColor = true;
+			this.buttonAddUnitSpreadsheet.Click += new System.EventHandler(this.buttonAddUnitSpreadsheet_Click);
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(3, 32);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(29, 13);
+			this.label4.TabIndex = 3;
+			this.label4.Text = "Tab:";
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(3, 6);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(70, 13);
+			this.label3.TabIndex = 2;
+			this.label3.Text = "Spreadsheet:";
+			// 
+			// textUnitTabId
+			// 
+			this.textUnitTabId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.textUnitTabId.Location = new System.Drawing.Point(79, 29);
+			this.textUnitTabId.Name = "textUnitTabId";
+			this.textUnitTabId.Size = new System.Drawing.Size(270, 20);
+			this.textUnitTabId.TabIndex = 1;
+			// 
+			// textUnitSpreadsheetId
+			// 
+			this.textUnitSpreadsheetId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.textUnitSpreadsheetId.Location = new System.Drawing.Point(79, 3);
+			this.textUnitSpreadsheetId.Name = "textUnitSpreadsheetId";
+			this.textUnitSpreadsheetId.Size = new System.Drawing.Size(270, 20);
+			this.textUnitSpreadsheetId.TabIndex = 0;
+			// 
+			// dataGridUnitInfo
+			// 
+			this.dataGridUnitInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridUnitInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.columnUnitKey,
+            this.columnUnitValue});
+			this.dataGridUnitInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dataGridUnitInfo.Location = new System.Drawing.Point(0, 0);
+			this.dataGridUnitInfo.Name = "dataGridUnitInfo";
+			this.dataGridUnitInfo.Size = new System.Drawing.Size(701, 634);
+			this.dataGridUnitInfo.TabIndex = 0;
+			// 
+			// columnUnitKey
+			// 
+			this.columnUnitKey.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.columnUnitKey.FillWeight = 30F;
+			this.columnUnitKey.HeaderText = "Key";
+			this.columnUnitKey.Name = "columnUnitKey";
+			// 
+			// columnUnitValue
+			// 
+			this.columnUnitValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.columnUnitValue.FillWeight = 60F;
+			this.columnUnitValue.HeaderText = "Value";
+			this.columnUnitValue.Name = "columnUnitValue";
+			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -412,12 +603,14 @@
 			this.exportLocalizationFileToolStripMenuItem.Name = "exportLocalizationFileToolStripMenuItem";
 			this.exportLocalizationFileToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
 			this.exportLocalizationFileToolStripMenuItem.Text = "Export Localization File";
+			this.exportLocalizationFileToolStripMenuItem.Click += new System.EventHandler(this.exportLocalizationFileToolStripMenuItem_Click);
 			// 
 			// exportUnitsFileToolStripMenuItem
 			// 
 			this.exportUnitsFileToolStripMenuItem.Name = "exportUnitsFileToolStripMenuItem";
 			this.exportUnitsFileToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
 			this.exportUnitsFileToolStripMenuItem.Text = "Export Units File";
+			this.exportUnitsFileToolStripMenuItem.Click += new System.EventHandler(this.exportUnitsFileToolStripMenuItem_Click);
 			// 
 			// exportHeroesFileToolStripMenuItem
 			// 
@@ -483,144 +676,6 @@
 			this.lDToolToolStripMenuItem.Text = "Legion Defence Tool";
 			this.lDToolToolStripMenuItem.Click += new System.EventHandler(this.lDToolToolStripMenuItem_Click);
 			// 
-			// splitContainer3
-			// 
-			this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer3.Location = new System.Drawing.Point(3, 3);
-			this.splitContainer3.Name = "splitContainer3";
-			// 
-			// splitContainer3.Panel1
-			// 
-			this.splitContainer3.Panel1.Controls.Add(this.splitContainer4);
-			this.splitContainer3.Size = new System.Drawing.Size(1057, 634);
-			this.splitContainer3.SplitterDistance = 352;
-			this.splitContainer3.TabIndex = 0;
-			// 
-			// splitContainer4
-			// 
-			this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer4.Location = new System.Drawing.Point(0, 0);
-			this.splitContainer4.Name = "splitContainer4";
-			this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			// 
-			// splitContainer4.Panel1
-			// 
-			this.splitContainer4.Panel1.Controls.Add(this.treeUnits);
-			// 
-			// splitContainer4.Panel2
-			// 
-			this.splitContainer4.Panel2.Controls.Add(this.splitContainer5);
-			this.splitContainer4.Size = new System.Drawing.Size(352, 634);
-			this.splitContainer4.SplitterDistance = 327;
-			this.splitContainer4.TabIndex = 0;
-			// 
-			// treeUnits
-			// 
-			this.treeUnits.ContextMenuStrip = this.contextUnits;
-			this.treeUnits.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.treeUnits.Location = new System.Drawing.Point(0, 0);
-			this.treeUnits.Name = "treeUnits";
-			this.treeUnits.Size = new System.Drawing.Size(352, 327);
-			this.treeUnits.TabIndex = 0;
-			// 
-			// splitContainer5
-			// 
-			this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer5.Location = new System.Drawing.Point(0, 0);
-			this.splitContainer5.Name = "splitContainer5";
-			this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			// 
-			// splitContainer5.Panel1
-			// 
-			this.splitContainer5.Panel1.Controls.Add(this.treeUnitDataSources);
-			// 
-			// splitContainer5.Panel2
-			// 
-			this.splitContainer5.Panel2.Controls.Add(this.buttonUpdateUnits);
-			this.splitContainer5.Panel2.Controls.Add(this.buttonAddUnitSpreadsheet);
-			this.splitContainer5.Panel2.Controls.Add(this.label4);
-			this.splitContainer5.Panel2.Controls.Add(this.label3);
-			this.splitContainer5.Panel2.Controls.Add(this.textUnitTabId);
-			this.splitContainer5.Panel2.Controls.Add(this.textUnitSpreadsheetId);
-			this.splitContainer5.Size = new System.Drawing.Size(352, 303);
-			this.splitContainer5.SplitterDistance = 182;
-			this.splitContainer5.TabIndex = 0;
-			// 
-			// textUnitSpreadsheetId
-			// 
-			this.textUnitSpreadsheetId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.textUnitSpreadsheetId.Location = new System.Drawing.Point(79, 3);
-			this.textUnitSpreadsheetId.Name = "textUnitSpreadsheetId";
-			this.textUnitSpreadsheetId.Size = new System.Drawing.Size(270, 20);
-			this.textUnitSpreadsheetId.TabIndex = 0;
-			// 
-			// textUnitTabId
-			// 
-			this.textUnitTabId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.textUnitTabId.Location = new System.Drawing.Point(79, 29);
-			this.textUnitTabId.Name = "textUnitTabId";
-			this.textUnitTabId.Size = new System.Drawing.Size(270, 20);
-			this.textUnitTabId.TabIndex = 1;
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(3, 6);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(70, 13);
-			this.label3.TabIndex = 2;
-			this.label3.Text = "Spreadsheet:";
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(3, 32);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(29, 13);
-			this.label4.TabIndex = 3;
-			this.label4.Text = "Tab:";
-			// 
-			// buttonAddUnitSpreadsheet
-			// 
-			this.buttonAddUnitSpreadsheet.Location = new System.Drawing.Point(6, 55);
-			this.buttonAddUnitSpreadsheet.Name = "buttonAddUnitSpreadsheet";
-			this.buttonAddUnitSpreadsheet.Size = new System.Drawing.Size(343, 23);
-			this.buttonAddUnitSpreadsheet.TabIndex = 4;
-			this.buttonAddUnitSpreadsheet.Text = "Add New Spreadsheet";
-			this.buttonAddUnitSpreadsheet.UseVisualStyleBackColor = true;
-			this.buttonAddUnitSpreadsheet.Click += new System.EventHandler(this.buttonAddUnitSpreadsheet_Click);
-			// 
-			// buttonUpdateUnits
-			// 
-			this.buttonUpdateUnits.Location = new System.Drawing.Point(6, 84);
-			this.buttonUpdateUnits.Name = "buttonUpdateUnits";
-			this.buttonUpdateUnits.Size = new System.Drawing.Size(343, 23);
-			this.buttonUpdateUnits.TabIndex = 5;
-			this.buttonUpdateUnits.Text = "Update Spreadsheets";
-			this.buttonUpdateUnits.UseVisualStyleBackColor = true;
-			this.buttonUpdateUnits.Click += new System.EventHandler(this.buttonUpdateUnits_Click);
-			// 
-			// treeUnitDataSources
-			// 
-			this.treeUnitDataSources.ContextMenuStrip = this.contextUnitSources;
-			this.treeUnitDataSources.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.treeUnitDataSources.Location = new System.Drawing.Point(0, 0);
-			this.treeUnitDataSources.Name = "treeUnitDataSources";
-			this.treeUnitDataSources.Size = new System.Drawing.Size(352, 182);
-			this.treeUnitDataSources.TabIndex = 0;
-			// 
-			// contextUnitSources
-			// 
-			this.contextUnitSources.Name = "contextUnitSources";
-			this.contextUnitSources.Size = new System.Drawing.Size(61, 4);
-			// 
-			// contextUnits
-			// 
-			this.contextUnits.Name = "contextUnits";
-			this.contextUnits.Size = new System.Drawing.Size(61, 4);
-			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -646,9 +701,8 @@
 			this.panel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridLocalization)).EndInit();
 			this.tabUnits.ResumeLayout(false);
-			this.menuStrip1.ResumeLayout(false);
-			this.menuStrip1.PerformLayout();
 			this.splitContainer3.Panel1.ResumeLayout(false);
+			this.splitContainer3.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
 			this.splitContainer3.ResumeLayout(false);
 			this.splitContainer4.Panel1.ResumeLayout(false);
@@ -660,6 +714,9 @@
 			this.splitContainer5.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
 			this.splitContainer5.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dataGridUnitInfo)).EndInit();
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -721,6 +778,10 @@
 		private System.Windows.Forms.TextBox textUnitSpreadsheetId;
 		private System.Windows.Forms.ContextMenuStrip contextUnitSources;
 		private System.Windows.Forms.ContextMenuStrip contextUnits;
+		private System.Windows.Forms.DataGridView dataGridUnitInfo;
+		private System.Windows.Forms.Button buttonRebuildUnitTrees;
+		private System.Windows.Forms.DataGridViewTextBoxColumn columnUnitKey;
+		private System.Windows.Forms.DataGridViewTextBoxColumn columnUnitValue;
 	}
 }
 

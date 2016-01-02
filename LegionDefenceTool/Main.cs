@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using LegionDefenceTool.Data;
+using LegionDefenceTool.Generators;
 
 namespace LegionDefenceTool
 {
 	public partial class Main : Form
 	{
 		LegionDatabase Database;
+		DotaData DotaDatabase;
 
 		Dictionary<LocalizationDataTable, TreeNode> LocalizationNodes;
 		LocalizationDataTable HighlightedLocalizationSpreadsheet;
@@ -28,11 +30,15 @@ namespace LegionDefenceTool
 			Database = new LegionDatabase();
 			Database = Database.Load() ?? Database;
 
+			DotaDatabase = new DotaData();
+			DotaDatabase.Load();
+
 			LocalizationNodes = new Dictionary<LocalizationDataTable, TreeNode>();
 			UnitSourceNodes = new Dictionary<UnitDataTable, TreeNode>();
 			UnitNodes = new Dictionary<LegionUnit, TreeNode>();
 
 			treeLocalizationSheets.MouseDown += TreeLocalizationSheets_MouseDown;
+			treeUnits.MouseDown += TreeUnits_MouseDown;
 
 			Rebuild();
         }
@@ -43,6 +49,7 @@ namespace LegionDefenceTool
 		{
 			RebuildLocalizationUI();
 			RebuildUnitsUI();
+			RebuildSelectedUnitUI();
         }
 
 		public void RebuildLocalizationUI()
@@ -103,13 +110,45 @@ namespace LegionDefenceTool
 			// Build units tree
 			treeUnits.Nodes.Clear();
 			UnitNodes.Clear();
-			foreach (UnitDataTable Sheet in Database.UnitDataTables)
+			Database.RebuildUnitCache();
+			foreach (LegionUnit Unit in Database.LegionUnits)
 			{
-				List<LegionUnit> Units = Sheet.GetUnits();
-				foreach(LegionUnit Unit in Units)
+				string NodeName = $"{Unit.UnitName}";
+				if (Unit.ParentUnit == null)
 				{
-					treeUnits.Nodes.Add($"{Unit.UnitName} [{Unit.UpgradesFrom}]");
-                }
+					// Unit is not an upgrade, show in root
+					TreeNode Node = treeUnits.Nodes.Add(NodeName);
+					UnitNodes.Add(Unit, Node);
+				}
+				else
+				{
+					// Unit is an upgrade, show as a child
+					foreach (var UnitNodePair in UnitNodes)
+					{
+						if (UnitNodePair.Key.UnitName == Unit.ParentUnit?.UnitName)
+						{
+							TreeNode Node = UnitNodePair.Value.Nodes.Add(NodeName);
+							UnitNodes.Add(Unit, Node);
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		public void RebuildSelectedUnitUI()
+		{
+			dataGridUnitInfo.Rows.Clear();
+
+			if (treeUnits.SelectedNode != null)
+			{
+				foreach (var UnitNodePair in UnitNodes)
+				{
+					if (UnitNodePair.Value == treeUnits.SelectedNode)
+					{
+						UnitNodePair.Key.PopulateDataGrid(dataGridUnitInfo);
+					}
+				}
 			}
 		}
 
@@ -242,6 +281,12 @@ namespace LegionDefenceTool
 
 		#region Unit Tab Events
 
+		private void TreeUnits_MouseDown(object sender, MouseEventArgs e)
+		{
+			treeUnits.SelectedNode = treeUnits.GetNodeAt(e.X, e.Y);
+			RebuildSelectedUnitUI();
+        }
+
 		private void buttonAddUnitSpreadsheet_Click(object sender, EventArgs e)
 		{
 			if (!string.IsNullOrWhiteSpace(textUnitSpreadsheetId.Text))
@@ -265,7 +310,23 @@ namespace LegionDefenceTool
 			Rebuild();
 		}
 
+		private void buttonRebuildUnitTrees_Click(object sender, EventArgs e)
+		{
+			Rebuild();
+		}
+
 		#endregion
 
+		private void exportLocalizationFileToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			LocalizationFileGenerator Generator = new LocalizationFileGenerator();
+			Generator.Generate(Database);
+        }
+
+		private void exportUnitsFileToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			UnitFileGenerator Generator = new UnitFileGenerator();
+			Generator.Generate(Database);
+        }
 	}
 }

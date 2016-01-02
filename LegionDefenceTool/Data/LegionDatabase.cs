@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
+using KVLib;
 
 namespace LegionDefenceTool.Data
 {
@@ -15,6 +16,8 @@ namespace LegionDefenceTool.Data
 		public List<LegionUnit> LegionUnits;
 
 		const string SAVE_PATH = "LegionDefenseSaveData.txt";
+
+		public static LegionDatabase ActiveDatabase { get; private set; }
 
 		public LegionDatabase()
 		{
@@ -43,8 +46,10 @@ namespace LegionDefenceTool.Data
 				TextReader Reader = new StreamReader(SAVE_PATH, Encoding.UTF8);
 				string JsonData = Reader.ReadToEnd();
 				Reader.Close();
-                return JsonConvert.DeserializeObject<LegionDatabase>(JsonData);
-			}
+				LegionDatabase Database = JsonConvert.DeserializeObject<LegionDatabase>(JsonData);
+				ActiveDatabase = Database;
+				return Database;
+            }
 			return null;
 		}
 
