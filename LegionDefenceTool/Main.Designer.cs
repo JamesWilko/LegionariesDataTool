@@ -30,11 +30,8 @@
 		{
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabUnits = new System.Windows.Forms.TabPage();
-			this.spreadsheetDisplayUnits = new LegionDefenceTool.Interface.SpreadsheetDataDisplay();
 			this.tabHeroes = new System.Windows.Forms.TabPage();
-			this.spreadsheetDisplayHeroes = new LegionDefenceTool.Interface.SpreadsheetDataDisplay();
 			this.tabLocalization = new System.Windows.Forms.TabPage();
-			this.spreadsheetDisplayLocalization = new LegionDefenceTool.Interface.SpreadsheetDataDisplay();
 			this.contextLocalizationOpen = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextLocalizationUpdate = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextLocalizationHighlight = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +56,9 @@
 			this.jamesWilkinsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.legionDefenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lDToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.spreadsheetDisplayUnits = new LegionDefenceTool.Interface.SpreadsheetDataDisplay();
+			this.spreadsheetDisplayHeroes = new LegionDefenceTool.Interface.SpreadsheetDataDisplay();
+			this.spreadsheetDisplayLocalization = new LegionDefenceTool.Interface.SpreadsheetDataDisplay();
 			this.tabControl1.SuspendLayout();
 			this.tabUnits.SuspendLayout();
 			this.tabHeroes.SuspendLayout();
@@ -91,16 +91,6 @@
 			this.tabUnits.Text = "Units";
 			this.tabUnits.UseVisualStyleBackColor = true;
 			// 
-			// spreadsheetDisplayUnits
-			// 
-			this.spreadsheetDisplayUnits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.spreadsheetDisplayUnits.Location = new System.Drawing.Point(3, 3);
-			this.spreadsheetDisplayUnits.Name = "spreadsheetDisplayUnits";
-			this.spreadsheetDisplayUnits.Size = new System.Drawing.Size(1057, 634);
-			this.spreadsheetDisplayUnits.TabIndex = 0;
-			// 
 			// tabHeroes
 			// 
 			this.tabHeroes.Controls.Add(this.spreadsheetDisplayHeroes);
@@ -110,16 +100,6 @@
 			this.tabHeroes.TabIndex = 2;
 			this.tabHeroes.Text = "Heroes";
 			this.tabHeroes.UseVisualStyleBackColor = true;
-			// 
-			// spreadsheetDisplayHeroes
-			// 
-			this.spreadsheetDisplayHeroes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.spreadsheetDisplayHeroes.Location = new System.Drawing.Point(3, 3);
-			this.spreadsheetDisplayHeroes.Name = "spreadsheetDisplayHeroes";
-			this.spreadsheetDisplayHeroes.Size = new System.Drawing.Size(1057, 634);
-			this.spreadsheetDisplayHeroes.TabIndex = 0;
 			// 
 			// tabLocalization
 			// 
@@ -131,13 +111,6 @@
 			this.tabLocalization.TabIndex = 3;
 			this.tabLocalization.Text = "Localization";
 			this.tabLocalization.UseVisualStyleBackColor = true;
-			// 
-			// spreadsheetDisplayLocalization
-			// 
-			this.spreadsheetDisplayLocalization.Location = new System.Drawing.Point(3, 3);
-			this.spreadsheetDisplayLocalization.Name = "spreadsheetDisplayLocalization";
-			this.spreadsheetDisplayLocalization.Size = new System.Drawing.Size(1057, 634);
-			this.spreadsheetDisplayLocalization.TabIndex = 0;
 			// 
 			// contextLocalizationOpen
 			// 
@@ -168,7 +141,7 @@
             this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(141, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(233, 24);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -253,6 +226,7 @@
 			this.exportHeroesFileToolStripMenuItem.Name = "exportHeroesFileToolStripMenuItem";
 			this.exportHeroesFileToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
 			this.exportHeroesFileToolStripMenuItem.Text = "Export Heroes File";
+			this.exportHeroesFileToolStripMenuItem.Click += new System.EventHandler(this.exportHeroesFileToolStripMenuItem_Click);
 			// 
 			// exportSkillsFileToolStripMenuItem
 			// 
@@ -311,6 +285,33 @@
 			this.lDToolToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
 			this.lDToolToolStripMenuItem.Text = "Legion Defence Tool";
 			this.lDToolToolStripMenuItem.Click += new System.EventHandler(this.lDToolToolStripMenuItem_Click);
+			// 
+			// spreadsheetDisplayUnits
+			// 
+			this.spreadsheetDisplayUnits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.spreadsheetDisplayUnits.Location = new System.Drawing.Point(3, 3);
+			this.spreadsheetDisplayUnits.Name = "spreadsheetDisplayUnits";
+			this.spreadsheetDisplayUnits.Size = new System.Drawing.Size(1057, 634);
+			this.spreadsheetDisplayUnits.TabIndex = 0;
+			// 
+			// spreadsheetDisplayHeroes
+			// 
+			this.spreadsheetDisplayHeroes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.spreadsheetDisplayHeroes.Location = new System.Drawing.Point(3, 3);
+			this.spreadsheetDisplayHeroes.Name = "spreadsheetDisplayHeroes";
+			this.spreadsheetDisplayHeroes.Size = new System.Drawing.Size(1057, 634);
+			this.spreadsheetDisplayHeroes.TabIndex = 0;
+			// 
+			// spreadsheetDisplayLocalization
+			// 
+			this.spreadsheetDisplayLocalization.Location = new System.Drawing.Point(3, 3);
+			this.spreadsheetDisplayLocalization.Name = "spreadsheetDisplayLocalization";
+			this.spreadsheetDisplayLocalization.Size = new System.Drawing.Size(1057, 634);
+			this.spreadsheetDisplayLocalization.TabIndex = 0;
 			// 
 			// Main
 			// 

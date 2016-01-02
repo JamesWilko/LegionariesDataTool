@@ -212,6 +212,15 @@ namespace LegionDefenceTool.Data
 			}
 		}
 
+		[JsonIgnore]
+		public string SummonAbility
+		{
+			get
+			{
+				return string.Format(Constants.UNIT_SUMMON_ABILITY_NAME, UnitName);
+			}
+		}
+
 		#endregion
 	}
 }

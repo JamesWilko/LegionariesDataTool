@@ -133,5 +133,11 @@ namespace LegionDefenceTool
 			UnitFileGenerator Generator = new UnitFileGenerator();
 			Generator.Generate(Database);
         }
+
+		private void exportHeroesFileToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			HeroFileGenerator Generator = new HeroFileGenerator();
+			Generator.Generate(Database);
+		}
 	}
 }

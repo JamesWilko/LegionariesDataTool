@@ -41,6 +41,9 @@ namespace LegionDefenceTool.Data
 		#region Properties
 
 		[JsonIgnore]
+		public string ID { get { return string.Format(Constants.HERO_ID, HeroName); } }
+
+		[JsonIgnore]
 		public List<LegionUnit> AllUnits
 		{
 			get
@@ -82,6 +85,38 @@ namespace LegionDefenceTool.Data
 
 		[JsonIgnore]
 		public string AllUnitsDisplayList { get { return AllUnits.PrintList(); } }
+
+		[JsonIgnore]
+		public string Abilities
+		{
+			get
+			{
+				StringBuilder Builder = new StringBuilder();
+				List<LegionUnit> Units = BaseUnits;
+
+				// Sort units by tier
+				Units.Sort((a, b) => a.Bounty - b.Bounty);
+
+				// Add unit abilities to KV
+				for (int i = 0; i < Units.Count; ++i)
+				{
+					string Ability = string.Format(Constants.HERO_ABILITY_KV, i + 1, Units[i].SummonAbility);
+					Builder.AppendLine(Ability);
+                }
+
+				// Add remaining KVs if needed
+				if (Units.Count < Constants.MINIMUM_HERO_ABILITIES)
+				{
+					for (int i = Units.Count; i < Constants.MINIMUM_HERO_ABILITIES; ++i)
+					{
+						string Ability = string.Format(Constants.HERO_ABILITY_KV, i + 1, string.Empty);
+						Builder.AppendLine(Ability);
+					}
+				}
+
+				return Builder.ToString();
+            }
+		}
 
 		#endregion
 

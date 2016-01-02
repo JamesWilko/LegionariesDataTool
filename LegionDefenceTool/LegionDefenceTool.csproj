@@ -68,6 +68,7 @@
     <Compile Include="Data\DataTables\UnitDataTable.cs" />
     <Compile Include="Data\DataValues\LegionHero.cs" />
     <Compile Include="Generators\GeneratorIgnoreAttribute.cs" />
+    <Compile Include="Generators\HeroFileGenerator.cs" />
     <Compile Include="Generators\LocalizationFileGenerator.cs" />
     <Compile Include="Generators\UnitFileGenerator.cs" />
     <Compile Include="Interface\SpreadsheetDataDisplayTab.cs" />
