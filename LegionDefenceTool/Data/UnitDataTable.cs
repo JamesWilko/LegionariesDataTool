@@ -43,6 +43,9 @@ namespace LegionDefenceTool.Data
 		[SpreadsheetColumn("ManaRegen", DataType.Decimal)]
 		List<decimal> ManaRegen;
 
+		[SpreadsheetColumn("DamageType", DataType.String)]
+		List<string> DamageType;
+
 		[SpreadsheetColumn("DamageMin", DataType.Integer)]
 		List<int> DamageMin;
 
@@ -52,11 +55,14 @@ namespace LegionDefenceTool.Data
 		[SpreadsheetColumn("AttackRate", DataType.Decimal)]
 		List<decimal> AttackRate;
 
-		[SpreadsheetColumn("AttackType", DataType.String)]
-		List<string> AttackType;
+		[SpreadsheetColumn("AttackCapability", DataType.String)]
+		List<string> AttackCapability;
 
 		[SpreadsheetColumn("AttackRange", DataType.Integer)]
 		List<int> AttackRange;
+
+		[SpreadsheetColumn("ArmourType", DataType.String)]
+		List<string> ArmourType;
 
 		[SpreadsheetColumn("Armour", DataType.Integer)]
 		List<int> Armour;
@@ -70,8 +76,19 @@ namespace LegionDefenceTool.Data
 		[SpreadsheetColumn("Bounty", DataType.Integer)]
 		List<int> Bounty;
 
-		public List<LegionUnit> GetUnits()
+		[SpreadsheetColumn("UnitModel", DataType.String)]
+		List<string> UnitModel;
+
+		[SpreadsheetColumn("ModelScale", DataType.Decimal)]
+		List<int> ModelScale;
+
+		public List<LegionUnit> GetUnits(LegionDatabase Database)
 		{
+			if(UnitName == null)
+			{
+				this.Process();
+			}
+
 			List<LegionUnit> Units = new List<LegionUnit>();
 
 			if (UnitName != null)
@@ -79,7 +96,7 @@ namespace LegionDefenceTool.Data
 				for (int i = 0; i < UnitName.Count; ++i)
 				{
 					// Create unit
-					LegionUnit Unit = new LegionUnit();
+					LegionUnit Unit = Database.GetUnit(UnitName[i]) ?? new LegionUnit();
 					
 					// Check if unit is an upgrade from a previous one
 					if(!string.IsNullOrWhiteSpace(UpgradesFrom[i]))
@@ -104,15 +121,19 @@ namespace LegionDefenceTool.Data
 					Unit.HealthRegen = HealthRegen[i];
 					Unit.Mana = Mana[i];
 					Unit.ManaRegen = ManaRegen[i];
+					Unit.DamageType = DamageType[i];
 					Unit.DamageMin = DamageMin[i];
 					Unit.DamageMax = DamageMax[i];
 					Unit.AttackRate = AttackRate[i];
-					Unit.AttackType = AttackType[i];
+					Unit.AttackCapability = AttackCapability[i];
 					Unit.AttackRange = AttackRange[i];
+					Unit.ArmourType = ArmourType[i];
 					Unit.Armour = Armour[i];
 					Unit.MagicResist = MagicResist[i];
 					Unit.AbilityKey = AbilityKey[i];
 					Unit.Bounty = Bounty[i];
+					Unit.UnitModel = UnitModel[i];
+					Unit.ModelScale = ModelScale[i];
 
 					// Add unit to list
 					Units.Add(Unit);
