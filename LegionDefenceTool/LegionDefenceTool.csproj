@@ -56,15 +56,17 @@
   <ItemGroup>
     <Compile Include="Data\Constants.cs" />
     <Compile Include="Data\DataNode.cs" />
-    <Compile Include="Data\DataTable.cs" />
+    <Compile Include="Data\DataTables\DataTable.cs" />
     <Compile Include="Data\DotaData.cs" />
+    <Compile Include="Data\DataTables\HeroDataTable.cs" />
     <Compile Include="Data\LegionDatabase.cs" />
-    <Compile Include="Data\LegionUnit.cs" />
-    <Compile Include="Data\LegionUnitWearables.cs" />
-    <Compile Include="Data\LocalizationDataTable.cs" />
-    <Compile Include="Data\LocalizedLanguage.cs" />
-    <Compile Include="Data\SpreadsheetColumnAttribute.cs" />
-    <Compile Include="Data\UnitDataTable.cs" />
+    <Compile Include="Data\DataValues\LegionUnit.cs" />
+    <Compile Include="Data\DataValues\LegionUnitWearables.cs" />
+    <Compile Include="Data\DataTables\LocalizationDataTable.cs" />
+    <Compile Include="Data\DataValues\LocalizedLanguage.cs" />
+    <Compile Include="Data\Attributes\SpreadsheetColumnAttribute.cs" />
+    <Compile Include="Data\DataTables\UnitDataTable.cs" />
+    <Compile Include="Data\DataValues\LegionHero.cs" />
     <Compile Include="Generators\GeneratorIgnoreAttribute.cs" />
     <Compile Include="Generators\LocalizationFileGenerator.cs" />
     <Compile Include="Generators\UnitFileGenerator.cs" />
@@ -83,6 +85,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ListUtils.cs" />
     <Compile Include="Utils\SpreadsheetDownloader.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -21,6 +21,7 @@ namespace LegionDefenceTool
 
 		SpreadsheetDataDisplayTab<LocalizedLanguage, LocalizationDataTable> LocalizationTab;
 		SpreadsheetDataDisplayTab<LegionUnit, UnitDataTable> UnitsTab;
+		SpreadsheetDataDisplayTab<LegionHero, HeroDataTable> HeroesTab;
 
 		public Main()
 		{
@@ -66,6 +67,24 @@ namespace LegionDefenceTool
 			UnitsTab.OnPreRebuildFunc = Database.RebuildUnitCache;
 			UnitsTab.Setup(Database);
 			UnitsTab.Rebuild();
+
+			// Heroes Tab
+			HeroesTab = new SpreadsheetDataDisplayTab<LegionHero, HeroDataTable>();
+			HeroesTab.DataTreeView = spreadsheetDisplayHeroes.treeData;
+			HeroesTab.SourcesTreeView = spreadsheetDisplayHeroes.treeDataSources;
+			HeroesTab.AddSourceButton = spreadsheetDisplayHeroes.buttonAddSpreadsheet;
+			HeroesTab.UpdateButton = spreadsheetDisplayHeroes.buttonUpdateSpreadsheets;
+			HeroesTab.RebuildButton = spreadsheetDisplayHeroes.buttonRebuildTrees;
+			HeroesTab.SpreadsheetIDTextBox = spreadsheetDisplayHeroes.textSpreadsheetId;
+			HeroesTab.TabIDTextBox = spreadsheetDisplayHeroes.textTabId;
+			HeroesTab.DataView = spreadsheetDisplayHeroes.dataGridInfo;
+			HeroesTab.AddSourceFunc = Database.AddNewHeroSheet;
+			HeroesTab.RemoveSourceFunc = Database.RemoveHeroSheet;
+			HeroesTab.GetDataFunc = Database.GetHeroes;
+			HeroesTab.GetSourcesFunc = Database.GetHeroSheets;
+			HeroesTab.OnPreRebuildFunc = Database.RebuildHeroCache;
+			HeroesTab.Setup(Database);
+			HeroesTab.Rebuild();
 		}
 
 		#region Menu Items

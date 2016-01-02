@@ -17,6 +17,9 @@ namespace LegionDefenceTool.Data
 		public List<UnitDataTable> UnitDataTables;
 		public List<LegionUnit> LegionUnits;
 
+		public List<HeroDataTable> HeroDataTables;
+		public List<LegionHero> LegionHeroes;
+
 		const string SAVE_PATH = "LegionDefenseSaveData.txt";
 
 		public static LegionDatabase ActiveDatabase { get; private set; }
@@ -28,6 +31,9 @@ namespace LegionDefenceTool.Data
 
 			UnitDataTables = new List<UnitDataTable>();
 			LegionUnits = new List<LegionUnit>();
+
+			HeroDataTables = new List<HeroDataTable>();
+			LegionHeroes = new List<LegionHero>();
         }
 
 		#region File Operations
@@ -194,6 +200,50 @@ namespace LegionDefenceTool.Data
 				}
 			}
         }
+
+		#endregion
+
+		#region Heroes
+
+		public List<HeroDataTable> GetHeroSheets()
+		{
+			return HeroDataTables;
+		}
+
+		public List<LegionHero> GetHeroes()
+		{
+			return LegionHeroes;
+		}
+
+		public HeroDataTable AddNewHeroSheet(string Spreadsheet, string Tab)
+		{
+			HeroDataTable Sheet = new HeroDataTable(Spreadsheet, Tab);
+			HeroDataTables.Add(Sheet);
+			return Sheet;
+		}
+
+		public void RemoveHeroSheet(DataTable Sheet)
+		{
+			HeroDataTables.RemoveAll(x => x.Equals(Sheet));
+		}
+
+		public void RebuildHeroCache()
+		{
+			List<LegionHero> NewHeroList = new List<LegionHero>();
+
+			// Add all heroes from all sheets to the cache
+			foreach (HeroDataTable Sheet in this.HeroDataTables)
+			{
+				List<LegionHero> Heroes = Sheet.GetHeroes(this);
+				foreach (LegionHero Hero in Heroes)
+				{
+					NewHeroList.Add(Hero);
+				}
+			}
+
+			// Clear list and override
+			LegionHeroes = NewHeroList;
+		}
 
 		#endregion
 
