@@ -18,6 +18,8 @@ namespace LegionDefenceTool.Data
 		const string NPC_ID = "npc_legion_{0}";
 		[GeneratorIgnore]
 		const int LEVEL_PER_UPGRADE = 5;
+		[GeneratorIgnore]
+		const string WEARABLE_ID = "\t\t\t\"Wearable{0}\" {{ \"ItemDef\" \"{1}\" }}";
 
 		#region Unit Data
 
@@ -44,7 +46,9 @@ namespace LegionDefenceTool.Data
 		public int Bounty;
 		public string UnitModel;
 		public decimal ModelScale;
-		public LegionUnitWearables Wearables;
+
+		[GeneratorIgnore]
+		public LegionUnitWearables WearablesOverrides;
 
 		[JsonIgnore, GeneratorIgnore]
 		public LegionUnit ParentUnit { get; set; }
@@ -53,7 +57,7 @@ namespace LegionDefenceTool.Data
 
 		public LegionUnit()
 		{
-			Wearables = new LegionUnitWearables();
+			WearablesOverrides = new LegionUnitWearables();
         }
 
 		public LegionUnit Clone()
@@ -123,19 +127,49 @@ namespace LegionDefenceTool.Data
 		public string ID { get { return string.Format(NPC_ID, UnitName); } }
 
 		[JsonIgnore]
-		public string Model { get { return "IMPLEMENT"; } }
+		public string Model
+		{
+			get
+			{
+				return DotaData.ActiveData.GetHeroData(UnitModel)?["Model"]?.GetString();
+			}
+		}
 
 		[JsonIgnore]
-		public string SoundSet { get { return "IMPLEMENT"; } }
+		public string SoundSet
+		{
+			get
+			{
+				return DotaData.ActiveData.GetHeroData(UnitModel)?["SoundSet"]?.GetString();
+			}
+		}
 
 		[JsonIgnore]
-		public string SoundsFile { get { return "IMPLEMENT"; } }
+		public string SoundsFile
+		{
+			get
+			{
+				return DotaData.ActiveData.GetHeroData(UnitModel)?["GameSoundsFile"]?.GetString();
+			}
+		}
 
 		[JsonIgnore]
-		public string ParticlesFile { get { return "IMPLEMENT"; } }
+		public string ParticlesFolder
+		{
+			get
+			{
+				return DotaData.ActiveData.GetHeroData(UnitModel)?["particle_folder"]?.GetString();
+			}
+		}
 
 		[JsonIgnore]
-		public string VoiceFile { get { return "IMPLEMENT"; } }
+		public string VoiceFile
+		{
+			get
+			{
+				return DotaData.ActiveData.GetHeroData(UnitModel)?["VoiceFile"]?.GetString();
+			}
+		}
 
 		[JsonIgnore]
 		public int Level
@@ -175,6 +209,32 @@ namespace LegionDefenceTool.Data
 			get
 			{
 				return $"";
+			}
+		}
+
+		[JsonIgnore]
+		public float AttackAnimationPoint
+		{
+			get
+			{
+				var value = DotaData.ActiveData.GetHeroData(UnitModel)?["AttackAnimationPoint"]?.GetFloat();
+				return value.HasValue ? value.Value : 0f;
+			}
+		}
+
+		[JsonIgnore]
+		public string Wearables
+		{
+			get
+			{
+				var KVs = DotaData.ActiveData.GetDefaultWearablesForHero(UnitModel);
+				StringBuilder Builder = new StringBuilder();
+				for(int i = 0; i < KVs.Length; ++i)
+				{
+					string Attachment = string.Format(WEARABLE_ID, i, KVs[i]?.Key);
+					Builder.AppendLine(Attachment);
+                }
+                return Builder.ToString();
 			}
 		}
 
