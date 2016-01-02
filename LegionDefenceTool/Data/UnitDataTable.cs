@@ -61,6 +61,12 @@ namespace LegionDefenceTool.Data
 		[SpreadsheetColumn("AttackRange", DataType.Integer)]
 		List<int> AttackRange;
 
+		[SpreadsheetColumn("ProjectileModel", DataType.String)]
+		List<string> ProjectileModel;
+
+		[SpreadsheetColumn("ProjectileSpeed", DataType.Integer)]
+		List<int> ProjectileSpeed;
+
 		[SpreadsheetColumn("ArmourType", DataType.String)]
 		List<string> ArmourType;
 
@@ -127,7 +133,9 @@ namespace LegionDefenceTool.Data
 					Unit.AttackRate = AttackRate[i];
 					Unit.AttackCapability = AttackCapability[i];
 					Unit.AttackRange = AttackRange[i];
-					Unit.ArmourType = ArmourType[i];
+					Unit.ProjectileModel = ProjectileModel[i];
+					Unit.ProjectileSpeed = ProjectileSpeed[i];
+                    Unit.ArmourType = ArmourType[i];
 					Unit.Armour = Armour[i];
 					Unit.MagicResist = MagicResist[i];
 					Unit.AbilityKey = AbilityKey[i];

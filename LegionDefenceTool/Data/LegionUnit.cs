@@ -39,6 +39,8 @@ namespace LegionDefenceTool.Data
 		public decimal AttackRate;
 		public string AttackCapability;
 		public int AttackRange;
+		public string ProjectileModel;
+		public int ProjectileSpeed;
 		public string ArmourType;
 		public int Armour;
 		public int MagicResist;
