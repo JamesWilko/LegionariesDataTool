@@ -11,9 +11,9 @@ namespace LegionDefenceTool.Generators
 {
 	public class UnitFileGenerator
 	{
-		const string TEMPLATE_FILE = "templates/npcs/npc_unit_template.txt";
+		const string TEMPLATE_FILE = "templates/npcs/npc_legion_unit_template.txt";
 		const string OUTPUT_FILE = "output/{0}.txt";
-		const string TEMPLATE_VARIABLE = "Unit.{0}";
+		const string TEMPLATE_VARIABLE = "{{Unit.{0}}}";
 
 		string UnitTemplateFile = "";
 
@@ -59,7 +59,6 @@ namespace LegionDefenceTool.Generators
 				{
 					// Get replacement string
 					string TemplateReplaceName = string.Format(TEMPLATE_VARIABLE, VariableName);
-					TemplateReplaceName = "{" + TemplateReplaceName + "}";
 
 					// Try finding field or property
 					var UnitField = UnitFields.FirstOrDefault(x => x.Name == VariableName);
