@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace LegionDefenceTool.Data
 {
-	public class DataTable
+	public class DataTable : DataNode
 	{
 		public string SpreadsheetId;
 		public string TabId;
@@ -143,5 +144,25 @@ namespace LegionDefenceTool.Data
 		{
 			return this.SpreadsheetId == OtherSheet.SpreadsheetId && this.TabId == OtherSheet.TabId;
         }
+
+		#region DataNode
+
+		public override string GetDisplayID()
+		{
+			return string.Format("{0}:{1}", SpreadsheetId, TabId);
+        }
+
+		public override string GetDisplayName()
+		{
+			return GetSpreadsheetTitle();
+        }
+
+		public override string GetParentID()
+		{
+			// No nesting
+			return null;
+		}
+
+		#endregion
 	}
 }

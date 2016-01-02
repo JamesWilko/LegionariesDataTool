@@ -11,7 +11,7 @@ namespace LegionDefenceTool.Generators
 {
 	public class LocalizationFileGenerator
 	{
-		const string TEMPLATE_FILE = "templates/localization_file_template.txt";
+		const string TEMPLATE_FILE = "templates/addon_language_template.txt";
 		const string OUTPUT_FILE = "output/addon_{0}.txt";
 
 		const string TOKEN_LINE = "\t\t\"{0}\"\t\"{1}\"";

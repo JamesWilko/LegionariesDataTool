@@ -90,10 +90,7 @@ namespace LegionDefenceTool.Data
 
 		public List<LegionUnit> GetUnits(LegionDatabase Database)
 		{
-			if(UnitName == null)
-			{
-				this.Process();
-			}
+			this.Process();
 
 			List<LegionUnit> Units = new List<LegionUnit>();
 

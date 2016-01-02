@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace LegionDefenceTool.Data
 {
-	public class LegionUnit
+	public class LegionUnit : DataNode
 	{
 		[GeneratorIgnore]
 		const string DATA_COL_PARENT_VALUE = "columnUnitParentValue";
@@ -67,61 +67,28 @@ namespace LegionDefenceTool.Data
 			return (LegionUnit) this.MemberwiseClone();
 		}
 
-		public void PopulateDataGrid(DataGridView DataGrid)
+		#region DataNode
+
+		public override string GetDisplayID()
 		{
-			// Remove extra columns
-			if (DataGrid.Columns.Contains(DATA_COL_PARENT_VALUE))
-			{
-				DataGrid.Columns.Remove(DATA_COL_PARENT_VALUE);
-			}
-
-			// Get all fields in our unit
-			var Flags = BindingFlags.Instance | BindingFlags.Public;
-			var Fields = this.GetType().GetFields(Flags).ToList();
-			var Properties = this.GetType().GetProperties(Flags).ToList();
-
-			// Add extra columns if needed
-			if (ParentUnit != null)
-			{
-				DataGrid.Columns.Add(DATA_COL_PARENT_VALUE, "Parent Value");
-
-				var ParentStyle = new DataGridViewCellStyle();
-				ParentStyle.BackColor = System.Drawing.Color.LightBlue;
-                DataGrid.Columns[DATA_COL_PARENT_VALUE].DefaultCellStyle = ParentStyle;
-			}
-
-			// Add all fields to the data grid
-			foreach (var Field in Fields)
-			{
-				if (Field.GetCustomAttribute(typeof(GeneratorIgnore)) == null)
-				{
-					if (ParentUnit != null)
-					{
-						DataGrid.Rows.Add(Field.Name, Field.GetValue(this), Field.GetValue(ParentUnit));
-					}
-					else
-					{
-						DataGrid.Rows.Add(Field.Name, Field.GetValue(this));
-					}
-				}
-            }
-
-			// Add all properties to the data grid
-			foreach (var Property in Properties)
-			{
-				if (Property.GetCustomAttribute(typeof(GeneratorIgnore)) == null)
-				{
-					if (ParentUnit != null)
-					{
-						DataGrid.Rows.Add(Property.Name, Property.GetValue(this), Property.GetValue(ParentUnit));
-					}
-					else
-					{
-						DataGrid.Rows.Add(Property.Name, Property.GetValue(this));
-					}
-				}
-			}
+			return $"{UnitName}";
 		}
+
+		public override string GetDisplayName()
+		{
+			return $"{UnitName}";
+		}
+
+		public override string GetParentID()
+		{
+			if(ParentUnit != null)
+			{
+				return $"{ParentUnit.UnitName}";
+			}
+			return null;
+		}
+
+		#endregion
 
 		#region Properties
 

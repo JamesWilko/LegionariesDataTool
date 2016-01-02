@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KVLib, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\KVLib\KVLib\bin\Debug\KVLib.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -51,12 +55,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Constants.cs" />
+    <Compile Include="Data\DataNode.cs" />
     <Compile Include="Data\DataTable.cs" />
+    <Compile Include="Data\DotaData.cs" />
     <Compile Include="Data\LegionDatabase.cs" />
     <Compile Include="Data\LegionUnit.cs" />
+    <Compile Include="Data\LegionUnitWearables.cs" />
     <Compile Include="Data\LocalizationDataTable.cs" />
+    <Compile Include="Data\LocalizedLanguage.cs" />
     <Compile Include="Data\SpreadsheetColumnAttribute.cs" />
     <Compile Include="Data\UnitDataTable.cs" />
+    <Compile Include="Generators\GeneratorIgnoreAttribute.cs" />
+    <Compile Include="Generators\LocalizationFileGenerator.cs" />
+    <Compile Include="Generators\UnitFileGenerator.cs" />
+    <Compile Include="Interface\SpreadsheetDataDisplayTab.cs" />
+    <Compile Include="Interface\SpreadsheetDataDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\SpreadsheetDataDisplay.Designer.cs">
+      <DependentUpon>SpreadsheetDataDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +87,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Utils\StringUtils.cs" />
+    <EmbeddedResource Include="Interface\SpreadsheetDataDisplay.resx">
+      <DependentUpon>SpreadsheetDataDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -95,6 +116,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -12,6 +12,8 @@ namespace LegionDefenceTool.Data
 	public class LegionDatabase
 	{
 		public List<LocalizationDataTable> LocalizationDataTables;
+		public List<LocalizedLanguage> LocalizedLanguages;
+
 		public List<UnitDataTable> UnitDataTables;
 		public List<LegionUnit> LegionUnits;
 
@@ -22,6 +24,8 @@ namespace LegionDefenceTool.Data
 		public LegionDatabase()
 		{
 			LocalizationDataTables = new List<LocalizationDataTable>();
+			LocalizedLanguages = new List<LocalizedLanguage>();
+
 			UnitDataTables = new List<UnitDataTable>();
 			LegionUnits = new List<LegionUnit>();
         }
@@ -57,6 +61,16 @@ namespace LegionDefenceTool.Data
 
 		#region Localization
 
+		public List<LocalizationDataTable> GetLocalizationSheets()
+		{
+			return LocalizationDataTables;
+		}
+
+		public List<LocalizedLanguage> GetLocalizationLanguages()
+		{
+			return LocalizedLanguages;
+		}
+
 		public LocalizationDataTable AddNewLocalizationSheet(string Spreadsheet, string Tab)
 		{
 			LocalizationDataTable Sheet = new LocalizationDataTable(Spreadsheet, Tab);
@@ -69,9 +83,49 @@ namespace LegionDefenceTool.Data
 			LocalizationDataTables.RemoveAll(x => x.Equals(Sheet));
         }
 
+		public void RebuildLanguageCache()
+		{
+			// Add all units from all sheets to the cache
+			List<LocalizedLanguage> LanguagesList = new List<LocalizedLanguage>();
+			foreach (LocalizationDataTable Sheet in this.LocalizationDataTables)
+			{
+				List<LocalizedLanguage> Languages = Sheet.GetLanguages(this);
+				foreach (LocalizedLanguage Language in Languages)
+				{
+					bool ContainsLanguage = false;
+					foreach(LocalizedLanguage ExistingLanguage in LanguagesList)
+					{
+						if(ExistingLanguage.Equals(Language))
+						{
+							ExistingLanguage.Merge(Language);
+							ContainsLanguage = true;
+							break;
+                        }
+					}
+					if (!ContainsLanguage)
+					{
+						LanguagesList.Add(Language);
+					}
+				}
+			}
+
+			// Clear list and override
+			LocalizedLanguages = LanguagesList;
+		}
+
 		#endregion
 
 		#region Units
+
+		public List<UnitDataTable> GetUnitSheets()
+		{
+			return UnitDataTables;
+        }
+
+		public List<LegionUnit> GetUnits()
+		{
+			return LegionUnits;
+		}
 
 		public UnitDataTable AddNewUnitSheet(string Spreadsheet, string Tab)
 		{

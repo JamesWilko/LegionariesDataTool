@@ -23,5 +23,22 @@ namespace LegionDefenceTool.Data
 			: base(SpreadsheetId, TabId)
 		{
         }
-	}
+
+		public List<LocalizedLanguage> GetLanguages(LegionDatabase Database)
+		{
+			this.Process();
+
+			List<LocalizedLanguage> Languages = new List<LocalizedLanguage>();
+			for(int i = 0; i < LANGUAGES.Length; ++i)
+			{
+				LocalizedLanguage Lang = new LocalizedLanguage();
+				Lang.LanguageId = LANGUAGES[i];
+				Lang.Keys = Keys ?? new List<string>();
+				Lang.Values = English ?? new List<string>();
+				Languages.Add(Lang);
+            }
+
+			return Languages;
+        }
+    }
 }

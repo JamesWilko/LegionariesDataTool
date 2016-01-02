@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using LegionDefenceTool.Data;
 using LegionDefenceTool.Generators;
+using LegionDefenceTool.Interface;
 
 namespace LegionDefenceTool
 {
@@ -18,11 +19,8 @@ namespace LegionDefenceTool
 		LegionDatabase Database;
 		DotaData DotaDatabase;
 
-		Dictionary<LocalizationDataTable, TreeNode> LocalizationNodes;
-		LocalizationDataTable HighlightedLocalizationSpreadsheet;
-
-		Dictionary<UnitDataTable, TreeNode> UnitSourceNodes;
-		Dictionary<LegionUnit, TreeNode> UnitNodes;
+		SpreadsheetDataDisplayTab<LocalizedLanguage, LocalizationDataTable> LocalizationTab;
+		SpreadsheetDataDisplayTab<LegionUnit, UnitDataTable> UnitsTab;
 
 		public Main()
 		{
@@ -33,146 +31,42 @@ namespace LegionDefenceTool
 			DotaDatabase = new DotaData();
 			DotaDatabase.Load();
 
-			LocalizationNodes = new Dictionary<LocalizationDataTable, TreeNode>();
-			UnitSourceNodes = new Dictionary<UnitDataTable, TreeNode>();
-			UnitNodes = new Dictionary<LegionUnit, TreeNode>();
+			// Localization Tab
+			LocalizationTab = new SpreadsheetDataDisplayTab<LocalizedLanguage, LocalizationDataTable>();
+			LocalizationTab.DataTreeView = spreadsheetDisplayLocalization.treeData;
+			LocalizationTab.SourcesTreeView = spreadsheetDisplayLocalization.treeDataSources;
+			LocalizationTab.AddSourceButton = spreadsheetDisplayLocalization.buttonAddSpreadsheet;
+			LocalizationTab.UpdateButton = spreadsheetDisplayLocalization.buttonUpdateSpreadsheets;
+			LocalizationTab.RebuildButton = spreadsheetDisplayLocalization.buttonRebuildTrees;
+			LocalizationTab.SpreadsheetIDTextBox = spreadsheetDisplayLocalization.textSpreadsheetId;
+			LocalizationTab.TabIDTextBox = spreadsheetDisplayLocalization.textTabId;
+			LocalizationTab.DataView = spreadsheetDisplayLocalization.dataGridInfo;
+			LocalizationTab.AddSourceFunc = Database.AddNewLocalizationSheet;
+			LocalizationTab.RemoveSourceFunc = Database.RemoveLocalizationSheet;
+			LocalizationTab.GetDataFunc = Database.GetLocalizationLanguages;
+			LocalizationTab.GetSourcesFunc = Database.GetLocalizationSheets;
+			LocalizationTab.OnPreRebuildFunc = Database.RebuildLanguageCache;
+			LocalizationTab.Setup(Database);
+			LocalizationTab.Rebuild();
 
-			treeLocalizationSheets.MouseDown += TreeLocalizationSheets_MouseDown;
-			treeUnits.MouseDown += TreeUnits_MouseDown;
-
-			Rebuild();
-        }
-
-		#region Rebuild Interface
-
-		public void Rebuild()
-		{
-			RebuildLocalizationUI();
-			RebuildUnitsUI();
-			RebuildSelectedUnitUI();
-        }
-
-		public void RebuildLocalizationUI()
-		{
-			treeLocalizationSheets.Nodes.Clear();
-			LocalizationNodes.Clear();
-
-			// Build Tree
-			foreach (LocalizationDataTable Sheet in Database.LocalizationDataTables)
-			{
-				string NodeName = Sheet.GetSpreadsheetTitle();
-				TreeNode Node = treeLocalizationSheets.Nodes.Add(NodeName);
-				LocalizationNodes.Add(Sheet, Node);
-            }
-
-			// Build Table
-			dataGridLocalization.Rows.Clear();
-            foreach (LocalizationDataTable Sheet in Database.LocalizationDataTables)
-			{
-				if (Sheet.Keys != null)
-				{
-					bool bHighlightSheet = HighlightedLocalizationSpreadsheet != null && HighlightedLocalizationSpreadsheet == Sheet;
-					for (int i = 0; i < Sheet.Keys.Count; ++i)
-					{
-						bool bHighlightError = string.IsNullOrWhiteSpace(Sheet.English[i]);
-						int RowIndex = dataGridLocalization.Rows.Add(Sheet.Keys[i], Sheet.English[i]);
-						DataGridViewCellStyle Style = new DataGridViewCellStyle();
-						if (bHighlightSheet && !bHighlightError)
-						{
-							Style.BackColor = Color.PaleGoldenrod;
-						}
-						else if (bHighlightError && !bHighlightSheet)
-						{
-							Style.BackColor = Color.IndianRed;
-						}
-						else if (bHighlightError && bHighlightSheet)
-						{
-							Style.BackColor = Color.DarkRed;
-						}
-						dataGridLocalization.Rows[RowIndex].DefaultCellStyle = Style;
-					}
-				}
-			}
-        }
-
-		public void RebuildUnitsUI()
-		{
-			// Build sources tree
-			treeUnitDataSources.Nodes.Clear();
-			UnitSourceNodes.Clear();
-			foreach (UnitDataTable Sheet in Database.UnitDataTables)
-			{
-				string NodeName = Sheet.GetSpreadsheetTitle();
-				TreeNode Node = treeUnitDataSources.Nodes.Add(NodeName);
-				UnitSourceNodes.Add(Sheet, Node);
-			}
-
-			// Build units tree
-			treeUnits.Nodes.Clear();
-			UnitNodes.Clear();
-			Database.RebuildUnitCache();
-			foreach (LegionUnit Unit in Database.LegionUnits)
-			{
-				string NodeName = $"{Unit.UnitName}";
-				if (Unit.ParentUnit == null)
-				{
-					// Unit is not an upgrade, show in root
-					TreeNode Node = treeUnits.Nodes.Add(NodeName);
-					UnitNodes.Add(Unit, Node);
-				}
-				else
-				{
-					// Unit is an upgrade, show as a child
-					foreach (var UnitNodePair in UnitNodes)
-					{
-						if (UnitNodePair.Key.UnitName == Unit.ParentUnit?.UnitName)
-						{
-							TreeNode Node = UnitNodePair.Value.Nodes.Add(NodeName);
-							UnitNodes.Add(Unit, Node);
-							break;
-						}
-					}
-				}
-			}
+			// Units Tab
+			UnitsTab = new SpreadsheetDataDisplayTab<LegionUnit, UnitDataTable>();
+			UnitsTab.DataTreeView = spreadsheetDisplayUnits.treeData;
+			UnitsTab.SourcesTreeView = spreadsheetDisplayUnits.treeDataSources;
+			UnitsTab.AddSourceButton = spreadsheetDisplayUnits.buttonAddSpreadsheet;
+			UnitsTab.UpdateButton = spreadsheetDisplayUnits.buttonUpdateSpreadsheets;
+			UnitsTab.RebuildButton = spreadsheetDisplayUnits.buttonRebuildTrees;
+			UnitsTab.SpreadsheetIDTextBox = spreadsheetDisplayUnits.textSpreadsheetId;
+			UnitsTab.TabIDTextBox = spreadsheetDisplayUnits.textTabId;
+			UnitsTab.DataView = spreadsheetDisplayUnits.dataGridInfo;
+			UnitsTab.AddSourceFunc = Database.AddNewUnitSheet;
+			UnitsTab.RemoveSourceFunc = Database.RemoveUnitSheet;
+			UnitsTab.GetDataFunc = Database.GetUnits;
+			UnitsTab.GetSourcesFunc = Database.GetUnitSheets;
+			UnitsTab.OnPreRebuildFunc = Database.RebuildUnitCache;
+			UnitsTab.Setup(Database);
+			UnitsTab.Rebuild();
 		}
-
-		public void RebuildSelectedUnitUI()
-		{
-			dataGridUnitInfo.Rows.Clear();
-
-			if (treeUnits.SelectedNode != null)
-			{
-				foreach (var UnitNodePair in UnitNodes)
-				{
-					if (UnitNodePair.Value == treeUnits.SelectedNode)
-					{
-						UnitNodePair.Key.PopulateDataGrid(dataGridUnitInfo);
-					}
-				}
-			}
-		}
-
-		#endregion
-
-		#region Utils
-
-		LocalizationDataTable GetSpreadsheetForLocalizationNode()
-		{
-			if (treeLocalizationSheets.SelectedNode != null)
-			{
-				TreeNode Node = treeLocalizationSheets.SelectedNode;
-				foreach (var SheetNodePair in LocalizationNodes)
-				{
-					if (SheetNodePair.Value == Node)
-					{
-						return SheetNodePair.Key;
-					}
-				}
-			}
-			return null;
-		}
-
-		#endregion
 
 		#region Menu Items
 
@@ -205,114 +99,6 @@ namespace LegionDefenceTool
 		private void lDToolToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 
-		}
-
-		#endregion
-
-		#region Localization Tab Events
-
-		private void TreeLocalizationSheets_MouseDown(object sender, MouseEventArgs e)
-		{
-			if (e.Button == MouseButtons.Right)
-			{
-				treeLocalizationSheets.SelectedNode = treeLocalizationSheets.GetNodeAt(e.X, e.Y);
-			}
-		}
-
-		private void buttonAddNewSpreadsheet_Click(object sender, EventArgs e)
-		{
-			if (!string.IsNullOrWhiteSpace(textBoxSpreadsheetId.Text))
-			{
-				string SpreadsheetId = textBoxSpreadsheetId.Text;
-				string TabId = string.IsNullOrWhiteSpace(textBoxTabId.Text) ? "0" : textBoxTabId.Text;
-				Database?.AddNewLocalizationSheet(SpreadsheetId, TabId);
-
-				textBoxSpreadsheetId.Text = string.Empty;
-				textBoxTabId.Text = string.Empty;
-				Rebuild();
-            }
-		}
-
-		private void buttonUpdateSpreadsheets_Click(object sender, EventArgs e)
-		{
-			foreach (var Spreadsheet in Database.LocalizationDataTables)
-			{
-				Spreadsheet?.Download();
-			}
-			Rebuild();
-		}
-
-		private void contextLocalizationOpen_Click(object sender, EventArgs e)
-		{
-			GetSpreadsheetForLocalizationNode()?.OpenInBrowser();
-        }
-
-		private void contextLocalizationUpdate_Click(object sender, EventArgs e)
-		{
-			GetSpreadsheetForLocalizationNode()?.Download();
-			Rebuild();
-		}
-
-		private void contextLocalizationHighlight_Click(object sender, EventArgs e)
-		{
-			LocalizationDataTable Sheet = GetSpreadsheetForLocalizationNode();
-			if(Sheet != HighlightedLocalizationSpreadsheet)
-			{
-				HighlightedLocalizationSpreadsheet = Sheet;
-			}
-			else
-			{
-				HighlightedLocalizationSpreadsheet = null;
-            }
-			Rebuild();
-		}
-
-		private void contextLocalizationRemove_Click(object sender, EventArgs e)
-		{
-			Data.DataTable Sheet = GetSpreadsheetForLocalizationNode();
-			if(Sheet != null)
-			{
-				Database?.RemoveLocalizationSheet(Sheet);
-				Rebuild();
-			}
-        }
-
-		#endregion
-
-		#region Unit Tab Events
-
-		private void TreeUnits_MouseDown(object sender, MouseEventArgs e)
-		{
-			treeUnits.SelectedNode = treeUnits.GetNodeAt(e.X, e.Y);
-			RebuildSelectedUnitUI();
-        }
-
-		private void buttonAddUnitSpreadsheet_Click(object sender, EventArgs e)
-		{
-			if (!string.IsNullOrWhiteSpace(textUnitSpreadsheetId.Text))
-			{
-				string SpreadsheetId = textUnitSpreadsheetId.Text;
-				string TabId = string.IsNullOrWhiteSpace(textUnitTabId.Text) ? "0" : textUnitTabId.Text;
-				Database?.AddNewUnitSheet(SpreadsheetId, TabId);
-
-				textUnitSpreadsheetId.Text = string.Empty;
-				textUnitTabId.Text = string.Empty;
-				Rebuild();
-			}
-		}
-
-		private void buttonUpdateUnits_Click(object sender, EventArgs e)
-		{
-			foreach (var Spreadsheet in Database.UnitDataTables)
-			{
-				Spreadsheet?.Download();
-			}
-			Rebuild();
-		}
-
-		private void buttonRebuildUnitTrees_Click(object sender, EventArgs e)
-		{
-			Rebuild();
 		}
 
 		#endregion
