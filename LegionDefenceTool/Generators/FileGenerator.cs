@@ -33,9 +33,13 @@ namespace LegionDefenceTool.Generators
 			return Template;
         }
 
-		protected virtual void SaveDataToFile(string Path, string Data)
+		protected virtual void SaveDataToFile(string SavePath, string Data)
 		{
-			TextWriter Writer = new StreamWriter(Path, false, Encoding.UTF8);
+			// Create directories as required
+			Directory.CreateDirectory(Path.GetDirectoryName(SavePath));
+
+			// Write to file
+			TextWriter Writer = new StreamWriter(SavePath, false, Encoding.UTF8);
 			Writer.Write(Data);
 			Writer.Close();
 		}
