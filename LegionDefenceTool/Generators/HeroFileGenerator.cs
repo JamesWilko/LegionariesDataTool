@@ -9,20 +9,16 @@ using System.Threading.Tasks;
 
 namespace LegionDefenceTool.Generators
 {
-	public class HeroFileGenerator
+	public class HeroFileGenerator : FileGenerator
 	{
 		const string HERO_LIST_TEMPLATE_FILE = "templates/herolist_template.txt";
 		const string HERO_TEMPLATE_FILE = "templates/heroes/npc_hero_template.txt";
 		const string CUSTOM_HEROES_TEMPLATE_FILE = "templates/npc_heroes_custom_template.txt";
-		const string TEMPLATE_VARIABLE = "{{Hero.{0}}}";
 
 		const string HERO_LIST_OUTPUT_FILE = "output/herolist.txt";
         const string CUSTOM_HEROES_OUTPUT_FILE = "output/npc_heroes_custom.txt";
 
-		string HeroListTemplateFile;
-		string HeroTemplateFile;
-
-		public void Generate(LegionDatabase Database)
+		public override void Generate(LegionDatabase Database)
 		{
 			GenerateHeroList(Database);
 			GenerateHeroesFile(Database);
@@ -30,16 +26,8 @@ namespace LegionDefenceTool.Generators
 
 		protected void GenerateHeroList(LegionDatabase Database)
 		{
-			TextReader Reader;
-			TextWriter Writer;
-
-			// Load template for hero list
-			if (File.Exists(HERO_LIST_TEMPLATE_FILE))
-			{
-				Reader = new StreamReader(HERO_LIST_TEMPLATE_FILE, Encoding.UTF8);
-				HeroListTemplateFile = Reader.ReadToEnd();
-				Reader.Close();
-			}
+			// Load hero list template
+			string HeroListTemplateFile = LoadTemplateFile(HERO_LIST_TEMPLATE_FILE);
 
 			// Build hero list
 			string HeroList = HeroListTemplateFile;
@@ -52,105 +40,20 @@ namespace LegionDefenceTool.Generators
 			HeroList = HeroList.Replace("{Heroes}", HeroListBuilder.ToString());
 
 			// Save hero list to file
-			Writer = new StreamWriter(HERO_LIST_OUTPUT_FILE, false, Encoding.UTF8);
-			Writer.Write(HeroList);
-			Writer.Close();
+			SaveDataToFile(HERO_LIST_OUTPUT_FILE, HeroList);
 		}
 
 		protected void GenerateHeroesFile(LegionDatabase Database)
 		{
-			TextReader Reader;
-			TextWriter Writer;
+			// Load hero data template file
+			string HeroTemplateFile = LoadTemplateFile(HERO_TEMPLATE_FILE);
 
-			// Load template file for hero data
-			if (File.Exists(HERO_TEMPLATE_FILE))
-			{
-				Reader = new StreamReader(HERO_TEMPLATE_FILE, Encoding.UTF8);
-				HeroTemplateFile = Reader.ReadToEnd();
-				Reader.Close();
-			}
+			// Generate hero data
+			List<string> GeneratedHeroData = GenerateDataForList<LegionHero>(HeroTemplateFile, Database.LegionHeroes, "Hero");
 
-			// Hero data
-			List<string> GeneratedHeroData = new List<string>();
-
-			// Run through all heroes
-			foreach (LegionHero Hero in Database.LegionHeroes)
-			{
-				// Template file
-				string Template = HeroTemplateFile;
-
-				// Get fields from hero
-				var Flags = BindingFlags.Instance | BindingFlags.Public;
-				var UnitFields = Hero.GetType().GetFields(Flags).ToList();
-				var UnitProperties = Hero.GetType().GetProperties(Flags).ToList();
-
-				// Build list of values to process
-				var FieldNameList = new List<string>();
-				foreach (var Field in UnitFields)
-				{
-					if (Field.GetCustomAttribute(typeof(GeneratorIgnore)) == null)
-					{
-						FieldNameList.Add(Field.Name);
-					}
-				}
-				foreach (var Property in UnitProperties)
-				{
-					if (Property.GetCustomAttribute(typeof(GeneratorIgnore)) == null)
-					{
-						FieldNameList.Add(Property.Name);
-					}
-				}
-
-				// Fill template file
-				foreach (var VariableName in FieldNameList)
-				{
-					// Get replacement string
-					string TemplateReplaceName = string.Format(TEMPLATE_VARIABLE, VariableName);
-
-					// Try finding field or property
-					var UnitField = UnitFields.FirstOrDefault(x => x.Name == VariableName);
-					var UnitProp = UnitProperties.FirstOrDefault(x => x.Name == VariableName);
-
-					// Write property to file
-					if (UnitField != null)
-					{
-						var UnitVar = UnitField.GetValue(Hero);
-						Template = Template.Replace(TemplateReplaceName, UnitVar.ToString());
-					}
-					else if (UnitProp != null)
-					{
-						var UnitVar = UnitProp.GetValue(Hero);
-						Template = Template.Replace(TemplateReplaceName, UnitVar.ToString());
-					}
-					else
-					{
-						Console.WriteLine($"No value could be found property '{VariableName}' on unit {Hero.GetDisplayName()}");
-					}
-				}
-
-				// Save data to be written
-				GeneratedHeroData.Add(Template);
-            }
-
-			// Read template file
-			Reader = new StreamReader(CUSTOM_HEROES_TEMPLATE_FILE, Encoding.UTF8);
-			string TemplateFileData = Reader.ReadToEnd();
-			Reader.Close();
-
-			// Build file data
-			StringBuilder Builder = new StringBuilder();
-			foreach (var GeneratedHero in GeneratedHeroData)
-			{
-				Builder.AppendLine(GeneratedHero);
-			}
-
-			// Replace
-			TemplateFileData = TemplateFileData.Replace("{Heroes}", Builder.ToString());
-
-			// Write file
-			Writer = new StreamWriter(CUSTOM_HEROES_OUTPUT_FILE, false, Encoding.UTF8);
-			Writer.Write(TemplateFileData);
-			Writer.Close();
+			// Build heroes data and output
+			string HeroesBuildFile = GenerateBuildFile(CUSTOM_HEROES_TEMPLATE_FILE, GeneratedHeroData, "{Heroes}");
+			SaveDataToFile(CUSTOM_HEROES_OUTPUT_FILE, HeroesBuildFile);
 		}
 
 	}
