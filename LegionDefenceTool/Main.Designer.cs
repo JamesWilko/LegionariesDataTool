@@ -59,6 +59,8 @@
 			this.spreadsheetDisplayUnits = new LegionDefenceTool.Interface.SpreadsheetDataDisplay();
 			this.spreadsheetDisplayHeroes = new LegionDefenceTool.Interface.SpreadsheetDataDisplay();
 			this.spreadsheetDisplayLocalization = new LegionDefenceTool.Interface.SpreadsheetDataDisplay();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.cleanOutputFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControl1.SuspendLayout();
 			this.tabUnits.SuspendLayout();
 			this.tabHeroes.SuspendLayout();
@@ -191,7 +193,9 @@
             this.exportUnitsFileToolStripMenuItem,
             this.exportHeroesFileToolStripMenuItem,
             this.exportAbilitiesFileToolStripMenuItem,
-            this.exportWavesFileToolStripMenuItem});
+            this.exportWavesFileToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.cleanOutputFolderToolStripMenuItem});
 			this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
 			this.exportToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
 			this.exportToolStripMenuItem.Text = "Export";
@@ -201,6 +205,7 @@
 			this.exportAllToolStripMenuItem.Name = "exportAllToolStripMenuItem";
 			this.exportAllToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
 			this.exportAllToolStripMenuItem.Text = "Export All";
+			this.exportAllToolStripMenuItem.Click += new System.EventHandler(this.exportAllToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
@@ -253,7 +258,7 @@
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.aboutToolStripMenuItem.Text = "About";
 			// 
 			// gitHubToolStripMenuItem
@@ -263,7 +268,7 @@
             this.legionDefenceToolStripMenuItem,
             this.lDToolToolStripMenuItem});
 			this.gitHubToolStripMenuItem.Name = "gitHubToolStripMenuItem";
-			this.gitHubToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+			this.gitHubToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.gitHubToolStripMenuItem.Text = "GitHub";
 			// 
 			// jamesWilkinsonToolStripMenuItem
@@ -313,6 +318,18 @@
 			this.spreadsheetDisplayLocalization.Name = "spreadsheetDisplayLocalization";
 			this.spreadsheetDisplayLocalization.Size = new System.Drawing.Size(1057, 634);
 			this.spreadsheetDisplayLocalization.TabIndex = 0;
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(191, 6);
+			// 
+			// cleanOutputFolderToolStripMenuItem
+			// 
+			this.cleanOutputFolderToolStripMenuItem.Name = "cleanOutputFolderToolStripMenuItem";
+			this.cleanOutputFolderToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.cleanOutputFolderToolStripMenuItem.Text = "Clean Output Folder";
+			this.cleanOutputFolderToolStripMenuItem.Click += new System.EventHandler(this.cleanOutputFolderToolStripMenuItem_Click);
 			// 
 			// Main
 			// 
@@ -368,6 +385,8 @@
 		private Interface.SpreadsheetDataDisplay spreadsheetDisplayUnits;
 		private System.Windows.Forms.TabPage tabLocalization;
 		private Interface.SpreadsheetDataDisplay spreadsheetDisplayLocalization;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripMenuItem cleanOutputFolderToolStripMenuItem;
 	}
 }
 

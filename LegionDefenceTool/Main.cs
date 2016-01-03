@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using LegionDefenceTool.Data;
 using LegionDefenceTool.Generators;
 using LegionDefenceTool.Interface;
+using System.IO;
 
 namespace LegionDefenceTool
 {
@@ -126,24 +127,51 @@ namespace LegionDefenceTool
 		{
 			LocalizationFileGenerator Generator = new LocalizationFileGenerator();
 			Generator.Generate(Database);
-        }
+			Console.WriteLine("Localization Generation Finished");
+		}
 
 		private void exportUnitsFileToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			UnitFileGenerator Generator = new UnitFileGenerator();
 			Generator.Generate(Database);
-        }
+			Console.WriteLine("Unit Generation Finished");
+		}
 
 		private void exportHeroesFileToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			HeroFileGenerator Generator = new HeroFileGenerator();
 			Generator.Generate(Database);
+			Console.WriteLine("Heroes Generation Finished");
 		}
 
 		private void exportAbilitiesFileToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			AbilityFileGenerator Generator = new AbilityFileGenerator();
 			Generator.Generate(Database);
+			Console.WriteLine("Ability Generation Finished");
         }
+
+		private void exportAllToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			// Clean output
+			cleanOutputFolderToolStripMenuItem_Click(sender, e);
+
+			// Generate all
+			exportUnitsFileToolStripMenuItem_Click(sender, e);
+			exportHeroesFileToolStripMenuItem_Click(sender, e);
+			exportAbilitiesFileToolStripMenuItem_Click(sender, e);
+			exportLocalizationFileToolStripMenuItem_Click(sender, e);
+			Console.WriteLine("Complete Generation Finished");
+		}
+
+		private void cleanOutputFolderToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (Directory.Exists("output/"))
+			{
+				Directory.Delete("output/", true);
+			}
+			Directory.CreateDirectory("output/");
+			Console.WriteLine("Output Directory Cleaned");
+		}
 	}
 }
