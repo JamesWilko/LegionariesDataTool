@@ -67,6 +67,8 @@
     <Compile Include="Data\Attributes\SpreadsheetColumnAttribute.cs" />
     <Compile Include="Data\DataTables\UnitDataTable.cs" />
     <Compile Include="Data\DataValues\LegionHero.cs" />
+    <Compile Include="Generators\AbilityFileGenerator.cs" />
+    <Compile Include="Generators\FileGenerator.cs" />
     <Compile Include="Generators\GeneratorIgnoreAttribute.cs" />
     <Compile Include="Generators\HeroFileGenerator.cs" />
     <Compile Include="Generators\LocalizationFileGenerator.cs" />

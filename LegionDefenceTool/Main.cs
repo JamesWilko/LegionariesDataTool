@@ -139,5 +139,11 @@ namespace LegionDefenceTool
 			HeroFileGenerator Generator = new HeroFileGenerator();
 			Generator.Generate(Database);
 		}
+
+		private void exportAbilitiesFileToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AbilityFileGenerator Generator = new AbilityFileGenerator();
+			Generator.Generate(Database);
+        }
 	}
 }

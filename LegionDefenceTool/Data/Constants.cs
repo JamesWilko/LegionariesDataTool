@@ -18,7 +18,11 @@ namespace LegionDefenceTool.Data
 		public const string HERO_ABILITY_KV = "\t\"Ability{0}\"\t\"{1}\"";
 		public const int MINIMUM_HERO_ABILITIES = 6;
 
-		public const string UNIT_SUMMON_ABILITY_NAME = "spawn_tower_{0}";
+		public const string SELL_UNIT_ABILITY = "sell_unit";
+		public const string UPGRADE_UNIT_ABILITY = "upgrade_unit_{0}";
 
+		public const string UNIT_SUMMON_ABILITY_NAME = "spawn_tower_{0}";
+		public const string SPAWN_UNIT_ABILITY_PATH = "abilities/spawning/{0}";
+		public const string UPGRADE_UNIT_ABILITY_PATH = "abilities/upgrading/{0}";
 	}
 }

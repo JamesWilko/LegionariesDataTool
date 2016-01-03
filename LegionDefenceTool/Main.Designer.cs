@@ -48,7 +48,7 @@
 			this.exportLocalizationFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportUnitsFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportHeroesFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.exportSkillsFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exportAbilitiesFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportWavesFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -190,7 +190,7 @@
             this.exportLocalizationFileToolStripMenuItem,
             this.exportUnitsFileToolStripMenuItem,
             this.exportHeroesFileToolStripMenuItem,
-            this.exportSkillsFileToolStripMenuItem,
+            this.exportAbilitiesFileToolStripMenuItem,
             this.exportWavesFileToolStripMenuItem});
 			this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
 			this.exportToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
@@ -228,11 +228,12 @@
 			this.exportHeroesFileToolStripMenuItem.Text = "Export Heroes File";
 			this.exportHeroesFileToolStripMenuItem.Click += new System.EventHandler(this.exportHeroesFileToolStripMenuItem_Click);
 			// 
-			// exportSkillsFileToolStripMenuItem
+			// exportAbilitiesFileToolStripMenuItem
 			// 
-			this.exportSkillsFileToolStripMenuItem.Name = "exportSkillsFileToolStripMenuItem";
-			this.exportSkillsFileToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-			this.exportSkillsFileToolStripMenuItem.Text = "Export Skills File";
+			this.exportAbilitiesFileToolStripMenuItem.Name = "exportAbilitiesFileToolStripMenuItem";
+			this.exportAbilitiesFileToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.exportAbilitiesFileToolStripMenuItem.Text = "Export Abilities File";
+			this.exportAbilitiesFileToolStripMenuItem.Click += new System.EventHandler(this.exportAbilitiesFileToolStripMenuItem_Click);
 			// 
 			// exportWavesFileToolStripMenuItem
 			// 
@@ -354,7 +355,7 @@
 		private System.Windows.Forms.ToolStripMenuItem exportLocalizationFileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exportUnitsFileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exportHeroesFileToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem exportSkillsFileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem exportAbilitiesFileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exportWavesFileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem gitHubToolStripMenuItem;
