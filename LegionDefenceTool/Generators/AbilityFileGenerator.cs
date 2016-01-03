@@ -21,6 +21,12 @@ namespace LegionDefenceTool.Generators
 		const string LUA_SPAWN_ABILITY_OUTPUT = "output/vscripts/abilities/spawning/{0}.lua";
 		const string LUA_UPGRADE_ABILITY_OUTPUT = "output/vscripts/abilities/upgrading/{0}.lua";
 
+		static string[] EXTERNAL_ABILITIES = new string[]
+		{
+			"templates/abilities/sell_unit_template.txt",
+			"templates/abilities/sell_unit_fire_template.txt",
+		};
+
 		public override void Generate(LegionDatabase Database)
 		{
 			GenerateAbilitiesFile(Database);
@@ -71,6 +77,13 @@ namespace LegionDefenceTool.Generators
 			List<string> GeneratedAbilitiesData = new List<string>();
 			GeneratedAbilitiesData = GeneratedAbilitiesData.Concat(SummonAbilities).ToList();
 			GeneratedAbilitiesData = GeneratedAbilitiesData.Concat(UpgradeAbilities).ToList();
+
+			// Add external data
+			foreach (string ExternalPath in EXTERNAL_ABILITIES)
+			{
+				string UnitData = LoadTemplateFile(ExternalPath);
+				GeneratedAbilitiesData.Add(UnitData);
+			}
 
 			// Generate file and save
 			string AbilityBuildFile = GenerateBuildFile(CUSTOM_ABILITIES_FILE, GeneratedAbilitiesData, "{Abilities}");
