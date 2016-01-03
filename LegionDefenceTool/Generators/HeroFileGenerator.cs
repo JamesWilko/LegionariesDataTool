@@ -34,7 +34,7 @@ namespace LegionDefenceTool.Generators
 			StringBuilder HeroListBuilder = new StringBuilder();
 			foreach (LegionHero Hero in Database.LegionHeroes)
 			{
-				string HeroListItem = string.Format(Constants.HERO_LIST_HERO_KV, Hero.ID, Constants.MAX_SINGLE_HERO);
+				string HeroListItem = string.Format(Constants.HERO_LIST_HERO_KV, Hero.DotaHeroOverride, Constants.MAX_SINGLE_HERO);
 				HeroListBuilder.AppendLine(HeroListItem);
 			}
 			HeroList = HeroList.Replace("{Heroes}", HeroListBuilder.ToString());
