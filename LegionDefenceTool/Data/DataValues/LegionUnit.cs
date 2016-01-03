@@ -48,6 +48,8 @@ namespace LegionDefenceTool.Data
 		public int Bounty;
 		public string UnitModel;
 		public decimal ModelScale;
+		public string SpawnIcon;
+		public decimal SpawnEffectAOE;
 
 		[GeneratorIgnore]
 		public LegionUnitWearables WearablesOverrides;
@@ -71,6 +73,16 @@ namespace LegionDefenceTool.Data
 		{
 			return $"{UnitName}";
 		}
+
+		public bool IsBaseUnit()
+		{
+			return string.IsNullOrWhiteSpace(UpgradesFrom);
+        }
+
+		public bool IsUpgradeUnit()
+		{
+			return !IsBaseUnit();
+        }
 
 		#region DataNode
 
@@ -164,16 +176,20 @@ namespace LegionDefenceTool.Data
 		{
 			get
 			{
-				return $"\"Ability1\"\t\"upgrade_unit\"";
+				if (ParentUnit != null)
+				{
+					return string.Format(Constants.UPGRADE_UNIT_ABILITY, UnitName);
+				}
+				return null;
 			}
 		}
 
 		[JsonIgnore]
-		public string SellAbility
+		public string UpgradeAbilityScript
 		{
 			get
 			{
-				return $"\"Ability2\"\t\"sell_unit\"";
+				return string.Format(Constants.UPGRADE_UNIT_ABILITY_PATH, UpgradeAbility);
 			}
 		}
 
@@ -182,8 +198,24 @@ namespace LegionDefenceTool.Data
 		{
 			get
 			{
-				return $"";
-			}
+				int AbilityIndex = 1;
+				StringBuilder Builder = new StringBuilder();
+
+				// Add unit abilities
+				// TODO
+
+				// Add upgrade abilities
+				var ChildUnits = LegionDatabase.ActiveDatabase.LegionUnits.Where(x => x.ParentUnit == this).ToList();
+				foreach(LegionUnit Unit in ChildUnits)
+				{
+					Builder.AppendLine(string.Format(Constants.HERO_ABILITY_KV, AbilityIndex++, Unit.UpgradeAbility));
+				}
+
+				// Add sell ability
+				Builder.AppendLine(string.Format(Constants.HERO_ABILITY_KV, AbilityIndex++, ParentHero?.SellUnitAbility ?? Constants.SELL_UNIT_ABILITY));
+
+				return Builder.ToString();
+            }
 		}
 
 		[JsonIgnore]
@@ -212,12 +244,74 @@ namespace LegionDefenceTool.Data
 			}
 		}
 
+		[JsonIgnore, GeneratorIgnore]
+		public LegionHero ParentHero
+		{
+			get
+			{
+				var Heroes = LegionDatabase.ActiveDatabase.GetHeroes();
+				foreach (var Hero in Heroes)
+				{
+					if (Hero.AllUnits.Contains(this))
+					{
+						return Hero;
+					}
+				}
+				return null;
+			}
+		}
+
 		[JsonIgnore]
 		public string SummonAbility
 		{
 			get
 			{
 				return string.Format(Constants.UNIT_SUMMON_ABILITY_NAME, UnitName);
+			}
+		}
+
+		[JsonIgnore]
+		public string SummonAbilityScript
+		{
+			get
+			{
+				return string.Format(Constants.SPAWN_UNIT_ABILITY_PATH, SummonAbility);
+			}
+		}
+
+		[JsonIgnore]
+		public string SummonAbilityBaseClassPath
+		{
+			get
+			{
+				return ParentHero?.BaseSpawnAbility ?? string.Empty;
+			}
+		}
+
+		[JsonIgnore]
+		public string SummonAbilityBaseClass
+		{
+			get
+			{
+				string Path = SummonAbilityBaseClassPath;
+				string[] PathSegments = Path.Split('/');
+                return PathSegments[PathSegments.Length - 1];
+			}
+		}
+
+		[JsonIgnore]
+		public decimal HeroAbilityCastPoint
+		{
+			get
+			{
+				if (ParentHero != null)
+				{
+					return (decimal)DotaData.ActiveData?.GetHeroData(ParentHero.DotaHeroOverride)?["AttackAnimationPoint"]?.GetFloat();
+				}
+				else
+				{
+					return 0.5m;
+				}
 			}
 		}
 

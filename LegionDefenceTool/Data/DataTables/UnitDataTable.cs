@@ -88,6 +88,12 @@ namespace LegionDefenceTool.Data
 		[SpreadsheetColumn("ModelScale", DataType.Decimal)]
 		List<decimal> ModelScale;
 
+		[SpreadsheetColumn("SpawnIcon", DataType.String)]
+		List<string> SpawnIcon;
+
+		[SpreadsheetColumn("SpawnEffectAOE", DataType.Decimal)]
+		List<decimal> SpawnEffectAOE;
+
 		public List<LegionUnit> GetUnits(LegionDatabase Database)
 		{
 			this.Process();
@@ -139,6 +145,8 @@ namespace LegionDefenceTool.Data
 					Unit.Bounty = Bounty[i];
 					Unit.UnitModel = UnitModel[i];
 					Unit.ModelScale = ModelScale[i];
+					Unit.SpawnIcon = SpawnIcon[i];
+					Unit.SpawnEffectAOE = SpawnEffectAOE[i];
 
 					// Add unit to list
 					Units.Add(Unit);

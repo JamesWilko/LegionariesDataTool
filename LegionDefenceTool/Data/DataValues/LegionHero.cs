@@ -15,6 +15,8 @@ namespace LegionDefenceTool.Data
 		public string HeroName;
 		public string DotaHeroOverride;
 		public string LegionUnitPrefix;
+		public string BaseSpawnAbility;
+		public string SellUnitAbility;
 
 		#endregion
 

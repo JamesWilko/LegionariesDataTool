@@ -22,6 +22,12 @@ namespace LegionDefenceTool.Data
 		[SpreadsheetColumn("LegionUnitPrefix", DataType.String)]
 		public List<string> LegionUnitPrefix;
 
+		[SpreadsheetColumn("BaseSpawnAbility", DataType.String)]
+		public List<string> BaseSpawnAbility;
+
+		[SpreadsheetColumn("SellUnitAbility", DataType.String)]
+		public List<string> SellUnitAbility;
+
 		public List<LegionHero> GetHeroes(LegionDatabase Database)
 		{
 			this.Process();
@@ -39,6 +45,8 @@ namespace LegionDefenceTool.Data
 					Hero.HeroName = HeroName[i];
 					Hero.DotaHeroOverride = DotaHeroOverride[i];
 					Hero.LegionUnitPrefix = LegionUnitPrefix[i];
+					Hero.BaseSpawnAbility = BaseSpawnAbility[i];
+					Hero.SellUnitAbility = SellUnitAbility[i];
 
 					// Add unit to list
 					Builders.Add(Hero);
