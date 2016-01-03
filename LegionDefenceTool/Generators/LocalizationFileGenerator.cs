@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LegionDefenceTool.Generators
 {
-	public class LocalizationFileGenerator
+	public class LocalizationFileGenerator : FileGenerator
 	{
 		const string TEMPLATE_FILE = "templates/addon_language_template.txt";
 		const string OUTPUT_FILE = "output/addon_{0}.txt";
@@ -18,20 +18,14 @@ namespace LegionDefenceTool.Generators
 
 		string LanguageTemplateFile = "";
 
-		public void Generate(LegionDatabase Database)
+		public override void Generate(LegionDatabase Database)
 		{
-			if (File.Exists(TEMPLATE_FILE))
-			{
-				// Load template file
-				TextReader Reader = new StreamReader(TEMPLATE_FILE, Encoding.UTF8);
-				LanguageTemplateFile = Reader.ReadToEnd();
-				Reader.Close();
+			LanguageTemplateFile = LoadTemplateFile(TEMPLATE_FILE);
 
-				// Process languages
-				foreach (var Language in LocalizationDataTable.LANGUAGES)
-				{
-					GenerateLocalizationFile(Language, Database);
-				}
+			// Process languages
+			foreach (var Language in LocalizationDataTable.LANGUAGES)
+			{
+				GenerateLocalizationFile(Language, Database);
 			}
 		}
 
@@ -61,9 +55,7 @@ namespace LegionDefenceTool.Generators
 
 			// Write file
 			string OutputPath = string.Format(OUTPUT_FILE, Language.ToLower());
-            TextWriter Writer = new StreamWriter(OutputPath, false, Encoding.UTF8);
-			Writer.Write(FileContents);
-			Writer.Close();
+			SaveDataToFile(OutputPath, FileContents);
 		}
 
 	}
