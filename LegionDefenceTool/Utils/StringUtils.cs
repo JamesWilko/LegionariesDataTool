@@ -17,7 +17,6 @@ namespace LegionDefenceTool.Utils
 		}
 
 		public const string TSV_REGEX = "((\"[^ \"]*\" |[^, \"\n])*),";
-		public const string CSV_REGEX = "(((?<x>(?=[,\r\n]+))|\"\"(?<x>([^\"\"]|\"\"\"\")+)\"\"|(?<x>[^,\r\n]+)),?)";
 
 		public static IEnumerable<string> IterateLines(string Lines)
 		{
@@ -39,25 +38,54 @@ namespace LegionDefenceTool.Utils
 
 		public static IEnumerable<string[]> ParseData(string Data, ParseMethod ParsingMethod)
 		{
-			string RegexStr = string.Empty;
 			switch (ParsingMethod)
 			{
 				default:
 				case ParseMethod.CSV:
-					RegexStr = CSV_REGEX;
+					foreach (string[] s in ParseCSV(Data))
+					{
+						yield return s;
+					}
 					break;
-				case ParseMethod.TSV:
-					RegexStr = TSV_REGEX;
-					break;
-			}
+                case ParseMethod.TSV:
+					foreach (string line in IterateLines(Data))
+					{
+						yield return (from Match m
+									  in Regex.Matches(line, TSV_REGEX, RegexOptions.ExplicitCapture)
+									  select m.Groups[1].Value
+									  ).Select(s => s.Replace("\"\"", "\"")).ToArray();
 
-			foreach (string line in IterateLines(Data))
+					}
+					break;
+			}			
+		}
+
+		static IEnumerable<string[]> ParseCSV(string Data)
+		{
+			// http://stackoverflow.com/a/17207767
+			foreach (string s in IterateLines(Data))
 			{
-				yield return (from Match m
-							  in Regex.Matches(line, RegexStr, RegexOptions.ExplicitCapture)
-							  select m.Groups[1].Value
-							  ).Select(s => s.Replace("\"\"", "\"")).ToArray();
-
+				int i;
+				int a = 0;
+				int count = 0;
+				List<string> str = new List<string>();
+				for (i = 0; i < s.Length; i++)
+				{
+					switch (s[i])
+					{
+						case ',':
+							if ((count & 1) == 0)
+							{
+								str.Add(s.Substring(a, i - a));
+								a = i + 1;
+							}
+							break;
+						case '"':
+						case '\'': count++; break;
+					}
+				}
+				str.Add(s.Substring(a).Replace("\"", ""));
+				yield return str.ToArray();
 			}
 		}
 	}
