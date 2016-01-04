@@ -1,0 +1,7 @@
+"{Hero.ID}"
+{
+	"override_hero"				"{Hero.DotaHeroOverride}"
+	"AbilityLayout"				"6"
+{Hero.Abilities}
+	"VisionNighttimeRange"		"1800"
+}

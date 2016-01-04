@@ -1,0 +1,36 @@
+"{Unit.SummonAbility}"
+{
+	"BaseClass"						"ability_lua"
+	"AbilityTextureName"			"{Unit.SpawnIcon}"
+	"ScriptFile"					"{Unit.SummonAbilityScript}"
+
+	"AbilityCastRange"				"800"
+	"AbilityCastPoint"				"{Unit.HeroAbilityCastPoint}"
+
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+	"FightRecapLevel"				"1"
+	"MaxLevel"						"1"
+
+	"AbilityCooldown"				"0"
+	"AbilityDuration"				"0"
+	"AbilityManaCost"				"0"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"GoldCost"					"{Unit.GoldCost}"
+		}
+		"02"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"PopulationCost"			"{Unit.FoodCost}"
+		}
+		"03"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"SpawnEffectAOE"			"{Unit.SpawnEffectAOE}"
+		}
+	}
+}

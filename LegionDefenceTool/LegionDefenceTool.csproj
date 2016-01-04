@@ -61,7 +61,6 @@
     <Compile Include="Data\DataTables\HeroDataTable.cs" />
     <Compile Include="Data\LegionDatabase.cs" />
     <Compile Include="Data\DataValues\LegionUnit.cs" />
-    <Compile Include="Data\DataValues\LegionUnitWearables.cs" />
     <Compile Include="Data\DataTables\LocalizationDataTable.cs" />
     <Compile Include="Data\DataValues\LocalizedLanguage.cs" />
     <Compile Include="Data\Attributes\SpreadsheetColumnAttribute.cs" />
@@ -125,6 +124,10 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /d /e /c /r /i /k /y "$(SolutionDir)data" "$(TargetDir)data"
+xcopy /d /e /c /r /i /k /y "$(SolutionDir)templates" "$(TargetDir)templates"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

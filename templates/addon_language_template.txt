@@ -1,0 +1,8 @@
+"lang"
+{
+	"Language"		"{Language}"
+	"Tokens"
+	{
+{Tokens}
+	}
+}

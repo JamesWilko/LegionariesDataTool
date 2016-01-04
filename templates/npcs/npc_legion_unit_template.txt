@@ -1,0 +1,82 @@
+"{Unit.ID}"
+{
+	// General
+	//----------------------------------------------------------------
+	"BaseClass"             "npc_dota_creature"
+	"Model"                 "{Unit.Model}"
+	"ModelScale"            "{Unit.ModelScale}"
+	"SoundSet"              "{Unit.SoundSet}"
+	"GameSoundsFile"        "{Unit.SoundsFile}"
+	"VoiceFile" 			"{Unit.VoiceFile}"
+	"particle_folder"		"{Unit.ParticlesFolder}"
+
+	// Upgrades
+	//----------------------------------------------------------------
+{Unit.Abilities}
+
+	// Status
+	//----------------------------------------------------------------
+	"Level"                 "{Unit.Level}"
+	"StatusHealth"          "{Unit.Health}"
+	"StatusHealthRegen"     "{Unit.HealthRegen}"
+	"StatusMana"            "{Unit.Mana}"
+	"StatusManaRegen"       "{Unit.ManaRegen}"
+	"HasInventory"          "0"
+
+	// Armor
+	//----------------------------------------------------------------
+	"ArmorPhysical"         "{Unit.Armour}"
+	"MagicalResistance"     "{Unit.MagicResist}"
+
+	// Attack
+	//----------------------------------------------------------------
+	"AttackCapabilities"    "{Unit.AttackCapability}"
+	"AttackDamageType"      "{Unit.DamageType}"
+	"AttackDamageMin"       "{Unit.DamageMin}"
+	"AttackDamageMax"       "{Unit.DamageMax}"
+	"AttackRate"            "{Unit.AttackRate}"
+	"AttackAnimationPoint"  "{Unit.AttackAnimationPoint}"
+	"AttackAcquisitionRange" "1200"
+	"AttackRange"           "{Unit.AttackRange}"
+	"CombatClassAttack"     "{Unit.DamageType}"
+	"CombatClassDefend"     "{Unit.ArmourType}"
+	"ProjectileModel"		"{Unit.ProjectileModel}"
+	"ProjectileSpeed"		"{Unit.ProjectileSpeed}"
+
+	// Movement
+	//----------------------------------------------------------------
+	"MovementCapabilities"  "DOTA_UNIT_CAP_MOVE_GROUND"
+	"MovementSpeed"         "{Unit.MoveSpeed}"
+	"MovementTurnRate"      "{Unit.TurnSpeed}"
+
+	// Bounty
+	//----------------------------------------------------------------
+	"BountyGoldMin"         "{Unit.Bounty}"
+	"BountyGoldMax"         "{Unit.Bounty}"
+
+	// Bounds
+	//----------------------------------------------------------------
+	"BoundsHullName"        "DOTA_HULL_SIZE_HERO"
+	"RingRadius"            "70"
+
+	// Vision
+	//----------------------------------------------------------------
+	"VisionDaytimeRange"    "1400"
+	"VisionNighttimeRange"  "800"
+
+	// Team
+	//----------------------------------------------------------------
+	"TeamName"              "DOTA_TEAM_NEUTRALS"
+	"UnitRelationShipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+	// Creature Data
+	//----------------------------------------------------------------
+	"Creature"
+	{
+		"DisableClumpingBehavior"       "1"
+		"AttachWearables"
+		{
+{Unit.Wearables}
+		}
+	}
+}
