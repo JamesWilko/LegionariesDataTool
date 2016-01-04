@@ -94,6 +94,9 @@ namespace LegionDefenceTool.Data
 		[SpreadsheetColumn("SpawnEffectAOE", DataType.Decimal)]
 		List<decimal> SpawnEffectAOE;
 
+		[SpreadsheetColumn("WearablesList", DataType.String)]
+		List<string> WearablesList;
+
 		public List<LegionUnit> GetUnits(LegionDatabase Database)
 		{
 			this.Process();
@@ -147,6 +150,7 @@ namespace LegionDefenceTool.Data
 					Unit.ModelScale = ModelScale[i];
 					Unit.SpawnIcon = SpawnIcon[i];
 					Unit.SpawnEffectAOE = SpawnEffectAOE[i];
+					Unit.WearablesList = WearablesList[i];
 
 					// Add unit to list
 					Units.Add(Unit);

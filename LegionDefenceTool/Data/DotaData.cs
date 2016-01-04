@@ -69,5 +69,15 @@ namespace LegionDefenceTool.Data
 			return null;
 		}
 
+		public KeyValue GetKVForWearableID(string id)
+		{
+			if (GameItemsKV != null)
+			{
+				var ItemsKV = GameItemsKV["items"];
+				return ItemsKV.Children.FirstOrDefault(x => x.Key == id);
+            }
+			return null;
+		}
+
 	}
 }

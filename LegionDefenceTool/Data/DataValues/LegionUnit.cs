@@ -1,4 +1,5 @@
-﻿using LegionDefenceTool.Generators;
+﻿using KVLib;
+using LegionDefenceTool.Generators;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -50,9 +51,7 @@ namespace LegionDefenceTool.Data
 		public decimal ModelScale;
 		public string SpawnIcon;
 		public decimal SpawnEffectAOE;
-
-		[GeneratorIgnore]
-		public LegionUnitWearables WearablesOverrides;
+		public string WearablesList;
 
 		[JsonIgnore, GeneratorIgnore]
 		public LegionUnit ParentUnit { get; set; }
@@ -61,7 +60,6 @@ namespace LegionDefenceTool.Data
 
 		public LegionUnit()
 		{
-			WearablesOverrides = new LegionUnitWearables();
         }
 
 		public LegionUnit Clone()
@@ -233,11 +231,46 @@ namespace LegionDefenceTool.Data
 		{
 			get
 			{
-				var KVs = DotaData.ActiveData.GetDefaultWearablesForHero(UnitModel);
-				StringBuilder Builder = new StringBuilder();
-				for(int i = 0; i < KVs.Length; ++i)
+				// Get wearables override IDs
+				string[] WearablesSplitList = WearablesList.Split('/');
+				List<KeyValue> WearableKVs = new List<KeyValue>();
+				foreach(string WearableId in WearablesSplitList)
 				{
-					string Attachment = string.Format(WEARABLE_ID, i, KVs[i]?.Key);
+					var kv = DotaData.ActiveData.GetKVForWearableID(WearableId);
+					if(kv != null)
+					{
+						WearableKVs.Add(kv);
+                    }
+                }
+
+				// Get default wearables for unit
+				var KVs = DotaData.ActiveData.GetDefaultWearablesForHero(UnitModel);
+
+				// Get unique wearables
+				foreach(var kv in KVs)
+				{
+					bool isOverridden = false;
+					string typeName = kv["item_slot"]?.GetString();
+					foreach(var wearable in WearableKVs)
+					{
+						if(typeName == wearable["item_slot"]?.GetString())
+						{
+							isOverridden = true;
+							break;
+                        }
+					}
+
+					if(!isOverridden)
+					{
+						WearableKVs.Add(kv);
+                    }
+                }
+
+				// Build wearables string
+				StringBuilder Builder = new StringBuilder();
+				for(int i = 0; i < WearableKVs.Count; ++i)
+				{
+					string Attachment = string.Format(WEARABLE_ID, i, WearableKVs[i]?.Key);
 					Builder.AppendLine(Attachment);
                 }
                 return Builder.ToString();
