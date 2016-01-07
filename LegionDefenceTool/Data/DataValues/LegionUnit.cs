@@ -348,6 +348,16 @@ namespace LegionDefenceTool.Data
 			}
 		}
 
+		[JsonIgnore]
+		public LegionAbility Ability
+		{
+			get
+			{
+				LegionAbility Ability = LegionDatabase.ActiveDatabase?.GetAbilities()?.FirstOrDefault(x => x.AbilityID == this.AbilityKey);
+                return Ability;
+			}
+		}
+
 		#endregion
 	}
 }

@@ -45,5 +45,10 @@ namespace LegionDefenceTool.Data
 			}
 		}
 
+		public override string ToString()
+		{
+			return $"[LegionAbility (ID: {AbilityID})]";
+        }
+
 	}
 }
