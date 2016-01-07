@@ -71,10 +71,12 @@ namespace LegionDefenceTool.Utils
 
 		public string GetPageTitle(string Url)
 		{
-			try
+			HttpWebRequest request = null;
+            HttpWebResponse response = null;
+            try
 			{
-				HttpWebRequest request = (HttpWebRequest.Create(Url) as HttpWebRequest);
-				HttpWebResponse response = (request.GetResponse() as HttpWebResponse);
+				request = (HttpWebRequest.Create(Url) as HttpWebRequest);
+				response = (request.GetResponse() as HttpWebResponse);
 
 				using (Stream stream = response.GetResponseStream())
 				{
@@ -98,10 +100,18 @@ namespace LegionDefenceTool.Utils
 						}
 					}
 				}
-			}
+            }
 			catch (Exception e)
 			{
 				Console.WriteLine(e);
+			}
+			finally
+			{
+				if(response != null)
+				{
+					response.Close();
+					response.Dispose();
+                }
 			}
 			return string.Empty;
 		}
