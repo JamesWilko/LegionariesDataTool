@@ -11,7 +11,8 @@ namespace LegionDefenceTool.Data
 	{
 		public string AbilityID;
 		public string AbilityFile;
-		public Dictionary<string, string> AbilityValues;
+		[GeneratorDictionary]
+		public Dictionary<object, object> AbilityValues;
 
 		#region DataNode
 
