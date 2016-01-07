@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Attributes\GeneratorDictionaryAttribute.cs" />
     <Compile Include="Data\Constants.cs" />
     <Compile Include="Data\DataNode.cs" />
     <Compile Include="Data\DataTables\AbilityDataTable.cs" />
@@ -70,7 +71,7 @@
     <Compile Include="Data\DataValues\LegionHero.cs" />
     <Compile Include="Generators\AbilityFileGenerator.cs" />
     <Compile Include="Generators\FileGenerator.cs" />
-    <Compile Include="Generators\GeneratorIgnoreAttribute.cs" />
+    <Compile Include="Data\Attributes\GeneratorIgnoreAttribute.cs" />
     <Compile Include="Generators\HeroFileGenerator.cs" />
     <Compile Include="Generators\LocalizationFileGenerator.cs" />
     <Compile Include="Generators\UnitFileGenerator.cs" />

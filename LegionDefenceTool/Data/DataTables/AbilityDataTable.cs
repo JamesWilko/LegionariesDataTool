@@ -20,13 +20,13 @@ namespace LegionDefenceTool.Data
 		[SpreadsheetColumn("AbilityFile", DataType.String)]
 		public List<string> AbilityFile;
 
-		public List<Dictionary<string, string>> AbilityValues;
+		public List<Dictionary<object, object>> AbilityValues;
 
 		public override void Process()
 		{
 			// Process attributes
 			base.Process();
-			AbilityValues = new List<Dictionary<string, string>>();
+			AbilityValues = new List<Dictionary<object, object>>();
 
 			// Get headings that are processed automatically
 			List<string> Headings = GetSpreadsheetColumnFieldHeadings();
@@ -51,7 +51,7 @@ namespace LegionDefenceTool.Data
 			// Run through all abilities and build our value dictionary
 			for (int i = 0; i < NumberOfAbilities; ++i)
 			{
-				Dictionary<string, string> ValuesDict = new Dictionary<string, string>();
+				Dictionary<object, object> ValuesDict = new Dictionary<object, object>();
 				foreach(var Heading in ValueHeadings)
 				{
 					// Check we actually have a value

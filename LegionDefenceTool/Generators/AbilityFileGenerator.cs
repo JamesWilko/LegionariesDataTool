@@ -21,6 +21,8 @@ namespace LegionDefenceTool.Generators
 		const string LUA_SPAWN_ABILITY_OUTPUT = "output/vscripts/abilities/spawning/{0}.lua";
 		const string LUA_UPGRADE_ABILITY_OUTPUT = "output/vscripts/abilities/upgrading/{0}.lua";
 
+		const string UNIT_ABILITIES_TEMPLATE = "templates/unit_abilities/{0}.txt";
+
 		static string[] EXTERNAL_ABILITIES = new string[]
 		{
 			"templates/abilities/sell_unit_template.txt",
@@ -30,11 +32,8 @@ namespace LegionDefenceTool.Generators
 		public override void Generate(LegionDatabase Database)
 		{
 			GenerateAbilitiesFile(Database);
-
 			GenerateSummonAbilitiesLua(Database);
 			GenerateUpgradeAbilitiesLua(Database);
-
-			// GenerateUnitAbilities(Database);
 		}
 
 		protected List<LegionUnit> GetSummonableUnits(LegionDatabase Database)
@@ -73,10 +72,26 @@ namespace LegionDefenceTool.Generators
 			List<string> SummonAbilities = GenerateDataForList<LegionUnit>(SummonAbilityTemplate, GetSummonableUnits(Database), "Unit");
 			List<string> UpgradeAbilities = GenerateDataForList< LegionUnit>(UpgradeAbilityTemplate, GetUpgradeUnits(Database), "Unit");
 
+			// Generate data for unit abilities
+			List<string> UnitAbilities = new List<string>();
+			foreach (LegionUnit Unit in Database.GetUnits())
+			{
+				LegionAbility Ability = Unit.Ability;
+                if (Ability != null)
+				{
+					string AbilityFilePath = string.Format(UNIT_ABILITIES_TEMPLATE, Ability.AbilityFile);
+					string AbilityTemplate = LoadTemplateFile(AbilityFilePath);
+					AbilityTemplate = ProcessTemplate<LegionUnit>(AbilityTemplate, Unit, "Unit");
+					AbilityTemplate = ProcessTemplate<LegionAbility>(AbilityTemplate, Ability, "Ability");
+					UnitAbilities.Add(AbilityTemplate);
+                }
+			}
+
 			// Merge all data
 			List<string> GeneratedAbilitiesData = new List<string>();
 			GeneratedAbilitiesData = GeneratedAbilitiesData.Concat(SummonAbilities).ToList();
 			GeneratedAbilitiesData = GeneratedAbilitiesData.Concat(UpgradeAbilities).ToList();
+			GeneratedAbilitiesData = GeneratedAbilitiesData.Concat(UnitAbilities).ToList();
 
 			// Add external data
 			foreach (string ExternalPath in EXTERNAL_ABILITIES)

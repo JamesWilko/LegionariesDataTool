@@ -57,47 +57,48 @@ namespace LegionDefenceTool.Generators
 			var UnitProperties = typeof(T).GetProperties(Flags).ToList();
 
 			// Build list of values to process
-			var FieldNameList = new List<string>();
+			Dictionary<string, object> ValuesDict = new Dictionary<string, object>();
 			foreach (var Field in UnitFields)
 			{
 				if (Field.GetCustomAttribute(typeof(GeneratorIgnore)) == null)
 				{
-					FieldNameList.Add(Field.Name);
-				}
+					if (Field.GetCustomAttribute(typeof(GeneratorDictionary)) != null)
+					{
+						// Field should be a dictionary, add all KVPs
+                        Dictionary<object, object> Dict = Field.GetValue(Object) as Dictionary<object, object>;
+						foreach(var KVP in Dict)
+						{
+                            ValuesDict.Add(KVP.Key.ToString(), KVP.Value);
+						}
+                    }
+					else
+					{
+						// Normal field, add value
+						ValuesDict.Add(Field.Name, Field.GetValue(Object));
+					}
+                }
 			}
 			foreach (var Property in UnitProperties)
 			{
 				if (Property.GetCustomAttribute(typeof(GeneratorIgnore)) == null)
 				{
-					FieldNameList.Add(Property.Name);
+					ValuesDict.Add(Property.Name, Property.GetValue(Object));
 				}
 			}
 
 			// Fill template file
 			string DataTemplate = TemplateFile;
-			foreach (var VariableName in FieldNameList)
+			foreach (var ValueKVP in ValuesDict)
 			{
-				// Get replacement string
-				string TemplateReplaceName = string.Format(TEMPLATE_VARIABLE, ObjectName, VariableName);
-
-				// Try finding field or property
-				var UnitField = UnitFields.FirstOrDefault(x => x.Name == VariableName);
-				var UnitProp = UnitProperties.FirstOrDefault(x => x.Name == VariableName);
-
 				// Write property to file
-				if (UnitField != null)
+				if (ValueKVP.Value != null)
 				{
-					var UnitVar = UnitField.GetValue(Object);
-					DataTemplate = DataTemplate.Replace(TemplateReplaceName, UnitVar?.ToString() ?? string.Empty);
-				}
-				else if (UnitProp != null)
-				{
-					var UnitVar = UnitProp.GetValue(Object);
-					DataTemplate = DataTemplate.Replace(TemplateReplaceName, UnitVar?.ToString() ?? string.Empty);
+					string TemplateReplaceName = string.Format(TEMPLATE_VARIABLE, ObjectName, ValueKVP.Key);
+					DataTemplate = DataTemplate.Replace(TemplateReplaceName, ValueKVP.Value?.ToString() ?? string.Empty);
 				}
 				else
 				{
-					Console.WriteLine($"No value could be found property '{VariableName}' on {Object}");
+					Console.WriteLine($"No value could be found for property '{ValueKVP.Key}' on {Object}");
 				}
 			}
 
