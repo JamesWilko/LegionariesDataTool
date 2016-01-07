@@ -145,6 +145,26 @@ namespace LegionDefenceTool.Data
 			return this.SpreadsheetId == OtherSheet.SpreadsheetId && this.TabId == OtherSheet.TabId;
         }
 
+		public List<string> GetSpreadsheetColumnFieldHeadings()
+		{
+			List<string> Headings = new List<string>();
+			var Flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+			var Fields = this.GetType().GetFields(Flags).ToList();
+			foreach (var Field in Fields)
+			{
+				var Attributes = Field.GetCustomAttributes();
+				foreach (var Attr in Attributes)
+				{
+					if (Attr is SpreadsheetColumn)
+					{
+						SpreadsheetColumn ColumnAttr = Attr as SpreadsheetColumn;
+						Headings.Add(ColumnAttr.Heading);
+                    }
+				}
+			}
+			return Headings;
+        }
+
 		#region DataNode
 
 		public override string GetDisplayID()
