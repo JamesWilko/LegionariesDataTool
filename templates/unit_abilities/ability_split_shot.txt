@@ -37,6 +37,11 @@
 			"var_type"				"FIELD_FLOAT"
 			"damage_percentage"		"{Ability.DamagePercent}"
 		}
+		"05"
+		{
+			"var_type"				"FIELD_FLOAT"
+			"DamagePercentFriendly"	"{Ability.DamagePercentFriendly}"
+		}
 	}
 
 	"OnProjectileHitUnit"

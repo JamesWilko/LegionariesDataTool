@@ -254,7 +254,7 @@ namespace LegionDefenceTool.Data
 
 		#endregion
 
-		#region Heroes
+		#region Abilities
 
 		public List<AbilityDataTable> GetAbilitySheets()
 		{

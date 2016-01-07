@@ -19,6 +19,8 @@ namespace LegionDefenceTool.Generators
 
 		const string ABILITY_TOOLTIP = "DOTA_Tooltip_Ability_{0}";
 		const string ABILITY_DESC_TOOLTIP = "DOTA_Tooltip_Ability_{0}_Description";
+		const string ABILITY_DESC_TOOLTIP_NOTE0 = "DOTA_Tooltip_Ability_{0}_Note0";
+		const string ABILITY_DESC_TOOLTIP_NOTE1 = "DOTA_Tooltip_Ability_{0}_Note1";
 		const string ABILITY_DESC = "{0}_Description";
 
 		const string SUMMON_UNIT_LOCALIZATION = "legion_summon_unit";
@@ -105,7 +107,20 @@ namespace LegionDefenceTool.Generators
 
 				string FoodTooltip = string.Format(FOOD_COST_TOOLTIP[0], TooltipId);
 				TokenBuilder.AppendLine(string.Format(TOKEN_LINE, FoodTooltip, LocalizedList.Get(FOOD_COST_TOOLTIP[1])));
-			}
+
+				// Unit Ability
+				LegionAbility Ability = Unit.Ability;
+				if (Ability != null)
+				{
+					List<string> Keys = LocalizedList.Keys.Where(x => x.Contains(Ability.AbilityID)).ToList();
+					foreach(string Key in Keys)
+					{
+						string AbilityKey = Key.Replace(Ability.AbilityID, Ability.ID);
+						string UnitAbilityKey = string.Format(ABILITY_TOOLTIP, AbilityKey);
+						TokenBuilder.AppendLine(string.Format(TOKEN_LINE, UnitAbilityKey, LocalizedList.Get(Key)));
+					}
+                }
+            }
 
 			// Generate file contents
 			string FileContents = LanguageTemplateFile;
