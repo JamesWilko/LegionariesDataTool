@@ -24,5 +24,7 @@ namespace LegionDefenceTool.Data
 		public const string UNIT_SUMMON_ABILITY_NAME = "spawn_tower_{0}";
 		public const string SPAWN_UNIT_ABILITY_PATH = "abilities/spawning/{0}";
 		public const string UPGRADE_UNIT_ABILITY_PATH = "abilities/upgrading/{0}";
+
+		public const string ABILITY_ID = "ability_{0}";
 	}
 }

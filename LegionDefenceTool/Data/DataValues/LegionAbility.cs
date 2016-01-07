@@ -51,5 +51,17 @@ namespace LegionDefenceTool.Data
 			return $"[LegionAbility (ID: {AbilityID})]";
         }
 
+		#region Properties
+
+		public string ID
+		{
+			get
+			{
+				return string.Format(Constants.ABILITY_ID, AbilityID);
+			}
+		}
+
+		#endregion
+
 	}
 }

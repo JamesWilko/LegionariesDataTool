@@ -199,8 +199,11 @@ namespace LegionDefenceTool.Data
 				int AbilityIndex = 1;
 				StringBuilder Builder = new StringBuilder();
 
-				// Add unit abilities
-				// TODO
+				// Add unit ability
+				if(Ability != null)
+				{
+					Builder.AppendLine(string.Format(Constants.HERO_ABILITY_KV, AbilityIndex++, Ability.ID));
+				}
 
 				// Add upgrade abilities
 				var ChildUnits = LegionDatabase.ActiveDatabase.LegionUnits.Where(x => x.ParentUnit == this).ToList();
