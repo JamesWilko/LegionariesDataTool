@@ -56,7 +56,9 @@
   <ItemGroup>
     <Compile Include="Data\Constants.cs" />
     <Compile Include="Data\DataNode.cs" />
+    <Compile Include="Data\DataTables\AbilityDataTable.cs" />
     <Compile Include="Data\DataTables\DataTable.cs" />
+    <Compile Include="Data\DataValues\LegionAbility.cs" />
     <Compile Include="Data\DotaData.cs" />
     <Compile Include="Data\DataTables\HeroDataTable.cs" />
     <Compile Include="Data\LegionDatabase.cs" />

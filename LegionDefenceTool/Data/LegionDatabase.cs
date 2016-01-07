@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
 using KVLib;
+using LegionDefenceTool.Utils;
 
 namespace LegionDefenceTool.Data
 {
@@ -19,6 +20,9 @@ namespace LegionDefenceTool.Data
 
 		public List<HeroDataTable> HeroDataTables;
 		public List<LegionHero> LegionHeroes;
+
+		public List<AbilityDataTable> AbilityDataTables;
+		public List<LegionAbility> LegionAbilities;
 
 		const string SAVE_PATH = "LegionDefenseSaveData.txt";
 
@@ -34,6 +38,9 @@ namespace LegionDefenceTool.Data
 
 			HeroDataTables = new List<HeroDataTable>();
 			LegionHeroes = new List<LegionHero>();
+
+			AbilityDataTables = new List<AbilityDataTable>();
+			LegionAbilities = new List<LegionAbility>();
         }
 
 		#region File Operations
@@ -175,7 +182,7 @@ namespace LegionDefenceTool.Data
 			foreach (UnitDataTable Sheet in this.UnitDataTables)
 			{
 				List<LegionUnit> Units = Sheet.GetUnits(this);
-				foreach (LegionUnit Unit in Units)
+				foreach (var Unit in Units)
 				{
 					NewUnitList.Add(Unit);
 				}
@@ -235,7 +242,7 @@ namespace LegionDefenceTool.Data
 			foreach (HeroDataTable Sheet in this.HeroDataTables)
 			{
 				List<LegionHero> Heroes = Sheet.GetHeroes(this);
-				foreach (LegionHero Hero in Heroes)
+				foreach (var Hero in Heroes)
 				{
 					NewHeroList.Add(Hero);
 				}
@@ -243,6 +250,50 @@ namespace LegionDefenceTool.Data
 
 			// Clear list and override
 			LegionHeroes = NewHeroList;
+		}
+
+		#endregion
+
+		#region Heroes
+
+		public List<AbilityDataTable> GetAbilitySheets()
+		{
+			return AbilityDataTables;
+		}
+
+		public List<LegionAbility> GetAbilities()
+		{
+			return LegionAbilities;
+		}
+
+		public AbilityDataTable AddNewAbilitySheet(string Spreadsheet, string Tab)
+		{
+			AbilityDataTable Sheet = new AbilityDataTable(Spreadsheet, Tab);
+			AbilityDataTables.Add(Sheet);
+			return Sheet;
+		}
+
+		public void RemoveAbilitySheet(DataTable Sheet)
+		{
+			AbilityDataTables.RemoveAll(x => x.Equals(Sheet));
+		}
+
+		public void RebuildAbilityCache()
+		{
+			List<LegionAbility> AbilitiesList = new List<LegionAbility>();
+
+			// Add all heroes from all sheets to the cache
+			foreach (AbilityDataTable Sheet in this.AbilityDataTables)
+			{
+				List<LegionAbility> Abilities = Sheet.GetAbilities(this);
+				foreach(var Ability in Abilities)
+				{
+					AbilitiesList.Add(Ability);
+                }
+            }
+
+			// Clear list and override
+			LegionAbilities = AbilitiesList;
 		}
 
 		#endregion

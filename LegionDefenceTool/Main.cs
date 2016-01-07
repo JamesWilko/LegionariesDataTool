@@ -23,6 +23,7 @@ namespace LegionDefenceTool
 		SpreadsheetDataDisplayTab<LocalizedLanguage, LocalizationDataTable> LocalizationTab;
 		SpreadsheetDataDisplayTab<LegionUnit, UnitDataTable> UnitsTab;
 		SpreadsheetDataDisplayTab<LegionHero, HeroDataTable> HeroesTab;
+		SpreadsheetDataDisplayTab<LegionAbility, AbilityDataTable> AbilitiesTab;
 
 		public Main()
 		{
@@ -86,6 +87,24 @@ namespace LegionDefenceTool
 			HeroesTab.OnPreRebuildFunc = Database.RebuildHeroCache;
 			HeroesTab.Setup(Database);
 			HeroesTab.Rebuild();
+
+			// Abilities Tab
+			AbilitiesTab = new SpreadsheetDataDisplayTab<LegionAbility, AbilityDataTable>();
+			AbilitiesTab.DataTreeView = spreadsheetDisplayAbilities.treeData;
+			AbilitiesTab.SourcesTreeView = spreadsheetDisplayAbilities.treeDataSources;
+			AbilitiesTab.AddSourceButton = spreadsheetDisplayAbilities.buttonAddSpreadsheet;
+			AbilitiesTab.UpdateButton = spreadsheetDisplayAbilities.buttonUpdateSpreadsheets;
+			AbilitiesTab.RebuildButton = spreadsheetDisplayAbilities.buttonRebuildTrees;
+			AbilitiesTab.SpreadsheetIDTextBox = spreadsheetDisplayAbilities.textSpreadsheetId;
+			AbilitiesTab.TabIDTextBox = spreadsheetDisplayAbilities.textTabId;
+			AbilitiesTab.DataView = spreadsheetDisplayAbilities.dataGridInfo;
+			AbilitiesTab.AddSourceFunc = Database.AddNewAbilitySheet;
+			AbilitiesTab.RemoveSourceFunc = Database.RemoveAbilitySheet;
+			AbilitiesTab.GetDataFunc = Database.GetAbilities;
+			AbilitiesTab.GetSourcesFunc = Database.GetAbilitySheets;
+			AbilitiesTab.OnPreRebuildFunc = Database.RebuildAbilityCache;
+			AbilitiesTab.Setup(Database);
+			AbilitiesTab.Rebuild();
 		}
 
 		#region Menu Items
