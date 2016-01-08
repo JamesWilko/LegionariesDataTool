@@ -84,26 +84,31 @@ namespace LegionDefenceTool.Interface
 			DataNodes.Clear();
 
 			// Build data tree
-			foreach (T1 Unit in GetDataFunc())
+			foreach (T1 DataNode in GetDataFunc())
 			{
-				if (Unit.GetParentID() == null)
+				bool AddToRoot = true;
+				TreeNode Node;
+
+				if (DataNode.GetParentID() != null)
 				{
-					// Unit is not an upgrade, show in root
-					TreeNode Node = DataTreeView.Nodes.Add(Unit.GetDisplayName());
-					DataNodes.Add(Unit, Node);
-				}
-				else
-				{
-					// Unit is an upgrade, show as a child
+					// Node has a parent, show as a child
 					foreach (var UnitNodePair in DataNodes)
 					{
-						if (UnitNodePair.Key.GetDisplayID() == Unit.GetParentID())
+						if (UnitNodePair.Key.GetDisplayID() == DataNode.GetParentID())
 						{
-							TreeNode Node = UnitNodePair.Value.Nodes.Add(Unit.GetDisplayName());
-							DataNodes.Add(Unit, Node);
-							break;
+							Node = UnitNodePair.Value.Nodes.Add(DataNode.GetDisplayName());
+							DataNodes.Add(DataNode, Node);
+							AddToRoot = false;
+                            break;
 						}
 					}
+				}
+
+				if (AddToRoot)
+				{
+					// Node has no parent, show in root
+					Node = DataTreeView.Nodes.Add(DataNode.GetDisplayName());
+					DataNodes.Add(DataNode, Node);
 				}
 			}
 		}
