@@ -35,7 +35,7 @@ namespace LegionDefenceTool.Data
 		List<int> LevelRequired;
 
 		[SpreadsheetColumn("Cooldown", DataType.Decimal)]
-		List<int> Cooldown;
+		List<Decimal> Cooldown;
 
 		[SpreadsheetColumn("MoveSpeed", DataType.Integer)]
 		List<int> MoveSpeed;
