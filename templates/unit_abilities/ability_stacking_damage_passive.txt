@@ -1,0 +1,72 @@
+"{Ability.ID}"
+{
+	"BaseClass"					"ability_datadriven"
+	"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
+	"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
+	"AbilityTextureName"		"{Ability.AbilityTexture}"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"damage_per_stack"		"{Ability.DamagePerStack}"
+		}
+		"02"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"max_stacks"			"{Ability.MaxStacks}"
+		}
+		"03"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"duration"				"{Ability.StackDuration}"
+		}
+	}
+
+	"precache"
+	{
+		"particle"		"particles/units/heroes/hero_ursa/ursa_fury_swipes.vpcf"
+		"particle"		"particles/units/heroes/hero_ursa/ursa_fury_swipes_debuff.vpcf"
+	}
+	
+	"Modifiers"
+	{
+		"modifier_{Ability.ID}"
+		{
+			"Passive"						"1"
+			"IsHidden"						"0"
+			"IsPurgable"					"0"
+		
+			"OnAttackLanded"
+			{
+				"RunScript"
+				{
+					"ScriptFile"			"unit_abilities/StackingDamage.lua"
+					"Function"				"ApplyStackingDamage"
+				}
+			}
+		}
+		
+		"modifier_stacking_damage_target"
+		{
+			"IsHidden"					"0"
+			"IsPurgable"				"0"
+			"IsDebuff"					"1"
+			
+			"EffectName"				"particles/units/heroes/hero_ursa/ursa_fury_swipes_debuff.vpcf"
+			"EffectAttachType"			"follow_overhead"
+			
+			"OnCreated"
+			{
+				"AttachEffect"
+				{
+					"Target"				"TARGET"
+					"EffectName"			"particles/units/heroes/hero_ursa/ursa_fury_swipes.vpcf"
+					"EffectAttachType"		"follow_overhead"
+				}
+			}
+		}
+	}
+}

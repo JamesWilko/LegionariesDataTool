@@ -1,0 +1,99 @@
+"{Ability.ID}"
+{
+	"BaseClass"						"ability_datadriven"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_BUILDING"
+	"AbilityTextureName"			"{Ability.AbilityTexture}"
+
+	"precache"
+	{
+		"soundfile"			"soundevents/game_sounds_heroes/game_sounds_luna.vsndevts"
+		"particle"			"{Unit.ProjectileModel}"
+	}
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"								"FIELD_INTEGER"
+			"range"									"{Unit.AttackRange}"
+		}
+		"02"
+		{
+			"var_type"								"FIELD_INTEGER"
+			"bounces"								"{Ability.Bounces}"
+		}
+		"03"
+		{
+			"var_type"								"FIELD_INTEGER"
+			"damage_reduction_percent"				"{Ability.DamageReduction}"
+		}
+		"04"
+		{
+			"var_type"								"FIELD_INTEGER"
+			"damage_reduction_percent_friendly"		"{Ability.DamageReductionFriendly}"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_moon_glaive"
+		{
+			"Passive" 					"1"
+			"IsHidden"					"1"
+
+			"OnAttackLanded"
+			{
+				"RunScript"
+				{
+					"ScriptFile"		"unit_abilities/BouncingAttack.lua"
+					"Function"			"BounceAttackStart"
+				}
+			}
+		}
+	}
+}
+
+"{Ability.ID}_bounce"
+{
+	"BaseClass"						"ability_datadriven"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+
+	"OnProjectileHitUnit"
+	{
+		"DeleteOnHit"	"1"
+
+		"FireSound"
+		{
+			"EffectName"	"Hero_Luna.MoonGlaive.Impact"
+			"Target" 		"TARGET"
+		}
+		
+		"RunScript"
+		{
+			"ScriptFile"	"unit_abilities/BouncingAttack.lua"
+			"Function"		"BounceAttackPerformBounce"
+		}
+
+	}
+
+	"Modifiers"
+	{
+		"modifier_bouncing_attack_dummy_unit"
+		{
+			"States"
+			{
+				"MODIFIER_STATE_INVULNERABLE"					"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_NO_HEALTH_BAR"					"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_NO_UNIT_COLLISION"				"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_NOT_ON_MINIMAP"					"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_UNSELECTABLE"					"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_FLYING"							"MODIFIER_STATE_VALUE_ENABLED"
+			}
+		}
+	}
+}

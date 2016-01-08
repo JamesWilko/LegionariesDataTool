@@ -1,0 +1,93 @@
+"{Ability.ID}"
+{
+	"BaseClass"						"ability_datadriven"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+	"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_MAGIC_IMMUNE_ALLIES"
+	"SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_NO"
+	"FightRecapLevel"				"1"
+	"AbilityTextureName"			"{Ability.AbilityTexture}"
+
+	"AbilityCastRange"				"{Ability.Range}"
+	"AbilityCastPoint"				"{Unit.AttackAnimationPoint}"
+	"AbilityCooldown"				"{Ability.Cooldown}"
+	"AbilityManaCost"				"{Ability.ManaCost}"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"heal"					"{Ability.Heal}"
+		}
+		"02"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"radius"				"{Ability.HealRadius}"
+		}
+	}
+
+	"precache"
+	{
+		"soundfile"	"soundevents/game_sounds_heroes/game_sounds_omniknight.vsndevts"
+		"particle"	"particles/units/heroes/hero_omniknight/omniknight_purification.vpcf"
+		"particle"	"particles/units/heroes/hero_omniknight/omniknight_purification_hit.vpcf"
+		"particle"	"particles/units/heroes/hero_omniknight/omniknight_purification_cast.vpcf"
+
+	}
+
+	"OnSpellStart"
+	{
+		"FireSound"
+		{
+			"EffectName"	"Hero_Omniknight.Purification"
+			"Target"		"TARGET"
+		}
+
+		"FireEffect"
+		{
+			"Target"			"TARGET"
+			"EffectName"		"particles/units/heroes/hero_omniknight/omniknight_purification.vpcf"
+			"EffectAttachType"	"follow_origin"
+			"ControlPoints"
+			{
+				"00"	"0 0 0"
+				"01"	"%radius %radius %radius"
+			}
+		}
+		
+		"FireEffect"
+		{
+			"Target"			"TARGET"
+			"EffectName"		"particles/units/heroes/hero_omniknight/omniknight_purification_cast.vpcf"
+			"EffectAttachType"	"follow_origin"
+		}
+
+		"Heal"
+		{
+			"Target"		"TARGET"
+			"HealAmount"	"%heal"
+		}
+
+		"ActOnTargets"
+		{
+			"Target"
+			{
+				"Center"			"TARGET"
+				"Radius"			"%radius"
+				"Teams"				"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				"Types"				"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+			}
+
+			"Action"
+			{
+				"Heal"
+				{
+					"Target"			"TARGET"
+					"HealAmount"		"%heal"
+				}
+			}
+		}
+	}
+}
