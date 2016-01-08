@@ -64,10 +64,14 @@ namespace LegionDefenceTool.Data
 				string JsonData = Reader.ReadToEnd();
 				Reader.Close();
 				LegionDatabase Database = JsonConvert.DeserializeObject<LegionDatabase>(JsonData);
-				ActiveDatabase = Database;
 				return Database;
             }
 			return null;
+		}
+
+		public void Setup()
+		{
+			ActiveDatabase = this;
 		}
 
 		#endregion

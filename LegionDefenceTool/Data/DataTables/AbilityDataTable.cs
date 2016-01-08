@@ -20,6 +20,12 @@ namespace LegionDefenceTool.Data
 		[SpreadsheetColumn("AbilityFile", DataType.String)]
 		public List<string> AbilityFile;
 
+		[SpreadsheetColumn("AbilityUnitAI", DataType.String)]
+		public List<string> AbilityUnitAI;
+
+		[SpreadsheetColumn("AbilityTexture", DataType.String)]
+		public List<string> AbilityTexture;
+
 		public List<Dictionary<object, object>> AbilityValues;
 
 		public override void Process()
@@ -83,6 +89,8 @@ namespace LegionDefenceTool.Data
 					Ability.AbilityID = AbilityID[i];
 					Ability.AbilityFile = AbilityFile[i];
 					Ability.AbilityValues = AbilityValues[i];
+					Ability.AbilityUnitAI = AbilityUnitAI[i];
+					Ability.AbilityTexture = AbilityTexture[i];
 
 					// Add ability
 					Abilities.Add(Ability);

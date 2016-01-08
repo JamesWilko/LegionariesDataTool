@@ -30,6 +30,7 @@ namespace LegionDefenceTool
 			InitializeComponent();
 			Database = new LegionDatabase();
 			Database = Database.Load() ?? Database;
+			Database.Setup();
 
 			DotaDatabase = new DotaData();
 			DotaDatabase.Load();

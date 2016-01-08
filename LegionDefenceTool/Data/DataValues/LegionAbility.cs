@@ -11,6 +11,8 @@ namespace LegionDefenceTool.Data
 	{
 		public string AbilityID;
 		public string AbilityFile;
+		public string AbilityUnitAI;
+		public string AbilityTexture;
 		[GeneratorDictionary]
 		public Dictionary<object, object> AbilityValues;
 

@@ -174,6 +174,25 @@ namespace LegionDefenceTool.Data
 		}
 
 		[JsonIgnore]
+		public LegionAbility Ability
+		{
+			get
+			{
+				LegionAbility Ability = LegionDatabase.ActiveDatabase?.GetAbilities()?.FirstOrDefault(x => x.AbilityID == this.AbilityKey);
+				return Ability;
+			}
+		}
+
+		[JsonIgnore]
+		public string AbilityUnitAI
+		{
+			get
+			{
+				return Ability?.AbilityUnitAI ?? string.Empty;
+            }
+		}
+
+		[JsonIgnore]
 		public string UpgradeAbility
 		{
 			get
@@ -352,16 +371,6 @@ namespace LegionDefenceTool.Data
 				{
 					return 0.5m;
 				}
-			}
-		}
-
-		[JsonIgnore]
-		public LegionAbility Ability
-		{
-			get
-			{
-				LegionAbility Ability = LegionDatabase.ActiveDatabase?.GetAbilities()?.FirstOrDefault(x => x.AbilityID == this.AbilityKey);
-                return Ability;
 			}
 		}
 
