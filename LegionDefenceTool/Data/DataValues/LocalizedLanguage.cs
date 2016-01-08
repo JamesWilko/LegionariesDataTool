@@ -9,6 +9,8 @@ namespace LegionDefenceTool.Data
 	public class LocalizedLanguage : DataNode
 	{
 		public string LanguageId;
+		[Generators.GeneratorIgnore]
+		public DataTable ParentDataTable;
 
 		public List<string> Keys;
 		public List<string> Values;
@@ -39,19 +41,22 @@ namespace LegionDefenceTool.Data
 
 		public override string GetDisplayID()
 		{
-			return $"{LanguageId}";
+			return $"{LanguageId}:{ParentDataTable?.SpreadsheetId}:{ParentDataTable?.TabId}";
 		}
 
 		public override string GetDisplayName()
 		{
+			if (ParentDataTable != null)
+			{
+				return $"{LanguageId} ({ParentDataTable.SpreadsheetTitle})";
+			}
 			return $"{LanguageId}";
-		}
+        }
 
 		public override string GetParentID()
 		{
-			// No nesting
-			return null;
-		}
+			return $"{LanguageId}::";
+        }
 
 		public override void PopulateDataGrid(object Obj, System.Windows.Forms.DataGridView DataGrid)
 		{

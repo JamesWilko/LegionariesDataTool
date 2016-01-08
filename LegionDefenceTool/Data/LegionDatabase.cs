@@ -98,24 +98,28 @@ namespace LegionDefenceTool.Data
 
 		public void RebuildLanguageCache()
 		{
-			// Add all units from all sheets to the cache
+			List<string> ParentLanguages = new List<string>();
 			List<LocalizedLanguage> LanguagesList = new List<LocalizedLanguage>();
+
+			// Add all units from all sheets to the cache
 			foreach (LocalizationDataTable Sheet in this.LocalizationDataTables)
 			{
 				List<LocalizedLanguage> Languages = Sheet.GetLanguages(this);
+
+				// Find and add parent languages
 				foreach (LocalizedLanguage Language in Languages)
 				{
-					bool ContainsLanguage = false;
-					foreach(LocalizedLanguage ExistingLanguage in LanguagesList)
+					if (Language.ParentDataTable == null && !ParentLanguages.Contains(Language.LanguageId))
 					{
-						if(ExistingLanguage.Equals(Language))
-						{
-							ExistingLanguage.Merge(Language);
-							ContainsLanguage = true;
-							break;
-                        }
+						ParentLanguages.Add(Language.LanguageId);
+						LanguagesList.Add(Language);
 					}
-					if (!ContainsLanguage)
+				}
+
+				// Add all other languages
+				foreach (LocalizedLanguage Language in Languages)
+				{
+					if (Language.ParentDataTable != null)
 					{
 						LanguagesList.Add(Language);
 					}
