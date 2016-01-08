@@ -22,8 +22,20 @@ namespace LegionDefenceTool.Data
 		[SpreadsheetColumn("GoldCost", DataType.Integer)]
 		List<int> GoldCost;
 
+		[SpreadsheetColumn("GemsCost", DataType.Integer)]
+		List<int> GemsCost;
+
 		[SpreadsheetColumn("FoodCost", DataType.Integer)]
 		List<int> FoodCost;
+
+		[SpreadsheetColumn("Income", DataType.Integer)]
+		List<int> Income;
+
+		[SpreadsheetColumn("LevelRequired", DataType.Integer)]
+		List<int> LevelRequired;
+
+		[SpreadsheetColumn("Cooldown", DataType.Decimal)]
+		List<int> Cooldown;
 
 		[SpreadsheetColumn("MoveSpeed", DataType.Integer)]
 		List<int> MoveSpeed;
@@ -126,7 +138,11 @@ namespace LegionDefenceTool.Data
 					Unit.UnitName = UnitName[i];
 					Unit.UpgradesFrom = UpgradesFrom[i];
 					Unit.GoldCost = GoldCost[i];
+					Unit.GemsCost = GemsCost[i];
 					Unit.FoodCost = FoodCost[i];
+					Unit.Income = Income[i];
+					Unit.LevelRequired = LevelRequired[i];
+					Unit.Cooldown = Cooldown[i];
 					Unit.MoveSpeed = MoveSpeed[i];
 					Unit.TurnSpeed = TurnSpeed[i];
 					Unit.Health = Health[i];

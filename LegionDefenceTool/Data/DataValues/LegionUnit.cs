@@ -27,7 +27,11 @@ namespace LegionDefenceTool.Data
 		public string UnitName;
 		public string UpgradesFrom;
 		public int GoldCost;
+		public int GemsCost;
 		public int FoodCost;
+		public int Income;
+		public int LevelRequired;
+		public decimal Cooldown;
 		public int MoveSpeed;
 		public decimal TurnSpeed;
 		public int Health;
