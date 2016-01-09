@@ -24,6 +24,14 @@
 	"StatusManaRegen"       "{Unit.ManaRegen}"
 	"HasInventory"          "0"
 
+	"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
+	"AttributeBaseStrength"		"0"
+	"AttributeStrengthGain"		"0"
+	"AttributeBaseIntelligence"	"0"
+	"AttributeIntelligenceGain"	"0"	
+	"AttributeBaseAgility"		"0"
+	"AttributeAgilityGain"		"0"	
+
 	// Armor
 	//----------------------------------------------------------------
 	"ArmorPhysical"         "{Unit.Armour}"
@@ -32,7 +40,7 @@
 	// Attack
 	//----------------------------------------------------------------
 	"AttackCapabilities"    "{Unit.AttackCapability}"
-	"AttackDamageType"      "{Unit.DamageType}"
+	"AttackDamageType"      "DAMAGE_TYPE_ArmorPhysical"
 	"AttackDamageMin"       "{Unit.DamageMin}"
 	"AttackDamageMax"       "{Unit.DamageMax}"
 	"AttackRate"            "{Unit.AttackRate}"
@@ -52,6 +60,7 @@
 
 	// Bounty
 	//----------------------------------------------------------------
+	"BountyXP"				"0"
 	"BountyGoldMin"         "{Unit.Bounty}"
 	"BountyGoldMax"         "{Unit.Bounty}"
 
