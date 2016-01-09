@@ -76,15 +76,20 @@ namespace LegionDefenceTool.Data
 			return $"{UnitName}";
 		}
 
+		public bool HasSummonCost()
+		{
+			return GoldCost > 0 || GemsCost > 0 || FoodCost > 0;
+        }
+
 		public bool IsBaseUnit()
 		{
-			return string.IsNullOrWhiteSpace(UpgradesFrom);
+			return string.IsNullOrWhiteSpace(UpgradesFrom) && HasSummonCost();
         }
 
 		public bool IsUpgradeUnit()
 		{
-			return !IsBaseUnit();
-        }
+			return !string.IsNullOrWhiteSpace(UpgradesFrom) && HasSummonCost();
+		}
 
 		#region DataNode
 
@@ -119,7 +124,7 @@ namespace LegionDefenceTool.Data
 		{
 			get
 			{
-				return DotaData.ActiveData.GetHeroData(UnitModel)?["Model"]?.GetString();
+				return DotaData.ActiveData.GetUnitData(UnitModel)?["Model"]?.GetString();
 			}
 		}
 
@@ -142,7 +147,7 @@ namespace LegionDefenceTool.Data
 		{
 			get
 			{
-				return DotaData.ActiveData.GetHeroData(UnitModel)?["SoundSet"]?.GetString();
+				return DotaData.ActiveData.GetUnitData(UnitModel)?["SoundSet"]?.GetString();
 			}
 		}
 
@@ -151,7 +156,7 @@ namespace LegionDefenceTool.Data
 		{
 			get
 			{
-				return DotaData.ActiveData.GetHeroData(UnitModel)?["GameSoundsFile"]?.GetString();
+				return DotaData.ActiveData.GetUnitData(UnitModel)?["GameSoundsFile"]?.GetString();
 			}
 		}
 
@@ -160,7 +165,7 @@ namespace LegionDefenceTool.Data
 		{
 			get
 			{
-				string Path = DotaData.ActiveData.GetHeroData(UnitModel)?["particle_folder"]?.GetString();
+				string Path = DotaData.ActiveData.GetUnitData(UnitModel)?["particle_folder"]?.GetString();
 				if(Path != null)
 				{
 					return Path + "/";
@@ -174,7 +179,7 @@ namespace LegionDefenceTool.Data
 		{
 			get
 			{
-				return DotaData.ActiveData.GetHeroData(UnitModel)?["VoiceFile"]?.GetString();
+				return DotaData.ActiveData.GetUnitData(UnitModel)?["VoiceFile"]?.GetString();
 			}
 		}
 
@@ -255,7 +260,10 @@ namespace LegionDefenceTool.Data
 				}
 
 				// Add sell ability
-				Builder.AppendLine(string.Format(Constants.HERO_ABILITY_KV, AbilityIndex++, ParentHero?.SellUnitAbility ?? Constants.SELL_UNIT_ABILITY));
+				if (HasSummonCost())
+				{
+					Builder.AppendLine(string.Format(Constants.HERO_ABILITY_KV, AbilityIndex++, ParentHero?.SellUnitAbility ?? Constants.SELL_UNIT_ABILITY));
+				}
 
 				return Builder.ToString();
             }
@@ -266,7 +274,7 @@ namespace LegionDefenceTool.Data
 		{
 			get
 			{
-				var value = DotaData.ActiveData.GetHeroData(UnitModel)?["AttackAnimationPoint"]?.GetFloat();
+				var value = DotaData.ActiveData.GetUnitData(UnitModel)?["AttackAnimationPoint"]?.GetFloat();
 				return value.HasValue ? value.Value : 0f;
 			}
 		}
@@ -384,7 +392,7 @@ namespace LegionDefenceTool.Data
 			{
 				if (ParentHero != null)
 				{
-					return (decimal)DotaData.ActiveData?.GetHeroData(ParentHero.DotaHeroOverride)?["AttackAnimationPoint"]?.GetFloat();
+					return (decimal) DotaData.ActiveData?.GetUnitData(ParentHero.DotaHeroOverride)?["AttackAnimationPoint"]?.GetFloat();
 				}
 				else
 				{

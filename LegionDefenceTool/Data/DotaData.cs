@@ -15,6 +15,9 @@ namespace LegionDefenceTool.Data
 		public KeyValue HeroesKV;
 
 		[JsonIgnore]
+		public KeyValue UnitsKV;
+
+		[JsonIgnore]
 		public KeyValue GameItemsKV;
 
 		public static DotaData ActiveData { get; private set; }
@@ -28,7 +31,8 @@ namespace LegionDefenceTool.Data
 		public void Load()
 		{
 			HeroesKV = LoadValveKVFile(HEROES_FILE);
-			GameItemsKV = LoadValveKVFile(ITEMS_FILE);
+			UnitsKV = LoadValveKVFile(UNITS_FILE);
+            GameItemsKV = LoadValveKVFile(ITEMS_FILE);
 
 			ActiveData = this;
         }
@@ -54,6 +58,19 @@ namespace LegionDefenceTool.Data
 		{
 			return HeroesKV?.Children.FirstOrDefault(x => x.Key == HeroName);
         }
+
+		public KeyValue GetUnitData(string UnitName)
+		{
+			KeyValue KV = UnitsKV?.Children.FirstOrDefault(x => x.Key == UnitName);
+			if (KV == null)
+			{
+				return GetHeroData(UnitName);
+			}
+			else
+			{
+				return KV;
+			}
+		}
 
 		public KeyValue[] GetDefaultWearablesForHero(string HeroName)
 		{

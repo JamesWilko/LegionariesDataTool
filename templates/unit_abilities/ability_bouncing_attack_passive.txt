@@ -10,7 +10,7 @@
 
 	"precache"
 	{
-		"soundfile"			"soundevents/game_sounds_heroes/game_sounds_luna.vsndevts"
+		"soundfile"			"{Unit.SoundsFile}"
 		"particle"			"{Unit.ProjectileModel}"
 	}
 
@@ -19,7 +19,7 @@
 		"01"
 		{
 			"var_type"								"FIELD_INTEGER"
-			"range"									"{Unit.AttackRange}"
+			"range"									"{Ability.Range}"
 		}
 		"02"
 		{
@@ -40,7 +40,7 @@
 
 	"Modifiers"
 	{
-		"modifier_moon_glaive"
+		"modifier_bounce_attack"
 		{
 			"Passive" 					"1"
 			"IsHidden"					"1"
@@ -69,7 +69,7 @@
 
 		"FireSound"
 		{
-			"EffectName"	"Hero_Luna.MoonGlaive.Impact"
+			"EffectName"	"{Unit.SoundSet}.ProjectileImpact"
 			"Target" 		"TARGET"
 		}
 		

@@ -28,7 +28,7 @@ namespace LegionDefenceTool.Generators
 		{
 			// Units data
 			string UnitTemplateFile = LoadTemplateFile(UNIT_TEMPLATE_FILE);
-			List<string> GeneratedUnitData = GenerateDataForList<LegionUnit>(UnitTemplateFile, Database.LegionUnits, "Unit");
+            List<string> GeneratedUnitData = GenerateDataForList<LegionUnit>(UnitTemplateFile, Database.LegionUnits, "Unit");
 
 			// Add data from external unit files
 			foreach (string ExternalPath in EXTERNAL_UNITS)
