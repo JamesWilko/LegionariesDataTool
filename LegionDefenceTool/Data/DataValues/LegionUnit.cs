@@ -124,6 +124,20 @@ namespace LegionDefenceTool.Data
 		}
 
 		[JsonIgnore]
+		public string ModelFolder
+		{
+			get
+			{
+				if (Model != null && !string.IsNullOrWhiteSpace(Model))
+				{
+					string Path = System.IO.Path.GetDirectoryName(Model);
+					return Path.Replace('\\', '/') + "/";
+                }
+				return string.Empty;
+            }
+		}
+
+		[JsonIgnore]
 		public string SoundSet
 		{
 			get
@@ -146,7 +160,12 @@ namespace LegionDefenceTool.Data
 		{
 			get
 			{
-				return DotaData.ActiveData.GetHeroData(UnitModel)?["particle_folder"]?.GetString();
+				string Path = DotaData.ActiveData.GetHeroData(UnitModel)?["particle_folder"]?.GetString();
+				if(Path != null)
+				{
+					return Path + "/";
+                }
+				return null;
 			}
 		}
 

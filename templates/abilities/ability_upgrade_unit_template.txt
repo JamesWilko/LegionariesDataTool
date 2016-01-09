@@ -33,4 +33,13 @@
 			"UpgradeDelay"				"1"
 		}
 	}
+
+	"precache"
+	{
+		"model"				"{Unit.Model}"
+		"model_folder"		"{Unit.ModelFolder}"
+		"soundfile"			"{Unit.SoundsFile}"
+		"particle"			"{Unit.ProjectileModel}"
+		"particle_folder"	"{Unit.ParticlesFolder}"
+	}
 }
