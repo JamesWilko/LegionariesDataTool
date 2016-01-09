@@ -90,16 +90,34 @@ namespace LegionDefenceTool.Generators
 			string DataTemplate = TemplateFile;
 			foreach (var ValueKVP in ValuesDict)
 			{
-				// Write property to file
-				if (ValueKVP.Value != null)
+				string TemplateReplaceName = string.Format(TEMPLATE_VARIABLE, ObjectName, ValueKVP.Key);
+
+				// Check if we have a value for the property
+				if (ValueKVP.Value != null && !string.IsNullOrWhiteSpace(ValueKVP.Value?.ToString()))
 				{
-					string TemplateReplaceName = string.Format(TEMPLATE_VARIABLE, ObjectName, ValueKVP.Key);
+					// Write property to template file
 					DataTemplate = DataTemplate.Replace(TemplateReplaceName, ValueKVP.Value?.ToString() ?? string.Empty);
 				}
 				else
 				{
-					Console.WriteLine($"No value could be found for property '{ValueKVP.Key}' on {Object}");
-				}
+					// Remove property line from the file to use Dota's default value
+					List<string> TemplateLines = DataTemplate.Split('\n').ToList();
+					for(int i = TemplateLines.Count - 1; i >= 0; --i)
+					{
+						if (TemplateLines[i].Contains(TemplateReplaceName))
+						{
+							TemplateLines.RemoveAt(i);
+                        }
+                    }
+
+					// Rebuild template file
+					StringBuilder Builder = new StringBuilder();
+					for(int i = 0; i < TemplateLines.Count; ++i)
+					{
+						Builder.AppendLine(TemplateLines[i].Trim('\n', '\r'));
+                    }
+					DataTemplate = Builder.ToString();
+                }
 			}
 
 			return DataTemplate;
