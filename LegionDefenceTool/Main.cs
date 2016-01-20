@@ -181,7 +181,8 @@ namespace LegionDefenceTool
 			exportHeroesFileToolStripMenuItem_Click(sender, e);
 			exportAbilitiesFileToolStripMenuItem_Click(sender, e);
 			exportLocalizationFileToolStripMenuItem_Click(sender, e);
-			Console.WriteLine("Complete Generation Finished");
+
+			MessageBox.Show("Complete Generation Finished");
 		}
 
 		private void cleanOutputFolderToolStripMenuItem_Click(object sender, EventArgs e)
@@ -193,5 +194,15 @@ namespace LegionDefenceTool
 			Directory.CreateDirectory("output/");
 			Console.WriteLine("Output Directory Cleaned");
 		}
+
+		private void updateAllSpreadsheetsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			LocalizationTab.PerformUpdate();
+			UnitsTab.PerformUpdate();
+			HeroesTab.PerformUpdate();
+			AbilitiesTab.PerformUpdate();
+
+			MessageBox.Show("All Spreadsheets Updated");
+        }
 	}
 }

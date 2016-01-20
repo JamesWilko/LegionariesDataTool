@@ -157,6 +157,11 @@ namespace LegionDefenceTool.Interface
 
 		private void UpdateButton_Click(object sender, EventArgs e)
 		{
+			PerformUpdate();
+        }
+
+		public void PerformUpdate()
+		{
 			foreach (var Spreadsheet in GetSourcesFunc())
 			{
 				Spreadsheet?.Download();
