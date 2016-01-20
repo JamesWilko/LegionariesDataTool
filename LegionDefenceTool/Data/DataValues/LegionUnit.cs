@@ -21,6 +21,8 @@ namespace LegionDefenceTool.Data
 		const int LEVEL_PER_UPGRADE = 5;
 		[GeneratorIgnore]
 		const string WEARABLE_ID = "\t\t\t\"Wearable{0}\" {{ \"ItemDef\" \"{1}\" }}";
+		[GeneratorIgnore]
+		const string MERC_NAME_ID = "merc_";
 
 		#region Unit Data
 
@@ -89,6 +91,11 @@ namespace LegionDefenceTool.Data
 		public bool IsUpgradeUnit()
 		{
 			return !string.IsNullOrWhiteSpace(UpgradesFrom) && HasSummonCost();
+		}
+
+		public bool IsMercenaryUnit()
+		{
+			return HasSummonCost() && UnitName.Contains(MERC_NAME_ID);
 		}
 
 		#region DataNode
@@ -260,7 +267,7 @@ namespace LegionDefenceTool.Data
 				}
 
 				// Add sell ability
-				if (HasSummonCost())
+				if (HasSummonCost() && !IsMercenaryUnit())
 				{
 					Builder.AppendLine(string.Format(Constants.HERO_ABILITY_KV, AbilityIndex++, ParentHero?.SellUnitAbility ?? Constants.SELL_UNIT_ABILITY));
 				}

@@ -32,6 +32,13 @@
 	"AttributeBaseAgility"		"0"
 	"AttributeAgilityGain"		"0"	
 
+	// Mercenary Units
+	//----------------------------------------------------------------
+	"GemsCost"					"{Unit.GemsCost}"
+	"GoldIncome"				"{Unit.Income}"
+	"SpawnCooldown"				"{Unit.Cooldown}"
+	"LevelRequired"				"{Unit.LevelRequired}"
+
 	// Armor
 	//----------------------------------------------------------------
 	"ArmorPhysical"         "{Unit.Armour}"
