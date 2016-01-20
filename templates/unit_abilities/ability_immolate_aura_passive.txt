@@ -1,0 +1,78 @@
+"{Ability.ID}"
+{
+	"BaseClass"						"ability_datadriven"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+	"FightRecapLevel"				"1"
+	"AbilityTextureName"			"{Ability.AbilityTexture}"
+
+	"precache"
+	{
+		"particle"			"particles/units/heroes/hero_doom_bringer/doom_bringer_scorched_earth_buff.vpcf"
+		"particle"			"particles/units/heroes/hero_doom_bringer/doom_scorched_earth.vpcf"			
+	}
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"		"FIELD_INTEGER"
+			"damage"		"{Ability.Damage}"
+		}
+		"02"
+		{
+			"var_type"		"FIELD_INTEGER"
+			"radius"		"{Ability.Range}"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_immolate_{Ability.ID}"
+		{
+			"IsBuff"			"1"
+			"Passive"			"1"
+			"IsPurgable"		"0"
+	
+			"OnCreated"
+			{
+				"AttachEffect"
+				{
+					"EffectName"		"particles/units/heroes/hero_doom_bringer/doom_scorched_earth.vpcf"
+					"EffectAttachType"	"follow_origin"
+					"Target"			"TARGET"
+
+					"ControlPoints"
+					{
+						"01"	"%radius 0 0"
+					}
+				}
+			}
+
+			"Aura"					"modifier_immolate_aura_{Ability.ID}"
+			"Aura_Radius"			"%radius"
+			"Aura_Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+			"Aura_Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+			"Aura_Flags"			"DOTA_UNIT_TARGET_FLAG_NONE"
+			"Aura_ApplyToCaster"	"0"
+		}
+
+		"modifier_immolate_aura_{Ability.ID}"
+		{
+			"IsDebuff"			"1"
+			"Passive"			"1"
+
+			"ThinkInterval"  	"0.1"
+			"OnIntervalThink"
+			{
+				"Damage"
+				{
+					"Target"		"TARGET"
+					"Type"			"DAMAGE_TYPE_MAGICAL"
+					"Damage"		"%damage / 10"
+				}
+			}
+		}		
+	}
+}
