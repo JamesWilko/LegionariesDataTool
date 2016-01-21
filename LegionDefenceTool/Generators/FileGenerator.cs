@@ -15,7 +15,7 @@ namespace LegionDefenceTool.Generators
 
 		public abstract void Generate(LegionDatabase Database);
 
-		protected virtual string LoadTemplateFile(string Path)
+		public virtual string LoadTemplateFile(string Path)
 		{
 			TextReader Reader;
 			string Template = string.Empty;
@@ -49,7 +49,7 @@ namespace LegionDefenceTool.Generators
 			Writer.Close();
 		}
 
-		protected virtual string ProcessTemplate<T>(string TemplateFile, T Object, string ObjectName)
+		public virtual string ProcessTemplate<T>(string TemplateFile, T Object, string ObjectName)
 		{
 			// Get fields from unit
 			var Flags = BindingFlags.Instance | BindingFlags.Public;

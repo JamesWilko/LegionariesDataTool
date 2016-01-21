@@ -76,15 +76,14 @@ namespace LegionDefenceTool.Generators
 			List<string> UnitAbilities = new List<string>();
 			foreach (LegionUnit Unit in Database.GetUnits())
 			{
-				LegionAbility Ability = Unit.Ability;
-                if (Ability != null)
+				foreach (LegionAbility Ability in Unit.LegionAbilities)
 				{
 					string AbilityFilePath = string.Format(UNIT_ABILITIES_TEMPLATE, Ability.AbilityFile);
 					string AbilityTemplate = LoadTemplateFile(AbilityFilePath);
 					AbilityTemplate = ProcessTemplate<LegionUnit>(AbilityTemplate, Unit, "Unit");
 					AbilityTemplate = ProcessTemplate<LegionAbility>(AbilityTemplate, Ability, "Ability");
 					UnitAbilities.Add(AbilityTemplate);
-                }
+				}
 			}
 
 			// Merge all data
@@ -103,6 +102,11 @@ namespace LegionDefenceTool.Generators
 			// Generate file and save
 			string AbilityBuildFile = GenerateBuildFile(CUSTOM_ABILITIES_FILE, GeneratedAbilitiesData, "{Abilities}");
 			SaveDataToFile(CUSTOM_ABILITIES_OUTPUT, AbilityBuildFile);
+		}
+
+		public string GetPathForAbilityFile(string AbilityFile)
+		{
+			return string.Format(UNIT_ABILITIES_TEMPLATE, AbilityFile);
 		}
 
 		protected void GenerateSummonAbilitiesLua(LegionDatabase Database)
