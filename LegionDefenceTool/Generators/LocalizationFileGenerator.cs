@@ -23,8 +23,13 @@ namespace LegionDefenceTool.Generators
 		const string ABILITY_DESC_TOOLTIP_NOTE1 = "DOTA_Tooltip_Ability_{0}_Note1";
 		const string ABILITY_DESC = "{0}_Description";
 
+		const string ABILITY_MODIFIER_TOOLTIP = "DOTA_Tooltip_{0}";
+
 		const string SUMMON_UNIT_LOCALIZATION = "legion_summon_unit";
 		const string UPGRADE_UNIT_LOCALIZATION = "legion_upgrade_unit";
+
+		const string MISSING_KEYS_FILE = "output/missing_keys.txt";
+		const string MISSING_KEYS_HEADER = "Found missing keys during localization generation:\n";
 
 		static string[] GOLD_COST_TOOLTIP = new string[] { "DOTA_Tooltip_Ability_{0}_GoldCost", "legion_currency_gold_cost" };
 		static string[] GEMS_COST_TOOLTIP = new string[] { "DOTA_Tooltip_Ability_{0}_GemsCost", "legion_currency_gems_cost" };
@@ -34,12 +39,25 @@ namespace LegionDefenceTool.Generators
 
 		public override void Generate(LegionDatabase Database)
 		{
+			DictionaryUtils.ClearMissingKeys();
 			LanguageTemplateFile = LoadTemplateFile(TEMPLATE_FILE);
 
 			// Process languages
 			foreach (var Language in LocalizationDataTable.LANGUAGES)
 			{
 				GenerateLocalizationFile(Language, Database);
+			}
+
+			// Export missing keys list
+			if (DictionaryUtils.GetMissingsKeys().Count > 0)
+			{
+				StringBuilder Builder = new StringBuilder();
+				Builder.AppendLine(MISSING_KEYS_HEADER);
+				foreach (object Key in DictionaryUtils.GetMissingsKeys())
+				{
+					Builder.AppendLine(Key.ToString());
+				}
+				SaveDataToFile(MISSING_KEYS_FILE, Builder.ToString());
 			}
 		}
 
@@ -109,17 +127,25 @@ namespace LegionDefenceTool.Generators
 				TokenBuilder.AppendLine(string.Format(TOKEN_LINE, FoodTooltip, LocalizedList.Get(FOOD_COST_TOOLTIP[1])));
 
 				// Unit Ability
-				LegionAbility Ability = Unit.Ability;
-				if (Ability != null)
+				foreach (LegionAbility Ability in Unit.LegionAbilities)
 				{
+					// Build ability ID localizations
+					// id, id_Description, id_Note0, etc.
 					List<string> Keys = LocalizedList.Keys.Where(x => x.Contains(Ability.AbilityID)).ToList();
-					foreach(string Key in Keys)
+					foreach (string Key in Keys)
 					{
 						string AbilityKey = Key.Replace(Ability.AbilityID, Ability.ID);
 						string UnitAbilityKey = string.Format(ABILITY_TOOLTIP, AbilityKey);
 						TokenBuilder.AppendLine(string.Format(TOKEN_LINE, UnitAbilityKey, LocalizedList.Get(Key)));
 					}
-                }
+
+					// Build ability modifier localizations
+					foreach(string Modifier in Ability.Modifiers)
+					{
+						string ModifierKey = string.Format(ABILITY_MODIFIER_TOOLTIP, Modifier);
+						LocalizedList.Get(Modifier);
+                    }
+				}
             }
 
 			// Generate file contents
