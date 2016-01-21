@@ -205,12 +205,21 @@ namespace LegionDefenceTool.Data
 		}
 
 		[JsonIgnore]
-		public LegionAbility Ability
+		public List<LegionAbility> LegionAbilities
 		{
 			get
 			{
-				LegionAbility Ability = LegionDatabase.ActiveDatabase?.GetAbilities()?.FirstOrDefault(x => x.AbilityID == this.AbilityKey);
-				return Ability;
+				List<LegionAbility> Abilities = new List<LegionAbility>();
+				string[] Keys = this.AbilityKey.Split('/');
+				foreach(string Key in Keys)
+				{
+					LegionAbility Ability = LegionDatabase.ActiveDatabase?.GetAbilities()?.FirstOrDefault(x => x.AbilityID == Key);
+					if (Ability != null)
+					{
+						Abilities.Add(Ability);
+					}
+                }
+				return Abilities;
 			}
 		}
 
@@ -219,7 +228,7 @@ namespace LegionDefenceTool.Data
 		{
 			get
 			{
-				return Ability?.AbilityUnitAI ?? string.Empty;
+				return LegionAbilities.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.AbilityUnitAI))?.AbilityUnitAI ?? string.Empty;
             }
 		}
 
@@ -254,7 +263,7 @@ namespace LegionDefenceTool.Data
 				StringBuilder Builder = new StringBuilder();
 
 				// Add unit ability
-				if(Ability != null)
+				foreach (LegionAbility Ability in LegionAbilities)
 				{
 					Builder.AppendLine(string.Format(Constants.HERO_ABILITY_KV, AbilityIndex++, Ability.ID));
 				}
