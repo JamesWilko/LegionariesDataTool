@@ -11,8 +11,8 @@
 	// Status
 	//----------------------------------------------------------------
 	"Level"					"50"
-	"StatusHealth"			"2500"
-	"StatusHealthRegen"		"2"
+	"StatusHealth"			"4000"
+	"StatusHealthRegen"		"10"
 	"StatusMana"			"1000"
 	"StatusManaRegen"		"2"
 	"HasInventory"			"0"
@@ -37,6 +37,7 @@
 	"AttackRangeBuffer"			"250"
 	"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
 	"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRONG"
+	"AbilityLayout"				"6"
 
 	// Movement
 	//----------------------------------------------------------------
