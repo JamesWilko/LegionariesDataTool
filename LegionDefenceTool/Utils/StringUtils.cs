@@ -17,6 +17,7 @@ namespace LegionDefenceTool.Utils
 		}
 
 		public const string TSV_REGEX = "((\"[^ \"]*\" |[^, \"\n])*),";
+		const string ESCAPED_QUOTE = "{EscapedQuote}";
 
 		public static IEnumerable<string> IterateLines(string Lines)
 		{
@@ -84,9 +85,19 @@ namespace LegionDefenceTool.Utils
 						case '\'': count++; break;
 					}
 				}
-				str.Add(s.Substring(a).Replace("\"", ""));
+
+				string val = s.Substring(a);
+				val = val.Replace("\\\"", ESCAPED_QUOTE);
+				val = val.Replace("\"", "");
+				str.Add(val);
+
 				yield return str.ToArray();
 			}
 		}
+
+		public static string EscapeCharacters(this string input)
+		{
+			return input.Replace(ESCAPED_QUOTE, "\\\"");
+        }
 	}
 }

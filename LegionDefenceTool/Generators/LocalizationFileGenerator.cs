@@ -77,10 +77,11 @@ namespace LegionDefenceTool.Generators
 
 				for(int i = 0; i < DataTable.Keys.Count; ++i)
 				{
-					string Token = string.Format(TOKEN_LINE, DataTable.Keys[i], LanguageList[i]);
+					string LocalizedLine = LanguageList[i].EscapeCharacters();
+                    string Token = string.Format(TOKEN_LINE, DataTable.Keys[i], LocalizedLine);
 					TokenBuilder.AppendLine(Token);
 
-					LocalizedList.Add(DataTable.Keys[i], LanguageList[i]);
+					LocalizedList.Add(DataTable.Keys[i], LocalizedLine);
                 }
 			}
 
@@ -92,8 +93,9 @@ namespace LegionDefenceTool.Generators
 				string UnitValue = "";
 				string TooltipId = "";
 
-				// Add unit name
+				// Add unit name and description
 				TokenBuilder.AppendLine(string.Format(TOKEN_LINE, Unit.ID, UnitName));
+				TokenBuilder.AppendLine(string.Format(TOKEN_LINE, string.Format(ABILITY_DESC, Unit.ID), UnitDesc));
 
 				// Add summon ability tooltips
 				if (Unit.IsBaseUnit())
