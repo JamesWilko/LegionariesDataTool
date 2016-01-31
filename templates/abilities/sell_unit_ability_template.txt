@@ -1,8 +1,8 @@
-"sell_unit_fire"
+"{Hero.SellUnitAbility}"
 {
 	"BaseClass"						"ability_lua"
 	"AbilityTextureName"			"alchemist_goblins_greed"
-	"ScriptFile"					"abilities/selling/sell_unit_fire"
+	"ScriptFile"					"abilities/selling/{Hero.SellUnitAbility}"
 
 	"AbilityCastRange"				"100"
 	"AbilityCastPoint"				"0.4"

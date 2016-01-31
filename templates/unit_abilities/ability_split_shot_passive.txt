@@ -63,7 +63,7 @@
 
 	"Modifiers"
 	{
-		"modifier_split_shot_{Unit.ID}"
+		"modifier_split_shot_{Ability.ID}"
 		{
 			"Passive"			"1"
 			"IsHidden"			"1"

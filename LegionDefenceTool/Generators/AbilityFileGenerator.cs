@@ -23,10 +23,11 @@ namespace LegionDefenceTool.Generators
 
 		const string UNIT_ABILITIES_TEMPLATE = "templates/unit_abilities/{0}.txt";
 
+		const string SELL_UNIT_ABILITY_TEMPLATE = "templates/abilities/sell_unit_ability_template.txt";
+
 		static string[] EXTERNAL_ABILITIES = new string[]
 		{
 			"templates/abilities/sell_unit_template.txt",
-			"templates/abilities/sell_unit_fire_template.txt",
 		};
 
 		public override void Generate(LegionDatabase Database)
@@ -91,6 +92,14 @@ namespace LegionDefenceTool.Generators
 			GeneratedAbilitiesData = GeneratedAbilitiesData.Concat(SummonAbilities).ToList();
 			GeneratedAbilitiesData = GeneratedAbilitiesData.Concat(UpgradeAbilities).ToList();
 			GeneratedAbilitiesData = GeneratedAbilitiesData.Concat(UnitAbilities).ToList();
+
+			// Generate sell abilities for all heroes
+			foreach(LegionHero Hero in Database.GetHeroes())
+			{
+				string SellUnitTemplate = LoadTemplateFile(SELL_UNIT_ABILITY_TEMPLATE);
+				SellUnitTemplate = ProcessTemplate<LegionHero>(SellUnitTemplate, Hero, "Hero");
+				GeneratedAbilitiesData.Add(SellUnitTemplate);
+			}
 
 			// Add external data
 			foreach (string ExternalPath in EXTERNAL_ABILITIES)
