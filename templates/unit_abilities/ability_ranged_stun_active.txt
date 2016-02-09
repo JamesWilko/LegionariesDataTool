@@ -9,7 +9,7 @@
 	"FightRecapLevel"				"1"
 	"AbilityTextureName"			"{Ability.AbilityTexture}"
 
-	"AbilityCastRange"				"{Unit.AttackRange}"
+	"AbilityCastRange"				"{Ability.Range} "
 	"AbilityCastPoint"				"{Unit.AttackAnimationPoint}"
 	"AbilityCooldown"				"{Ability.Cooldown}"
 	"AbilityManaCost"				"{Ability.ManaCost}"
@@ -27,12 +27,12 @@
 		"01"
 		{
 			"var_type"				"FIELD_FLOAT"
-			"stun_duration"			"{Ability.StunDuration}"
+			"StunDuration"			"{Ability.StunDuration}"
 		}
 		"02"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"speed"					"{Unit.ProjectileSpeed}"
+			"ProjectileSpeed"		"{Ability.ProjectileSpeed}"
 		}
 	}
 
@@ -43,7 +43,7 @@
 			"Target"				"TARGET"
 			"EffectName"			"particles/units/heroes/hero_sven/sven_spell_storm_bolt.vpcf"
 			"Dodgeable"				"1"
-			"MoveSpeed"				"%speed"
+			"MoveSpeed"				"%ProjectileSpeed"
 			"SourceAttachment"		"DOTA_PROJECTILE_ATTACHMENT_ATTACK_1"
 		}
 
@@ -79,7 +79,7 @@
 		"Stun"
 		{
 			"Target"	"TARGET"
-			"Duration"	"%stun_duration"
+			"Duration"	"%StunDuration"
 		}
 	}
 }

@@ -19,7 +19,7 @@
 		"01"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"heal"					"{Ability.Heal}"
+			"Heal"					"{Ability.Heal}"
 		}
 		"02"
 		{
@@ -67,7 +67,7 @@
 		"Heal"
 		{
 			"Target"		"TARGET"
-			"HealAmount"	"%heal"
+			"HealAmount"	"%Heal"
 		}
 	}
 }

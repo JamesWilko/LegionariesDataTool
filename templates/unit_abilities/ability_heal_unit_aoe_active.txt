@@ -19,12 +19,12 @@
 		"01"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"heal"					"{Ability.Heal}"
+			"Heal"					"{Ability.Heal}"
 		}
 		"02"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"radius"				"{Ability.HealRadius}"
+			"HealRadius"				"{Ability.HealRadius}"
 		}
 	}
 
@@ -53,7 +53,7 @@
 			"ControlPoints"
 			{
 				"00"	"0 0 0"
-				"01"	"%radius %radius %radius"
+				"01"	"%HealRadius %HealRadius %HealRadius"
 			}
 		}
 		
@@ -67,7 +67,7 @@
 		"Heal"
 		{
 			"Target"		"TARGET"
-			"HealAmount"	"%heal"
+			"HealAmount"	"%Heal"
 		}
 
 		"ActOnTargets"
@@ -75,7 +75,7 @@
 			"Target"
 			{
 				"Center"			"TARGET"
-				"Radius"			"%radius"
+				"Radius"			"%HealRadius"
 				"Teams"				"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 				"Types"				"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 			}
@@ -85,7 +85,7 @@
 				"Heal"
 				{
 					"Target"			"TARGET"
-					"HealAmount"		"%heal"
+					"HealAmount"		"%Heal"
 				}
 			}
 		}
