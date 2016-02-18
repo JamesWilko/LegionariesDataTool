@@ -19,8 +19,6 @@ namespace LegionDefenceTool.Generators
 
 		static string[] EXTERNAL_UNITS = new string[]
 		{
-			"data/npc_king_dire.txt",
-			"data/npc_king_radiant.txt",
 			"data/npc_miner.txt"
 		};
 
