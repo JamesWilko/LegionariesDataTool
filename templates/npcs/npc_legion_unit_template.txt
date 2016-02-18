@@ -9,7 +9,7 @@
 	"GameSoundsFile"        "{Unit.SoundsFile}"
 	"VoiceFile" 			"{Unit.VoiceFile}"
 	"particle_folder"		"{Unit.ParticlesFolder}"
-	"vscripts"				"{Unit.AbilityUnitAI}"
+	"vscripts"				"{Unit.AI}"
 
 	// Upgrades
 	//----------------------------------------------------------------

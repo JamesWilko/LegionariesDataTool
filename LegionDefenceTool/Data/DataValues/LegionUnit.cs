@@ -58,6 +58,7 @@ namespace LegionDefenceTool.Data
 		public string SpawnIcon;
 		public decimal SpawnEffectAOE;
 		public string WearablesList;
+		public string UnitAI;
 
 		[JsonIgnore, GeneratorIgnore]
 		public LegionUnit ParentUnit { get; set; }
@@ -220,6 +221,19 @@ namespace LegionDefenceTool.Data
 					}
                 }
 				return Abilities;
+			}
+		}
+
+		[JsonIgnore]
+		public string AI
+		{
+			get
+			{
+				if(string.IsNullOrWhiteSpace(UnitAI))
+				{
+					return AbilityUnitAI;
+				}
+				return UnitAI;
 			}
 		}
 
