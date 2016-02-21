@@ -71,7 +71,7 @@ namespace LegionDefenceTool.Generators
 
 			// Generate data from each unit
 			List<string> SummonAbilities = GenerateDataForList<LegionUnit>(SummonAbilityTemplate, GetSummonableUnits(Database), "Unit");
-			List<string> UpgradeAbilities = GenerateDataForList< LegionUnit>(UpgradeAbilityTemplate, GetUpgradeUnits(Database), "Unit");
+			List<string> UpgradeAbilities = GenerateDataForList<LegionUnit>(UpgradeAbilityTemplate, GetUpgradeUnits(Database), "Unit");
 
 			// Generate data for unit abilities
 			List<string> UnitAbilities = new List<string>();

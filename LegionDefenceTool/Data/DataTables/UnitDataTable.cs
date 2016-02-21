@@ -170,7 +170,7 @@ namespace LegionDefenceTool.Data
 					Unit.SpawnIcon = SpawnIcon[i];
 					Unit.SpawnEffectAOE = SpawnEffectAOE[i];
 					Unit.WearablesList = WearablesList[i];
-					Unit.UnitAI = UnitAI[i];
+					Unit.UnitAI = UnitAI?[i] ?? "";
 
 					// Add unit to list
 					Units.Add(Unit);
